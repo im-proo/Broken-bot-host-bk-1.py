@@ -2,3 +2,8 @@ pyrogram
 tgcrypto
 pillow
 pytesseract
+telethon 
+requests 
+qrcode 
+gTTS 
+yt-dlp
