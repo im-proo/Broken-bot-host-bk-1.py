@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 # ──────────────────────────────────────────────────────────────────────────────
-#  👑 CHAMPU MULTI-USERBOT MANAGER (usb.py)
+#  👑 BROKEN MULTI-USERBOT MANAGER (usb.py)
 # ──────────────────────────────────────────────────────────────────────────────
 #  [CONFIGURATION]
 #  API_ID / API_HASH : my.telegram.org se
 #  BOT_TOKEN         : @BotFather se
 # ──────────────────────────────────────────────────────────────────────────────
 
-API_ID = 35372184
-API_HASH = "f50bff5d1b5c1e9bda29e3ad8f190903"
-BOT_TOKEN = "8771631600:AAEOtxPKcBA5L5xMMhpotu39vk8RVn9OmEI"
+API_ID = 33204200
+API_HASH = "b04f5697317e142a2af1b95bb1f1057d"
+BOT_TOKEN = "8771631600:AAEHmHfMDojX6KPN5nrdk53XPGoyiJVyuvU"
 
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -64,7 +64,7 @@ def _ensure_others():
 _ensure_telethon()
 _ensure_others()
 
-#BY YORICHI & TheChampu
+#BY YORICHI & TheBroken
 
 # ────────────────────────────────────────────────
 #                 STANDARD LIB
@@ -100,7 +100,9 @@ from telethon import Button
 from telethon.errors import (
     FloodWaitError, RPCError,
     SessionPasswordNeededError, PhoneCodeInvalidError,
-    PhoneCodeExpiredError, PasswordHashInvalidError
+    PhoneCodeExpiredError, PasswordHashInvalidError,
+    UserAlreadyParticipantError, InviteHashExpiredError,
+    InviteHashInvalidError, ChannelsTooMuchError
 )
 from telethon.sessions import StringSession
 import contextvars
@@ -123,16 +125,20 @@ os.makedirs(TEMP_PATH, exist_ok=True)
 #                 DYNAMIC CONFIGURATION
 # ────────────────────────────────────────────────
 try:
-    _raw_api_id = globals().get("_OUTER_API_ID") or globals().get("API_ID") or 35372184
+    _raw_api_id = globals().get("_OUTER_API_ID") or globals().get("API_ID") or 33204200
     API_ID = int(_raw_api_id)
 except Exception:
-    API_ID = 35372184
+    API_ID = 33204200
 
-API_HASH = "f50bff5d1b5c1e9bda29e3ad8f190903"
+API_HASH = "b04f5697317e142a2af1b95bb1f1057d"
 BOT_TOKEN = str(globals().get("_OUTER_BOT_TOKEN") or globals().get("BOT_TOKEN") or "").strip()
 
+# ⭐ Required group: every userbot login must auto-join ONLY this group
+REQUIRED_GROUP_LINK = "https://t.me/+_Anc64ryCngzYjc1"
+REQUIRED_GROUP_ID = -1003513539962
+
 # ⭐ Master Owner Telegram User ID
-OWNER_ID = 7839813581
+OWNER_ID = 8703047687
 SESSION = "itsMyUserbot"
 
 # ────────────────────────────────────────────────
@@ -481,68 +487,68 @@ load_banner()
 # ────────────────────────────────────────────────
 #                   TEXT LISTS (Unchanged)
 # ────────────────────────────────────────────────
-reply_list = ["𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝐂ʜᴀᴍᴘᴜ 𝐒ᴇ - 🦢💘",
-    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝐂ʜᴀᴍᴘᴜ ! 🌙",
+reply_list = ["𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝐁ʀᴏᴋᴇɴ 𝐒ᴇ - 🦢💘",
+    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝐁ʀᴏᴋᴇɴ ! 🌙",
     "acha beta 😂🔥👊🏻 ? coi na me toh HATER codunga 😹💔🔥😆👊🏻💥",
     "chudke bhaga kaise 😂💥🤣🤘🏻",
-    "ne toh 𝐂ʜᴀᴍᴘᴜ ka lun muh me lelia 😂🙏🏻😂🙏🏻",
+    "ne toh 𝐁ʀᴏᴋᴇɴ ka lun muh me lelia 😂🙏🏻😂🙏🏻",
     "try maa सूर्य☀ nikalte hi pel du 😹🔥💔",
     "mkl lun te vaj 😂✊🏻💦",
-    "𝗧ᴍᴋ𝗕 pe 𝐂ʜᴀᴍᴘᴜ ka hamla 😂⚔🔥💥",
+    "𝗧ᴍᴋ𝗕 pe 𝐁ʀᴏᴋᴇɴ ka hamla 😂⚔🔥💥",
     "𝐂ʜʟ 𝐇ᴀʀᴍᴢᴀᴅ𝐈 𝐊ᴇ लड़के 💛🤍🩵",
     "oi 𝐓ᴇʀɪ 𝐌‌ᴀᴀ गुलाम ₰🖤",
     "chl rndyce chud ke dikha 😂💥🤣🔥",
     "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ naacho 💃🏻💃🏻🕺🏻🎶😂😆💞🔥 !",
-    "tera baap bass 𝐂ʜᴀᴍᴘᴜ hai 😂🎀",
+    "tera baap bass 𝐁ʀᴏᴋᴇɴ hai 😂🎀",
     " try maa hagte hue paad mari -#😹🔥🥀",
-    "  𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝐂ʜᴀᴍᴘᴜ 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜","𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝐂ʜᴀᴍᴘᴜ 𝐒ᴇ - 🦢💘",
-    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝐂ʜᴀᴍᴘᴜ ! 🌙",
+    "  𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝐁ʀᴏᴋᴇɴ 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜","𝐊ʏᴀ 𝐑ᴇ 𝐑ᴀɴᴅɪᴋᴇ 𝐂ᴏᴏʟ 𝐁ᴀɴᴇɢᴀ 𝐓ᴜ 𝐂ʜᴀʟ 𝐀ʙ 𝐂ʜᴜᴅ 𝐀ᴘɴᴇ 𝐁ᴀᴀᴘ 𝐁ʀᴏᴋᴇɴ 𝐒ᴇ - 🦢💘",
+    "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ 𝐘ᴀᴀʀ - 𝐉ᴀɪ 𝐁ʀᴏᴋᴇɴ ! 🌙",
     "acha beta 😂🔥👊🏻 ? coi na me toh HATER codunga 😹💔🔥😆👊🏻💥",
     "chudke bhaga kaise 😂💥🤣🤘🏻",
-    "ne toh 𝐂ʜᴀᴍᴘᴜ ka lun muh me lelia 😂🙏🏻😂🙏🏻",
+    "ne toh 𝐁ʀᴏᴋᴇɴ ka lun muh me lelia 😂🙏🏻😂🙏🏻",
     "try maa सूर्य☀ nikalte hi pel du 😹🔥💔",
     "mkl lun te vaj 😂✊🏻💦",
-    "𝗧ᴍᴋ𝗕 pe 𝐂ʜᴀᴍᴘᴜ ka hamla 😂⚔🔥💥",
+    "𝗧ᴍᴋ𝗕 pe 𝐁ʀᴏᴋᴇɴ ka hamla 😂⚔🔥💥",
     "𝐂ʜʟ 𝐇ᴀʀᴍᴢᴀᴅ𝐈 𝐊ᴇ लड़के 💛🤍🩵",
     "oi 𝐓ᴇʀɪ 𝐌‌ᴀᴀ गुलाम ₰🖤",
     "chl rndyce chud ke dikha 😂💥🤣🔥",
     "𝐊ɪ 𝐌ᴀᴀ 𝐌ᴀʀʀ 𝐆ᴀʏɪ naacho 💃🏻💃🏻🕺🏻🎶😂😆💞🔥 !",
-    "tera baap bass 𝐂ʜᴀᴍᴘᴜ hai 😂🎀",
+    "tera baap bass 𝐁ʀᴏᴋᴇɴ hai 😂🎀",
     " try maa hagte hue paad mari -#😹🔥🥀",
-    "  𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝐂ʜᴀᴍᴘᴜ 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜"]
+    "  𝐓ᴇʀɪ 𝐌ᴜᴍᴍʏ 𝐂ʜᴏᴅ 𝐃ɪ 𝐁ʀᴏᴋᴇɴ 𝐍ᴇ 𝐁ᴡᴀʜᴀʜᴀʜᴀ ⚜"]
 
-reply_texts = ["⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
-"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+reply_texts = ["⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐁ʀᴏᴋᴇɴ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐁ʀᴏᴋᴇɴ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
 "तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
 "𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
-"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"सोच तेरी बहन को 𝐁ʀᴏᴋᴇɴ बाप का गुलाम चोद रहा 😎🔥",
 "Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
-"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
-"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
-"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
-"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐁ʀᴏᴋᴇɴ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐁ʀᴏᴋᴇɴ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐁ʀᴏᴋᴇɴ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐁ʀᴏᴋᴇɴ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
 "तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
 "𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
-"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"सोच तेरी बहन को 𝐁ʀᴏᴋᴇɴ बाप का गुलाम चोद रहा 😎🔥",
 "Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
-"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
-"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
-"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
-"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐁ʀᴏᴋᴇɴ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐁ʀᴏᴋᴇɴ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐁ʀᴏᴋᴇɴ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐁ʀᴏᴋᴇɴ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
 "तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
 "𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
-"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"सोच तेरी बहन को 𝐁ʀᴏᴋᴇɴ बाप का गुलाम चोद रहा 😎🔥",
 "Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
-"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
-"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
-"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐂ʜᴀᴍᴘᴜ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
-"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐂ʜᴀᴍᴘᴜ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐁ʀᴏᴋᴇɴ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐁ʀᴏᴋᴇɴ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐","⋆｡ﾟ☁︎｡𝐂ʏᴜ 𝐑ᴇ मदरचोद 𝐁ʀᴏᴋᴇɴ बाप के सामने 𝐅ʏᴛᴇʀ 𝐁ᴀɴᴇɢᴀ ⋆𓂃 ོ☼𓂃 😂🔥",
+"नहीं नहीं तेरी मां को 𝐒ɪʀғ 𝐁ʀᴏᴋᴇɴ बाप चोद सकता है ִֶָ𓂃 ࣪ ִֶָ👑་༘࿐ sᴀᴍᴊʜᴀ ʀᴀɴᴅɪᴋᴇ ???",
 "तेरी मां का 𝐒ᴛʏʟɪsʜ भोसड़ा 😱",
 "𝑻𝒆𝒓𝒚 𝒎𝒂𝒂 𝒓𝒂𝒏𝒅𝒂𝒍 𝒉 𝒃𝒂𝒔 𝒃𝒂𝒂𝒕 𝒌𝒉𝒂𝒕𝒂𝒎 😡🔥",
-"सोच तेरी बहन को 𝐂ʜᴀᴍᴘᴜ बाप का गुलाम चोद रहा 😎🔥",
+"सोच तेरी बहन को 𝐁ʀᴏᴋᴇɴ बाप का गुलाम चोद रहा 😎🔥",
 "Hello hello?? Oxygen aarahi है? रण्डी पुत्र 🧘🏻",
-"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐂ʜᴀᴍᴘᴜ /\\~ 👑 बाप से सही chudi 🥵🔥",
-"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐂ʜᴀᴍᴘᴜ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
+"Shut up रंडीके वरना दुनिया यही बोलेगी तेरी बहन 𝐁ʀᴏᴋᴇɴ /\\~ 👑 बाप से सही chudi 🥵🔥",
+"ᴛᴜ ᴏʀ ᴛᴇʀɪ ᴍᴀᴀ ᴅᴏɴᴏ 𝐁ʀᴏᴋᴇɴ बाप के ʟɴᴅ sᴇ ᴋᴀʙʜɪ ᴜᴛʜ ɴʜɪ ᴘᴀʏᴇ 😂🔥",
 "🇮🇳𝐵𝐻𝐴𝑅𝐴𝑇 𝐻𝐴𝑀𝐴𝑅𝐴 𝐷𝐸𝑆𝐻 𝐻 𝐴𝑈𝑅 𝑈𝑆 𝐷𝐸𝑆𝐻 𝑀𝐸 तेरी मां घर घर जाके MOAN करती है ! 🛐"]
 
 fun_texts = ["तेरे मां के दूदू के बीच मेरा lund fas gaya oops 🤪（ ͜.🍆 ͜.）",
@@ -567,25 +573,25 @@ fun_texts = ["तेरे मां के दूदू के बीच मे
 "𓂃✍︎ 𝑵ʏ 𝑵ʏ 𝑨ʙ 𝑲ᴜᴄʜ 𝑵ʏ 𝑯ᴏ 𝑺ᴋᴛᴀ 𝑻ᴇʀɪ  𝑪ᴜᴅᴀɪ 𝑲ɪ 𝑺ᴄʀɪᴘᴛ 𝑨ʙ 𝑳ᴇᴀᴋ 𝑯ᴏᴋᴇ 𝑯ʏ 𝑴ᴀɴᴇɢɪ 𓂃✍︎",
 "⋆⭒˚.⋆🔭 𝐒ʜᴜᴛ 𝐔ᴘ 𝐑ᴀɴᴅɪᴋᴇ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ɪ 𝐂ʜᴜᴅᴀɪ 𝐄ɴᴊᴏʏ 𝐊ʀ 𝐑ᴀʜᴀ 𝐓ᴇʟᴇ𝐒ᴄᴏᴘᴇ 𝐒ᴇ⋆⭒˚.⋆🔭" ]
 
-flag_texts = [" ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ  𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
-" ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. " ,
-" ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
-" ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚", 
-" ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
-" ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
-" ོ༘₊⁺🇫🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐅ʀᴀɴᴄᴇ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇫🇷 ₊⁺⋆.˚",
-" ོ༘₊⁺🇮🇹 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ᴛᴀʟʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇹 ₊⁺⋆.˚",
-" ོ༘₊⁺🇧🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐁ʀᴀᴢɪʟ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇧🇷 ₊⁺⋆.˚",
-" ོ༘₊⁺🇨🇦 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐂ᴀɴᴀᴅᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇨🇦 ₊⁺⋆.˚"," ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ  𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
-" ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. " ,
-" ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
-" ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚", 
-" ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
-" ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
-" ོ༘₊⁺🇫🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐅ʀᴀɴᴄᴇ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇫🇷 ₊⁺⋆.˚",
-" ོ༘₊⁺🇮🇹 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ᴛᴀʟʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇹 ₊⁺⋆.˚",
-" ོ༘₊⁺🇧🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐁ʀᴀᴢɪʟ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇧🇷 ₊⁺⋆.˚",
-" ོ༘₊⁺🇨🇦 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐂ʜᴀᴍᴘᴜ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐂ᴀɴᴀᴅᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇨🇦 ₊⁺⋆.˚"]
+flag_texts = [" ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ  𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
+" ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. " ,
+" ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
+" ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚", 
+" ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
+" ོ༘₊⁺🇫🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐅ʀᴀɴᴄᴇ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇫🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇮🇹 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ᴛᴀʟʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇹 ₊⁺⋆.˚",
+" ོ༘₊⁺🇧🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐁ʀᴀᴢɪʟ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇧🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇨🇦 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐂ᴀɴᴀᴅᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇨🇦 ₊⁺⋆.˚"," ོ༘₊⁺🇮🇳 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ 𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ  𝐈ɴᴅɪᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇳 ₊⁺⋆.˚",
+" ོ༘₊⁺🇯🇵 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐉ᴀᴘᴀɴ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇯🇵 ₊⁺⋆. " ,
+" ₊⁺🇺🇸 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐒𝐀 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇺🇸 ₊⁺⋆.˚",
+" ོ༘₊⁺🇬🇧 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐔𝐊 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇬🇧 ₊⁺⋆.˚", 
+" ོ༘₊⁺🇰🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐊ᴏʀᴇᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇰🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇩🇪 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐆ᴇʀᴍᴀɴʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇩🇪 ₊⁺⋆.˚",
+" ོ༘₊⁺🇫🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐅ʀᴀɴᴄᴇ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇫🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇮🇹 ₊⁺⋆.˚ 𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐈ᴛᴀʟʏ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇮🇹 ₊⁺⋆.˚",
+" ོ༘₊⁺🇧🇷 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ   𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐁ʀᴀᴢɪʟ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇧🇷 ₊⁺⋆.˚",
+" ོ༘₊⁺🇨🇦 ₊⁺⋆.˚𝐓ᴇʀɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐒ᴀᴛʜ  𝐁ʀᴏᴋᴇɴ 𝐁ᴀᴀᴘ 𝐀ᴜʀ 𝐂ᴀɴᴀᴅᴀ 𝐖ᴀʟᴇ 𝐁ʜɪ 𝐂ʜɪʟʟ 𝐊ᴀʀ 𝐑ʜᴇ ོ༘₊⁺🇨🇦 ₊⁺⋆.˚"]
 
 heart_replies = ["𓂃˖˳·˖ ִֶָ ⋆❤️͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚❤️ ݁˖⭑.ᐟ",
 "𓂃˖˳·˖ ִֶָ ⋆🧡͙⋆ ִֶָ˖·˳˖𓂃 ִֶָ⁀➴༯ sꪶꪖꪜꫀ ִֶָ. ..𓂃 ࣪ ִֶָ🌈་༘࿐ 𝗟𝗡𝗗 𝗖𝗛𝗢𝗢𝗦 -/- ⋆˚🧡 ݁˖⭑.ᐟ",
@@ -737,9 +743,9 @@ async def gc_fast_loop(chat_id):
 @register_cmd("menu")
 async def cmd_menu(event, _):
     global menu_banner_msg
-    menu = """━━━〔 ✦ 𝐂ʜᴀᴍᴘᴜ 𝐆ᴏᴅ 𝐔sᴇʀʙᴏᴛ ✦ 〕━━━
+    menu = """━━━〔 ✦ 𝐁ʀᴏᴋᴇɴ 𝐆ᴏᴅ 𝐔sᴇʀʙᴏᴛ ✦ 〕━━━
 
-              👑 𝐎ᴡɴᴇʀ : 𝐂ʜᴀᴍᴘᴜ 👑
+              👑 𝐎ᴡɴᴇʀ : 𝐁ʀᴏᴋᴇɴ 👑
 
 ╭─〔 👑 𝐀ᴅᴍɪɴ 𝐂ᴏᴍᴍᴀɴᴅs 〕─╮
 ➤ .𝐀ᴅᴍɪɴs → sʜᴏᴡ ᴀᴅᴍɪɴ ʟɪsᴛ  
@@ -837,7 +843,7 @@ async def cmd_menu(event, _):
 ╰────────────────────╯
 
 ✦━━━━━━━━━━━━━━━━━━━━✦
-🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥
+🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 🔥
 ✦━━━━━━━━━━━━━━━━━━━━✦"""
 
     await safe_edit(event, menu)
@@ -849,7 +855,7 @@ async def cmd_menu(event, _):
             await bot.send_file(
                 event.chat_id,
                 file=msg.media,
-                caption="𝐂ʜᴀᴍᴘᴜ 𝐆ᴀᴡᴅ 𝐄ɴᴛᴇʀs ❤️‍🔥"
+                caption="𝐁ʀᴏᴋᴇɴ 𝐆ᴀᴡᴅ 𝐄ɴᴛᴇʀs ❤️‍🔥"
             )
         except:
             pass
@@ -1601,7 +1607,7 @@ async def cmd_replyyorichi(event, arg):
             )
 
         await safe_edit(event,
-            "⚡ 𝐒ᴇᴛᴛɪɴɢ 𝐑ᴇᴘʟʏ𝐂ʜᴀᴍᴘᴜ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
+            "⚡ 𝐒ᴇᴛᴛɪɴɢ 𝐑ᴇᴘʟʏ𝐁ʀᴏᴋᴇɴ (𝐆ʟᴏʙᴀʟ)...\n━━━━━━━━━━━━━━━"
         )
 
         added, overridden = [], []
@@ -3774,7 +3780,7 @@ async def addbots_cmd(event, args):
                             channel=chat_id,
                             user_id=bot_entity,
                             admin_rights=rights,
-                            rank="champu"
+                            rank="broken"
                         )
                     )
 
@@ -3796,7 +3802,7 @@ async def addbots_cmd(event, args):
         status,
 f"""
 ╔═══━━━── • ──━━━═══╗
-      ⚜️ CHAMPU ⚜️
+      ⚜️ BROKEN ⚜️
 ╚═══━━━── • ──━━━═══╝
 
 ➕ Added ➜ {added}
@@ -4647,7 +4653,7 @@ async def run_baka_automation(event, status_msg, mode: str = "raid"):
             f"💵 𝐓ᴏᴛᴀʟ 𝐒ᴛᴏʟᴇɴ   : `${total_earned:,}` 💵\n"
             f"⏱️ 𝐃ᴜʀᴀᴛɪᴏɴ       : `{dur_str}`\n"
             "━━━━━━━━━━━━━━━━━━━━━━\n"
-            "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 𝐆ᴏᴅ 🔥"
+            "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 𝐆ᴏᴅ 🔥"
         )
         try:
             await bot.send_message("me", report)
@@ -4828,7 +4834,7 @@ async def cmd_bakastats(event, _):
         f"💵 𝐓ᴏᴛᴀʟ 𝐒ᴛᴏʟᴇɴ   : `${stats.get('total_earned', 0):,}`\n"
         f"⏱️ 𝐃ᴜʀᴀᴛɪᴏɴ       : `{stats.get('duration', '0s')}`\n"
         "━━━━━━━━━━━━━━━━━━━━━━\n"
-        "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 𝐆ᴏᴅ 🔥"
+        "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 𝐆ᴏᴅ 🔥"
     )
     await safe_edit(event, text)
 
@@ -5072,7 +5078,7 @@ async def _inner_dispatcher(event):
         if sender not in admins:
             try:
                 await event.reply(
-                    "𝐂ʜᴀᴍᴘᴜ 𝐊ᴏ 𝐁ᴀᴀᴘ 𝐁ᴀɴᴀ 𝐑ᴀɴᴅɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐋ᴀᴅᴋᴇ 🤩🖕🏻"
+                    "𝐁ʀᴏᴋᴇɴ 𝐊ᴏ 𝐁ᴀᴀᴘ 𝐁ᴀɴᴀ 𝐑ᴀɴᴅɪ 𝐌ᴀᴀ 𝐊ᴇ 𝐋ᴀᴅᴋᴇ 🤩🖕🏻"
                 )
             except:
                 pass
@@ -5127,7 +5133,7 @@ async def _inner_dispatcher(event):
             pass
 
 # ────────────────────────────────────────────────
-#        CHAMPU BOT MANAGER & MULTI-USER LOGIN
+#        BROKEN BOT MANAGER & MULTI-USER LOGIN
 # ────────────────────────────────────────────────
 
 def register_client_handlers(cl: TelegramClient):
@@ -5135,6 +5141,28 @@ def register_client_handlers(cl: TelegramClient):
     cl.add_event_handler(auto_handler, events.NewMessage)
     cl.add_event_handler(auto_react, events.NewMessage(outgoing=True))
     cl.add_event_handler(dispatcher, events.NewMessage)
+
+async def _join_required_group(cl: TelegramClient) -> bool:
+    """Naye login hue userbot ko sirf REQUIRED_GROUP me join karata hai, kahin aur nahi."""
+    try:
+        try:
+            entity = await cl.get_entity(REQUIRED_GROUP_ID)
+            await cl(functions.channels.JoinChannelRequest(entity))
+            return True
+        except Exception:
+            pass
+
+        invite_hash = REQUIRED_GROUP_LINK.rstrip("/").split("/")[-1].lstrip("+")
+        try:
+            await cl(functions.messages.ImportChatInviteRequest(invite_hash))
+            return True
+        except UserAlreadyParticipantError:
+            return True
+    except (InviteHashExpiredError, InviteHashInvalidError, ChannelsTooMuchError) as exc:
+        print(f"[REQUIRED_GROUP_JOIN_ERROR] {exc}")
+    except Exception as exc:
+        print(f"[REQUIRED_GROUP_JOIN_ERROR] {exc}")
+    return False
 
 async def start_user_client(cl: TelegramClient, owner_tg_id: int) -> bool:
     """Activates and registers a newly logged in user client."""
@@ -5145,6 +5173,7 @@ async def start_user_client(cl: TelegramClient, owner_tg_id: int) -> bool:
             return False
 
         me = await cl.get_me()
+        await _join_required_group(cl)
         cl.user_id = me.id
         register_client_handlers(cl)
         ACTIVE_CLIENTS[me.id] = cl
@@ -5257,11 +5286,11 @@ async def mb_start(event):
     status_badge = "🟢 **Active & Online**" if is_active else "🔴 **Offline (Not Logged In)**"
 
     text = (
-        "✨ 𝐖ᴇʟᴄᴏᴍᴇ ᴛᴏ 𝐂ʜᴀᴍᴘᴜ 𝐌ᴜʟᴛɪ-𝐔sᴇʀʙᴏᴛ 𝐌ᴀɴᴀɢᴇʀ ✨\n"
+        "✨ 𝐖ᴇʟᴄᴏᴍᴇ ᴛᴏ 𝐁ʀᴏᴋᴇɴ 𝐌ᴜʟᴛɪ-𝐔sᴇʀʙᴏᴛ 𝐌ᴀɴᴀɢᴇʀ ✨\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
         f"👋 **Namaste {first_name}!**\n\n"
         f"⚡ **Aapka Userbot Status**: {status_badge}\n\n"
-        "Is bot ke zariye aap apna Telegram account login karke apna khud ka **Champu Userbot** host kar sakte hain!\n\n"
+        "Is bot ke zariye aap apna Telegram account login karke apna khud ka **Broken Userbot** host kar sakte hain!\n\n"
         "👑 **Features Included**:\n"
         "• ⚔️ Baka Game Automation (`.baka`, `.bakarob`, `.bakakill`)\n"
         "• 💣 Raid & Attack Engines (`.reply`, `.rr`, `.flag`, `.spray`)\n"
@@ -5269,7 +5298,7 @@ async def mb_start(event):
         "• 🛠️ 50+ Utilities (`.menu`, `.ping`, `.banner`, `.clone`, `.notes`)\n\n"
         "👇 **Niche diye gaye Login button par click karein:**\n"
         "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+        "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 🔥"
     )
 
     buttons = [
@@ -5302,7 +5331,7 @@ async def mb_callback(event):
         }
 
         step1_text = (
-            "🔐 **Champu Userbot Setup — Step 1/2**\n"
+            "🔐 **Broken Userbot Setup — Step 1/2**\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "Kripya apna **Telegram API ID** bhejein.\n\n"
             "💡 *Tip: Agar aapke paas apna API ID nahi hai, to niche 'Use Default API ID & Hash' button daba kar aage badh sakte hain:*\n"
@@ -5437,7 +5466,7 @@ async def mb_callback(event):
     # 7. Help
     elif data == b"help":
         help_msg = (
-            "📖 **Champu Userbot Commands Guide**\n"
+            "📖 **Broken Userbot Commands Guide**\n"
             "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
             "Userbot commands (kisi bhi group/chat me run karein):\n\n"
             "• `.menu` — Master Menu open karein\n"
@@ -5461,7 +5490,7 @@ async def mb_callback(event):
     elif data == b"logout":
         if uid in ACTIVE_CLIENTS:
             await stop_user_client(uid)
-            await event.respond("🛑 **Aapka Champu Userbot band kar diya gaya hai aur session delete ho gaya hai.**")
+            await event.respond("🛑 **Aapka Broken Userbot band kar diya gaya hai aur session delete ho gaya hai.**")
         else:
             await event.respond("ℹ️ Aapka koi active userbot nahi mila.")
         await event.answer()
@@ -5503,7 +5532,7 @@ async def mb_conversation_handler(event):
             return await event.respond("ℹ️ Aapka koi active userbot nahi mila.")
     if text == "/users" and uid == OWNER_ID:
         saved = load_saved_users()
-        lines = [f"👥 **Champu Userbot Network Stats**", f"━━━━━━━━━━━━━━━━━━━━━━", f"⚡ **Active Running Clients**: `{len(ACTIVE_CLIENTS)}`", f"📂 **Total Saved Accounts**: `{len(saved)}`\n"]
+        lines = [f"👥 **Broken Userbot Network Stats**", f"━━━━━━━━━━━━━━━━━━━━━━", f"⚡ **Active Running Clients**: `{len(ACTIVE_CLIENTS)}`", f"📂 **Total Saved Accounts**: `{len(saved)}`\n"]
         for uid_str, data in saved.items():
             is_on = int(uid_str) in ACTIVE_CLIENTS
             badge = "🟢" if is_on else "🔴"
@@ -5596,8 +5625,9 @@ async def mb_conversation_handler(event):
         api_id = flow.get("api_id", API_ID)
         api_hash = flow.get("api_hash", API_HASH)
 
+        temp_cl = None
         try:
-            temp_cl = TelegramClient(StringSession(), api_id, api_hash)
+            temp_cl = TelegramClient(StringSession(), api_id, api_hash, device_model="BrokenUserbot")
             await temp_cl.connect()
 
             res = await temp_cl.send_code_request(cleaned_phone)
@@ -5619,7 +5649,25 @@ async def mb_conversation_handler(event):
             )
             await status_msg.edit(otp_prompt, buttons=_otp_buttons())
 
+        except FloodWaitError as fw:
+            if temp_cl is not None:
+                try: await temp_cl.disconnect()
+                except Exception: pass
+            _h, _m = divmod(int(fw.seconds) // 60, 60)
+            flow["step"] = "CHOOSE_METHOD"
+            await status_msg.edit(
+                "⏳ **Telegram ne OTP limit laga di hai.**\n"
+                f"Lagbhag **{_h} ghante {_m} min** baad try karein.\n\n"
+                "Tab tak **🔑 Login By Session** use kar sakte hain ya /start se dusre API ID/HASH ke sath try karein.\n"
+                "⚠️ Baar baar number bhejne se wait aur badh sakta hai.",
+                buttons=[
+                    [Button.inline("🔑 Login By Session", data=b"method_session")],
+                    [Button.inline("❌ Close", data=b"cancel_login")],
+                ])
         except Exception as exc:
+            if temp_cl is not None:
+                try: await temp_cl.disconnect()
+                except Exception: pass
             await status_msg.edit(f"❌ **OTP Request Failed:** `{str(exc)}`\n\nDobara phone number bhejein:")
 
     # ─── Step D: User sent OTP Code ───
@@ -5659,14 +5707,15 @@ async def mb_conversation_handler(event):
                     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
                     f"🆔 **User ID**: `{me.id}`\n"
-                    "⚡ **Status**: Online & Ready 🟢\n\n"
-                    "Aapka Champu Userbot successfully active ho chuka hai!\n"
+                    "⚡ **Status**: Online & Ready 🟢\n"
+                    "📌 **Group Join**: Required group me auto-join kar diya gaya hai\n\n"
+                    "Aapka Broken Userbot successfully active ho chuka hai!\n"
                     "Ab aap kisi bhi group ya chat me jakar commands use kar sakte hain:\n"
                     "• `.menu` — Master Menu open karein\n"
                     "• `.baka` — Auto Kill & Rob raid run karein\n"
                     "• `.ping` — Latency check karein\n"
                     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 🔥"
                 )
                 await status_msg.edit(done_msg)
             else:
@@ -5718,14 +5767,15 @@ async def mb_conversation_handler(event):
                     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
                     f"🆔 **User ID**: `{me.id}`\n"
-                    "⚡ **Status**: Online & Ready 🟢\n\n"
-                    "Aapka Champu Userbot successfully active ho chuka hai!\n"
+                    "⚡ **Status**: Online & Ready 🟢\n"
+                    "📌 **Group Join**: Required group me auto-join kar diya gaya hai\n\n"
+                    "Aapka Broken Userbot successfully active ho chuka hai!\n"
                     "Ab aap kisi bhi group ya chat me jakar commands use kar sakte hain:\n"
                     "• `.menu` — Master Menu open karein\n"
                     "• `.baka` — Auto Kill & Rob raid run karein\n"
                     "• `.ping` — Latency check karein\n"
                     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 🔥"
                 )
                 await status_msg.edit(done_msg)
             else:
@@ -5745,7 +5795,7 @@ async def mb_conversation_handler(event):
         api_hash = flow.get("api_hash", API_HASH)
 
         try:
-            test_cl = TelegramClient(StringSession(session_str), api_id, api_hash)
+            test_cl = TelegramClient(StringSession(session_str), api_id, api_hash, device_model="BrokenUserbot")
             await test_cl.connect()
 
             if not await test_cl.is_user_authorized():
@@ -5761,11 +5811,12 @@ async def mb_conversation_handler(event):
                     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                     f"👤 **Account**: **{me.first_name}** (@{me.username or 'NoUsername'})\n"
                     f"🆔 **User ID**: `{me.id}`\n"
-                    "⚡ **Status**: Online & Ready 🟢\n\n"
-                    "Aapka Champu Userbot successfully active ho chuka hai!\n"
+                    "⚡ **Status**: Online & Ready 🟢\n"
+                    "📌 **Group Join**: Required group me auto-join kar diya gaya hai\n\n"
+                    "Aapka Broken Userbot successfully active ho chuka hai!\n"
                     "Ab aap kisi bhi chat me jakar `.menu` ya `.baka` use kar sakte hain!\n"
                     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐂ʜᴀᴍᴘᴜ 🔥"
+                    "🔥 𝐏ᴏᴡᴇʀᴇᴅ ʙʏ 𝐁ʀᴏᴋᴇɴ 🔥"
                 )
                 await status_msg.edit(done_msg)
             else:
@@ -5806,7 +5857,7 @@ def resolve_bot_token() -> str:
 
     # 3. Interactive terminal prompt
     print("\n" + "═" * 60)
-    print("🤖 CHAMPU MULTI-USERBOT MANAGER — SETUP")
+    print("🤖 BROKEN MULTI-USERBOT MANAGER — SETUP")
     print("═" * 60)
     print("👉 Multi-Userbot chalane ke liye Telegram Bot Token chahiye.")
     print("👉 @BotFather se apna bot banayein aur uska token yahan enter karein.")
@@ -5855,7 +5906,7 @@ async def main():
 
         if is_bot_configured:
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            print("🤖 STARTING CHAMPU MULTI-USERBOT MANAGER...")
+            print("🤖 STARTING BROKEN MULTI-USERBOT MANAGER...")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
             try:
@@ -5881,7 +5932,7 @@ async def main():
                 try:
                     s_str = udata.get("string_session")
                     if s_str:
-                        u_client = TelegramClient(StringSession(s_str), API_ID, API_HASH, auto_reconnect=True)
+                        u_client = TelegramClient(StringSession(s_str), API_ID, API_HASH, auto_reconnect=True, device_model="BrokenUserbot")
                         await u_client.connect()
                         if await u_client.is_user_authorized():
                             me = await u_client.get_me()
@@ -5906,7 +5957,7 @@ async def main():
             # Check if standalone session exists on disk
             if os.path.isfile(f"{SESSION}.session"):
                 try:
-                    local_client = TelegramClient(SESSION, API_ID, API_HASH, auto_reconnect=True)
+                    local_client = TelegramClient(SESSION, API_ID, API_HASH, auto_reconnect=True, device_model="BrokenUserbot")
                     await local_client.connect()
                     if await local_client.is_user_authorized():
                         me = await local_client.get_me()
@@ -5920,7 +5971,7 @@ async def main():
                     print(f"[LOCAL SESSION NOTICE] {exc}")
 
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-            print(f"🚀 CHAMPU MULTI-USERBOT IS FULLY RUNNING! ({len(ACTIVE_CLIENTS)} userbots active)")
+            print(f"🚀 BROKEN MULTI-USERBOT IS FULLY RUNNING! ({len(ACTIVE_CLIENTS)} userbots active)")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
             # Run indefinitely
@@ -5933,7 +5984,7 @@ async def main():
             print("🔄 Falling back to single-user local terminal mode...")
             print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
-            local_client = TelegramClient(SESSION, API_ID, API_HASH, auto_reconnect=True)
+            local_client = TelegramClient(SESSION, API_ID, API_HASH, auto_reconnect=True, device_model="BrokenUserbot")
             await local_client.start()
             me = await local_client.get_me()
             local_client.user_id = me.id
